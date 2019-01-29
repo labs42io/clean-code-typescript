@@ -4,19 +4,21 @@ Clean Code concepts adapted for TypeScript.
 Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
 
 ## Table of Contents
+
   1. [Introduction](#introduction)
   2. [Variables](#variables)
-  3. [Functions](#functions)
+  3. [Functions](#functions) *TODO*
   4. [Objects and Data Structures](#objects-and-data-structures)
-  5. [Classes](#classes)
-  6. [SOLID](#solid)
-  7. [Testing](#testing)
-  8. [Concurrency](#concurrency)
-  9. [Error Handling](#error-handling)
-  10. [Formatting](#formatting)
+  5. [Classes](#classes) *TODO*
+  6. [SOLID](#solid) *TODO*
+  7. [Testing](#testing) *TODO*
+  8. [Concurrency](#concurrency) *TODO*
+  9. [Error Handling](#error-handling) *TODO*
+  10. [Formatting](#formatting) *TODO*
   11. [Comments](#comments)
 
 ## Introduction
+
 ![Humorous image of software quality estimation as a count of how many expletives
 you shout when reading code](http://www.osnews.com/images/comics/wtfm.jpg)
 
@@ -235,6 +237,133 @@ function loadPages(count: number = 10) {
 ```
 
 **[⬆ back to top](#table-of-contents)**
+
+## Objects and Data Structures
+
+### Use getters and setters
+
+TypeScript supports getter/setter syntax.
+Using getters and setters to access data from objects that encapsulate behavior could be better that simply looking for a property on an object.
+"Why?" you might ask. Well, here's a list of reasons:
+
+* When you want to do more beyond getting an object property, you don't have to look up and change every accessor in your codebase.
+* Makes adding validation simple when doing a set.
+* Encapsulates the internal representation.
+* Easy to add logging and error handling when getting and setting.
+* You can lazy load your object's properties, let's say getting it from a server.
+
+**Bad:**
+
+```ts
+class BankAccount {
+  balance: number = 0;
+  // ...
+}
+
+const value = 100;
+const account = new BankAccount();
+
+if (value < 0) {
+  throw new Error('Cannot set negative balance.');
+}
+
+account.balance = value;
+```
+
+**Good:**
+
+```ts
+class BankAccount {
+  private accountBalance: number = 0;
+
+  get balance(): number {
+    return this.accountBalance;
+  }
+
+  set balance(value: number) {
+    if (value < 0) {
+      throw new Error('Cannot set negative balance.');
+    }
+
+    this.accountBalance = value;
+  }
+
+  // ...
+}
+
+const account = new BankAccount();
+account.balance = 100;
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Make objects have private/protected members
+
+TypeScript supports `public` *(default)*, `protected` and `private` accessors on class members.  
+
+**Bad:**
+
+```ts
+class Circle {
+  radius: number;
+  
+  constructor(radius: number) {
+    this.radius = radius;
+  }
+
+  perimeter(){
+    return 2 * Math.PI * this.radius;
+  }
+
+  surface(){
+    return Math.PI * this.radius * this.radius;
+  }
+}
+```
+
+**Good:**
+
+```ts
+class Circle {
+  constructor(private readonly radius: number) {
+  }
+
+  perimeter(){
+    return 2 * Math.PI * this.radius;
+  }
+
+  surface(){
+    return Math.PI * this.radius * this.radius;
+  }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Prefer readonly properties
+
+TypeScript's type system allows you to mark individual properties on an interface / class as readonly. This allows you to work in a functional way (unexpected mutation is bad).  
+For more advanced scenarios there is a built-in type `Readonly` that takes a type `T` and marks all of its properties as readonly using mapped types (see [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types)).
+
+**Bad:**
+
+```ts
+interface Config {
+  host: string;
+  port: string;
+  db: string;
+}
+```
+
+**Good:**
+
+```ts
+interface Config {
+  readonly host: string;
+  readonly port: string;
+  readonly db: string;
+}
+```
 
 ## Comments
 
