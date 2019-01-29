@@ -404,13 +404,14 @@ downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html'
 });
 ```
 
-Promises supports a few patterns that could be useful in some cases:
-|Pattern|Description|
-|-------|-----------|
-|`Promise.resolve(value)`|Convert a value into a resolved promise.|
-|`Promise.reject(error)`|Convert an error into a rejected promise.|
-|`Promise.all(promises)`|Returns a new promise which is fulfilled with an array of fulfillment values for the passed promises or rejects with the reason of the first promise that rejects.|
-|`Promise.race(promises)`|Returns a new promise which is fulfilled/rejected with the result/error of the first settled promise from the array of passed promises.|
+Promises supports a few patterns that could be useful in some cases:  
+
+| Pattern                  | Description                                |  
+| ------------------------ | -----------------------------------------  |  
+| `Promise.resolve(value)` | Convert a value into a resolved promise.   |  
+| `Promise.reject(error)`  | Convert an error into a rejected promise.  |  
+| `Promise.all(promises)`  |Returns a new promise which is fulfilled with an array of fulfillment values for the passed promises or rejects with the reason of the first promise that rejects. |
+| `Promise.race(promises)`|Returns a new promise which is fulfilled/rejected with the result/error of the first settled promise from the array of passed promises. |
 
 `Promise.all` is especially useful when there is a need to run tasks in parallel. `Promise.race` makes it easier to implement things like timeouts for promises.
 
