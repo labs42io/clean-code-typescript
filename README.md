@@ -9,7 +9,7 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
   2. [Variables](#variables)
   3. [Functions](#functions)
   4. [Objects and Data Structures](#objects-and-data-structures)
-  5. [Classes](#classes) *TODO*
+  5. [Classes](#classes)
   6. [SOLID](#solid)
   7. [Testing](#testing)
   8. [Concurrency](#concurrency)
@@ -95,6 +95,8 @@ class Customer {
   private recordId = '102';
 }
 ```
+
+**[⬆ back to top](#table-of-contents)**
 
 ### Use the same vocabulary for the same type of variable
 
@@ -1095,6 +1097,8 @@ interface Config {
 }
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Classes
 
 ### Classes should be small
@@ -1143,9 +1147,10 @@ class Dashboard {
 
 Cohesion defines the degree to which class members are related to each other. Ideally, all fields within a class should be used by each method.
 We then say that the class is maximally cohesive. In practice, this however is not always possible, nor even advisable. You should however prefer cohesion to be high.  
+
 Coupling refers to how related or dependent are two classes toward each other. Classes are said to be low coupled if changes in one of them doesn't affect the other one.  
   
-Good software design has high cohesion and low coupling.
+Good software design has **high cohesion** and **low coupling**.
 
 **Bad:**
 
@@ -2440,6 +2445,8 @@ class Square implements Shape {
 }
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Comments
 
 The use of a comments is an indication of failure to express without them. Code should be the only source of truth.
@@ -2490,6 +2497,8 @@ class User {
   email: string;
 }
 ```
+
+**[⬆ back to top](#table-of-contents)**
 
 ### Don't have journal comments
 
