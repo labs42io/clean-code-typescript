@@ -11,9 +11,9 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
   4. [Objects and Data Structures](#objects-and-data-structures)
   5. [Classes](#classes) *TODO*
   6. [SOLID](#solid) *TODO*
-  7. [Testing](#testing) *TODO*
+  7. [Testing](#testing)
   8. [Concurrency](#concurrency)
-  9. [Error Handling](#error-handling) *TODO*
+  9. [Error Handling](#error-handling)
   10. [Formatting](#formatting)
   11. [Comments](#comments)
 
@@ -1095,6 +1095,130 @@ interface Config {
 }
 ```
 
+## Testing
+
+Testing is more important than shipping. If you have no tests or an inadequate amount, then every time you ship code you won't be sure that you didn't break anything.
+Deciding on what constitutes an adequate amount is up to your team, but having 100% coverage (all statements and branches)
+is how you achieve very high confidence and developer peace of mind. This means that in addition to having a great testing framework, you also need to use a good coverage tool.
+
+There's no excuse to not write tests. There are plenty of good JS test frameworks with typings support for TypeScript, so find one that your team prefers. When you find one that works for your team, then aim to always write tests for every new feature/module you introduce. If your preferred method is Test Driven Development (TDD), that is great, but the main point is to just make sure you are reaching your coverage goals before launching any feature, or refactoring an existing one.
+
+### The three laws of TDDD
+
+1. You are not allowed to write any production code unless it is to make a failing unit test pass.
+
+2. You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.
+
+3. You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
+
+**[⬆ back to top](#table-of-contents)**
+
+### F.I.R.S.T. rules
+
+Clean tests should follow the rules:
+
+* **Fast** tests should be fast because we want to run them frequently.
+
+* **Independent** tests should not depend on each other. They should provide same output whether run independently or all together in any order.
+
+* **Repeatable** tests should be repeatable in any environment and there should be no excuse for why they fail.
+
+* **Self-Validating** a test should answer with either *Passed* or *Failed*. You don't need to compare log files to answer if a test passed.
+
+* **Timely** unit tests should be written before the production code. If you write tests after the production code, you might find writing tests too hard.
+
+**[⬆ back to top](#table-of-contents)**
+
+### Single concept per test
+
+Tests should also follow the *Single Responsibility Principle*. Make only one assert per unit test.
+
+**Bad:**
+
+```ts
+import { assert } from 'chai';
+
+describe('AwesomeDate', () => {
+  it('handles date boundaries', () => {
+    let date: AwesomeDate;
+
+    date = new AwesomeDate('1/1/2015');
+    date.addDays(30);
+    assert.equal('1/31/2015', date);
+
+    date = new AwesomeDate('2/1/2016');
+    date.addDays(28);
+    assert.equal('02/29/2016', date);
+
+    date = new AwesomeDate('2/1/2015');
+    date.addDays(28);
+    assert.equal('03/01/2015', date);
+  });
+});
+```
+
+**Good:**
+
+```ts
+import { assert } from 'chai';
+
+describe('AwesomeDate', () => {
+  it('handles 30-day months', () => {
+    const date = new AwesomeDate('1/1/2015');
+    date.addDays(30);
+    assert.equal('1/31/2015', date);
+  });
+
+  it('handles leap year', () => {
+    const date = new AwesomeDate('2/1/2016');
+    date.addDays(28);
+    assert.equal('02/29/2016', date);
+  });
+
+  it('handles non-leap year', () => {
+    const date = new AwesomeDate('2/1/2015');
+    date.addDays(28);
+    assert.equal('03/01/2015', date);
+  });
+});
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### The name of the test should reveal it's intention
+
+When a test fail, it's name is the first indication of what may have gone wrong.
+
+**Bad:**
+
+```ts
+describe('Calendar', () => {
+  it('2/29/2020', () => {
+    // ...
+  });
+
+  it('throws', () => {
+    // ...
+  });
+});
+```
+
+**Good:**
+
+```ts
+describe('Calendar', () => {
+  it('should handle leap year', () => {
+    // ...
+  });
+
+  it('should throw when format is invalid', () => {
+    // ...
+  });
+});
+```
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Concurrency
 
 ### Prefer promises vs callbacks
@@ -1212,21 +1336,144 @@ try {
 }
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
+## Error Handling
+
+Thrown errors are a good thing! They mean the runtime has successfully identified when something in your program has gone wrong and it's letting you know by stopping function
+execution on the current stack, killing the process (in Node), and notifying you in the console with a stack trace.
+
+### Always use Error for throwing or rejecting
+
+JavaScript as well as TypeScript allow you to throw any object. A Promise can also be rejected with any reason object.  
+Consider instead to always throw `Error` types and reject `Promise`s with errors.
+
+**Bad:**
+
+```ts
+function calculateTotal(items: Item[]): number {
+  throw 'Not implemented.';
+}
+
+function get(): Promise<Item[]> {
+  return Promise.reject('Not implemented.');
+}
+```
+
+**Good:**
+
+```ts
+function calculateTotal(items: Item[]): number {
+  throw new Error('Not implemented.');
+}
+
+function get(): Promise<Item[]> {
+  return Promise.reject(new Error('Not implemented.'));
+}
+
+// or equivalent to:
+
+async function get(): Promise<Item[]> {
+  throw new Error('Not implemented.');
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Don't ignore caught errors
+
+Doing nothing with a caught error doesn't give you the ability to ever fix or react to said error. Logging the error to the console (`console.log`) isn't much better as often times it can get lost in a sea of things printed to the console. If you wrap any bit of code in a `try/catch` it means you think an error may occur there and therefore you should have a plan, or create a code path, for when it occurs.
+
+**Bad:**
+
+```ts
+try {
+  functionThatMightThrow();
+} catch (error) {
+  console.log(error);
+}
+
+// or even worse
+
+try {
+  functionThatMightThrow();
+} catch (error) {
+  // ignore error
+}
+```
+
+**Good:**
+
+```ts
+import { logger } from './logging'
+
+try {
+  functionThatMightThrow();
+} catch (error) {
+  logger.log(error);
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Don't ignore rejected promises
+
+For the same reason you shouldn't ignore caught errors from `try/catch`.
+
+**Bad:**
+
+```ts
+getUser()
+  .then((user: User) => {
+    return sendEmail(user.email, 'Welcome!');
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+```
+
+**Good:**
+
+```ts
+import { logger } from './logging'
+
+getUser()
+  .then((user: User) => {
+    return sendEmail(user.email, 'Welcome!');
+  })
+  .catch((error) => {
+    logger.log(error);
+  });
+
+// or using the async/await syntax:
+
+try {
+  const user = await getUser();
+  await sendEmail(user.email, 'Welcome!');
+} catch (error) {
+  logger.log(error);
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Formatting
 
 Formatting is subjective. Like many rules herein, there is no hard and fast rule that you must follow. The main point is DO NOT ARGUE over formatting. There are tons of tools to automate this. Use one! It's a waste of time and money for engineers to argue over formatting.  
 
 For TypeScript consider using the [TSLint](https://palantir.github.io/tslint/). It's a static analysis tool that can help you improve dramatically the readability and maintainability of your code. There are ready to use TSLint configurations that you should consider:
 
-* [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - great for general Typescript coding guidelines
+* [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - standard style rules
 
-* [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - can be used as a baseline to extend with additional rules
+* [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - Airbnb style guide
 
 * [TSLint react](https://www.npmjs.com/package/tslint-react) - lint rules related to React & JSX
 
 * [TSLint + Prettier](https://www.npmjs.com/package/tslint-config-prettier) - lint rules for [Prettier](https://github.com/prettier/prettier) code formatter
 
 * [ESLint rules for TSLint](https://www.npmjs.com/package/tslint-eslint-rules) - ESLint rules for TypeScript
+
+* [Immutable](https://www.npmjs.com/package/tslint-immutable) - rules to disable mutation in TypeScript
 
 Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html) source.
 
