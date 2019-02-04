@@ -1,4 +1,4 @@
-# clean-code-typescript [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CleanCode%20Typescript&url=https://github.com/labs42io/clean-code-typescript=cleancode,typescript)
+# clean-code-typescript [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CleanCode%20Typescript&url=https://github.com/labs42io/clean-code-typescript)
 
 Clean Code concepts adapted for TypeScript.  
 Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
