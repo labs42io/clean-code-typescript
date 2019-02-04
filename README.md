@@ -1467,6 +1467,8 @@ For TypeScript consider using the [TSLint](https://palantir.github.io/tslint/). 
 
 * [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - Airbnb style guide
 
+* [TSLint Clean Code](https://www.npmjs.com/package/tslint-clean-code) - TSLint rules inspired be the [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+
 * [TSLint react](https://www.npmjs.com/package/tslint-react) - lint rules related to React & JSX
 
 * [TSLint + Prettier](https://www.npmjs.com/package/tslint-config-prettier) - lint rules for [Prettier](https://github.com/prettier/prettier) code formatter
