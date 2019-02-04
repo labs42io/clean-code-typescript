@@ -14,7 +14,7 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
   7. [Testing](#testing) *TODO*
   8. [Concurrency](#concurrency)
   9. [Error Handling](#error-handling) *TODO*
-  10. [Formatting](#formatting) *TODO*
+  10. [Formatting](#formatting)
   11. [Comments](#comments)
 
 ## Introduction
@@ -1209,6 +1209,270 @@ try {
   console.log(content);
 } catch (error) {
   console.error(error);
+}
+```
+
+## Formatting
+
+Formatting is subjective. Like many rules herein, there is no hard and fast rule that you must follow. The main point is DO NOT ARGUE over formatting. There are tons of tools to automate this. Use one! It's a waste of time and money for engineers to argue over formatting.  
+
+For TypeScript consider using the [TSLint](https://palantir.github.io/tslint/). It's a static analysis tool that can help you improve dramatically the readability and maintainability of your code. There are ready to use TSLint configurations that you should consider:
+
+* [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - great for general Typescript coding guidelines
+
+* [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - can be used as a baseline to extend with additional rules
+
+* [TSLint react](https://www.npmjs.com/package/tslint-react) - lint rules related to React & JSX
+
+* [TSLint + Prettier](https://www.npmjs.com/package/tslint-config-prettier) - lint rules for [Prettier](https://github.com/prettier/prettier) code formatter
+
+* [ESLint rules for TSLint](https://www.npmjs.com/package/tslint-eslint-rules) - ESLint rules for TypeScript
+
+Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html) source.
+
+### Use consistent capitalization
+
+Capitalization tells you a lot about your variables, functions, etc. These rules are subjective, so your team can choose whatever they want. The point is, no matter what you all choose, just *be consistent*.
+
+**Bad:**
+
+```ts
+const DAYS_IN_WEEK = 7;
+const daysInMonth = 30;
+
+const songs = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
+const Artists = ['ACDC', 'Led Zeppelin', 'The Beatles'];
+
+function eraseDatabase() {}
+function restore_database() {}
+
+class animal {}
+class Container {}
+```
+
+**Good:**
+
+```ts
+const DAYS_IN_WEEK = 7;
+const DAYS_IN_MONTH = 30;
+
+const SONGS = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
+const ARTISTS = ['ACDC', 'Led Zeppelin', 'The Beatles'];
+
+function eraseDatabase() {}
+function restoreDatabase() {}
+
+class Animal {}
+class Container {}
+```
+
+Prefer using `PascalCase` for class, interface, type and namespace names.  
+Prefer using `camelCase` for variables, functions and class members.
+
+**[⬆ back to top](#table-of-contents)**
+
+### Function callers and callees should be close
+
+If a function calls another, keep those functions vertically close in the source file. Ideally, keep the caller right above the callee.
+We tend to read code from top-to-bottom, like a newspaper. Because of this, make your code read that way.
+
+**Bad:**
+
+```ts
+class PerformanceReview {
+  constructor(private readonly employee: Employee) {
+  }
+
+  private lookupPeers() {
+    return db.lookup(this.employee.id, 'peers');
+  }
+
+  private lookupManager() {
+    return db.lookup(this.employee, 'manager');
+  }
+
+  private getPeerReviews() {
+    const peers = this.lookupPeers();
+    // ...
+  }
+
+  review() {
+    this.getPeerReviews();
+    this.getManagerReview();
+    this.getSelfReview();
+
+    // ...
+  }
+
+  private getManagerReview() {
+    const manager = this.lookupManager();
+  }
+
+  private getSelfReview() {
+    // ...
+  }
+}
+
+const review = new PerformanceReview(employee);
+review.review();
+```
+
+**Good:**
+
+```ts
+class PerformanceReview {
+  constructor(private readonly employee: Employee) {
+  }
+
+  review() {
+    this.getPeerReviews();
+    this.getManagerReview();
+    this.getSelfReview();
+
+    // ...
+  }
+
+  private getPeerReviews() {
+    const peers = this.lookupPeers();
+    // ...
+  }
+
+  private lookupPeers() {
+    return db.lookup(this.employee.id, 'peers');
+  }
+
+  private getManagerReview() {
+    const manager = this.lookupManager();
+  }
+
+  private lookupManager() {
+    return db.lookup(this.employee, 'manager');
+  } 
+
+  private getSelfReview() {
+    // ...
+  }
+}
+
+const review = new PerformanceReview(employee);
+review.review();
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Don't prefix interfaces with `I`
+
+**Bad:**
+
+```ts
+interface IService {
+  // ...
+}
+```
+
+**Good:**
+
+```ts
+interface Service {
+  // ...
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Prefer single quotes `'`
+
+When you can't use double quotes, try using back ticks `` ` ``
+
+**Bad:**
+
+```ts
+const text = "Hello world.";
+const question = "How're you?";
+```
+
+**Good:**
+
+```ts
+const text = 'Hello world.';
+const question = `How're you?`;
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Use `2` spaces, no tabs
+
+**Bad:**
+
+```ts
+function sum(a: number, b: number) {
+	return a + b;
+}
+```
+
+**Good:**
+
+```ts
+function sum(a: number, b: number) {
+  return a + b;
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### type vs. interface
+
+Use type when you might need a union or intersection.  
+Use interface when you want `extends` or `implements`.
+
+**Bad:**
+
+```ts
+interface EmailConfig {
+  // ...
+}
+
+interface DbConfig {
+  // ...
+}
+
+interface Config {
+  // ...
+}
+
+//...
+
+type Shape {
+  // ...
+}
+```
+
+**Good:**
+
+```ts
+
+type EmailConfig {
+  // ...
+}
+
+type DbConfig {
+  // ...
+}
+
+type Config  = EmailConfig | DbConfig;
+
+// ...
+
+interface Shape {
+
+}
+
+class Circle implements Shape {
+  // ...
+}
+
+class Square implements Shape {
+  // ...
 }
 ```
 
