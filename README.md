@@ -649,7 +649,7 @@ function toBase64(text:string):string {
   return btoa(text);
 }
 
-const encodedName = toBase64();
+const encodedName = toBase64(name);
 
 console.log(name);
 ```
