@@ -20,7 +20,7 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
 ## Introduction
 
 ![Humorous image of software quality estimation as a count of how many expletives
-you shout when reading code](http://www.osnews.com/images/comics/wtfm.jpg)
+you shout when reading code](https://www.osnews.com/images/comics/wtfm.jpg)
 
 Software engineering principles, from Robert C. Martin's book
 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
