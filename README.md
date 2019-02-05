@@ -192,28 +192,28 @@ If your class/object name tells you something, don't repeat that in your variabl
 **Bad:**
 
 ```ts
-class Car {
+type Car = {
   carMake: string;
   carModel: string;
   carColor: string;
+}
 
-  name(): string{
-    return `${this.carMake} ${this.carModel} (${this.carColor})`;
-  }
+function print(car: Car): void {
+  console.log(`${this.carMake} ${this.carModel} (${this.carColor})`);
 }
 ```
 
 **Good:**
 
 ```ts
-class Car {
+type Car = {
   make: string;
   model: string;
   color: string;
+}
 
-  name(): string{
-    return `${this.make} ${this.model} (${this.color})`;
-  }
+function print(car: Car): void {
+  console.log(`${this.make} ${this.model} (${this.color})`);
 }
 ```
 
@@ -227,7 +227,8 @@ Default arguments are often cleaner than short circuiting.
 
 ```ts
 function loadPages(count: number) {
-  const loadCount = typeof count === 'undefined' ? 10 : count;
+  const loadCount = count !== undefined ? count : 10;
+  // ...
 }
 ```
 
@@ -235,6 +236,7 @@ function loadPages(count: number) {
 
 ```ts
 function loadPages(count: number = 10) {
+  // ...
 }
 ```
 
@@ -487,7 +489,6 @@ function showManagerList(managers: Manager[]) {
 **Good:**
 
 ```ts
-
 class Developer {
   // ...
   getExtraDetails() {
@@ -522,6 +523,8 @@ function showEmployeeList(employee: Developer | Manager) {
   });
 }
 ```
+
+You should be critical about code duplication. Sometimes there is a tradeoff between duplicated code and increased complexity by introducing unnecessary abstraction. When two implementations from two different modules look similar but live in different domains, duplication might be acceptable and preferred over extracting the common code. The extracted common code in this case introduces an indirect dependency between the two modules.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -2068,8 +2071,11 @@ execution on the current stack, killing the process (in Node), and notifying you
 
 ### Always use Error for throwing or rejecting
 
-JavaScript as well as TypeScript allow you to throw any object. A Promise can also be rejected with any reason object.  
-Consider instead to always throw `Error` types and reject `Promise`s with errors.
+JavaScript as well as TypeScript allow you to `throw` any object. A Promise can also be rejected with any reason object.  
+It is advisable to use the `throw` syntax with an `Error` type. This is because your error might be caught in higher level code with a `catch` syntax.
+It would be very confusing to catch a string message there and would make
+[debugging more painful](https://basarat.gitbooks.io/typescript/docs/types/exceptions.html#always-use-error).  
+For the same reason you should reject promises with `Error` types.
 
 **Bad:**
 
@@ -2100,6 +2106,32 @@ async function get(): Promise<Item[]> {
   throw new Error('Not implemented.');
 }
 ```
+
+The benefit of using `Error` types is that it is supported by the syntax `try/catch/finally` and implicitly all errors have the `stack` property which
+is very powerful for debugging.  
+There are also another alternatives, not to use the `throw` syntax and instead always return custom error objects. TypeScript makes this even easier.
+Consider following example:
+
+```ts
+type Failable<R, E> = {
+  isError: true;
+  error: E;
+} | {
+  isError: false;
+  value: R;
+}
+
+function calculateTotal(items: Item[]): Failable<number, 'empty'> {
+  if (items.length === 0) {
+    return { isError: true, error: 'empty' };
+  }
+
+  // ...
+  return { isError: false, value: 42 };
+}
+```
+
+For the detailed explanation of this idea refer to the [original post](https://medium.com/@dhruvrajvanshi/making-exceptions-type-safe-in-typescript-c4d200ee78e9).
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -2182,9 +2214,9 @@ try {
 
 ## Formatting
 
-Formatting is subjective. Like many rules herein, there is no hard and fast rule that you must follow. The main point is DO NOT ARGUE over formatting. There are tons of tools to automate this. Use one! It's a waste of time and money for engineers to argue over formatting.  
+Formatting is subjective. Like many rules herein, there is no hard and fast rule that you must follow. The main point is *DO NOT ARGUE* over formatting. There are tons of tools to automate this. Use one! It's a waste of time and money for engineers to argue over formatting. The general rule to follow is *keep consistent formatting rules*.  
 
-For TypeScript consider using the [TSLint](https://palantir.github.io/tslint/). It's a static analysis tool that can help you improve dramatically the readability and maintainability of your code. There are ready to use TSLint configurations that you should consider:
+For TypeScript there is a powerful tool called [TSLint](https://palantir.github.io/tslint/). It's a static analysis tool that can help you improve dramatically the readability and maintainability of your code. There are ready to use TSLint configurations that you can reference in your projects:
 
 * [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - standard style rules
 
@@ -2332,70 +2364,11 @@ review.review();
 
 **[⬆ back to top](#table-of-contents)**
 
-### Don't prefix interfaces with `I`
-
-**Bad:**
-
-```ts
-interface IService {
-  // ...
-}
-```
-
-**Good:**
-
-```ts
-interface Service {
-  // ...
-}
-```
-
-**[⬆ back to top](#table-of-contents)**
-
-### Prefer single quotes `'`
-
-When you can't use double quotes, try using back ticks `` ` ``
-
-**Bad:**
-
-```ts
-const text = "Hello world.";
-const question = "How're you?";
-```
-
-**Good:**
-
-```ts
-const text = 'Hello world.';
-const question = `How're you?`;
-```
-
-**[⬆ back to top](#table-of-contents)**
-
-### Use `2` spaces, no tabs
-
-**Bad:**
-
-```ts
-function sum(a: number, b: number) {
-	return a + b;
-}
-```
-
-**Good:**
-
-```ts
-function sum(a: number, b: number) {
-  return a + b;
-}
-```
-
-**[⬆ back to top](#table-of-contents)**
-
 ### type vs. interface
 
-Use type when you might need a union or intersection.  
-Use interface when you want `extends` or `implements`.
+Use type when you might need a union or intersection. Use interface when you want `extends` or `implements`. There is no strict rule however, use the one that works for you.  
+Refer to this [explanation](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543) about the differences between `type` and `interface` in TypeScript.
+
 
 **Bad:**
 
