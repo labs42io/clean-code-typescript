@@ -226,7 +226,7 @@ Default arguments are often cleaner than short circuiting.
 **Bad:**
 
 ```ts
-function loadPages(count: number) {
+function loadPages(count?: number) {
   const loadCount = count !== undefined ? count : 10;
   // ...
 }
@@ -533,7 +533,7 @@ You should be critical about code duplication. Sometimes there is a tradeoff bet
 **Bad:**
 
 ```ts
-type MenuConfig = {title?: string, body?: string, buttonText?: string, cancellable?: boolean};
+type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
 
 function createMenu(config: MenuConfig) {
   config.title = config.title || 'Foo';
@@ -555,7 +555,7 @@ createMenu(menuConfig);
 **Good:**
 
 ```ts
-type MenuConfig = {title?: string, body?: string, buttonText?: string, cancellable?: boolean};
+type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
 
 function createMenu(config: MenuConfig) {
   const menuConfig = Object.assign({
@@ -572,14 +572,17 @@ createMenu({ body: 'Bar' });
 Alternatively, you can use destructuring with default values:
 
 ```ts
-type MenuConfig = {title?: string, body?: string, buttonText?: string, cancellable?: boolean};
+type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
 
-function createMenu({title = 'Foo', body = 'Bar', buttonText = 'Baz', cancellable = true}: MenuConfig) {
+function createMenu({ title = 'Foo', body = 'Bar', buttonText = 'Baz', cancellable = true }: MenuConfig) {
   // ...
 }
 
 createMenu({ body: 'Bar' });
 ```
+
+To avoid any side effects and unexpected behavior by passing in explicitly the `undefined` or `null` value, you can tell the TypeScript compiler to not allow it.
+See [`--strictNullChecks`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#--strictnullchecks) option in TypeScript.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -2113,13 +2116,9 @@ There are also another alternatives, not to use the `throw` syntax and instead a
 Consider following example:
 
 ```ts
-type Failable<R, E> = {
-  isError: true;
-  error: E;
-} | {
-  isError: false;
-  value: R;
-}
+type Result<R> = { isError: false, value: R };
+type Failure<E> = { isError: true, error: E };
+type Failable<R, E> = Result<R> | Failure<E>;
 
 function calculateTotal(items: Item[]): Failable<number, 'empty'> {
   if (items.length === 0) {
