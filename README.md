@@ -685,7 +685,7 @@ function addItemToCart(cart: CartItem[], item:Item):void {
 
 ```ts
 function addItemToCart(cart: CartItem[], item:Item):CartItem[] {
-  return {...cart, { item, date: Date.now() }};
+  return [...cart, { item, date: Date.now() }];
 };
 ```
 
