@@ -227,7 +227,7 @@ Default arguments are often cleaner than short circuiting.
 
 ```ts
 function loadPages(count: number) {
-  const loadCount = count || 10;
+  const loadCount = typeof count === 'undefined' ? 10 : count;
 }
 ```
 
@@ -963,9 +963,12 @@ inventoryTracker('apples', req, 'www.inventory-awesome.io');
 **Good:**
 
 ```ts
-for (let i = 0; i < list.length; i++) {
+function requestModule(url: string) {
   // ...
 }
+
+const req = requestModule;
+inventoryTracker('apples', req, 'www.inventory-awesome.io');
 ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -1299,7 +1302,7 @@ This pattern is very useful and commonly used in many libraries. It allows your 
 **Bad:**
 
 ```ts
-class Query {
+class QueryBuilder {
   private collection: string;
   private pageNumber: number = 1;
   private itemsPerPage: number = 100;
@@ -1319,59 +1322,59 @@ class Query {
     this.orderByFields = fields;
   }
 
-  async execute<T>(db: Database): Promise<T> {
+  build(): Query {
     // ...
   }
 }
 
 // ...
 
-const query = new Query();
+const query = new QueryBuilder();
 query.from('users');
 query.page(1, 100);
 query.orderBy('firstName', 'lastName');
 
-const users = await query.execute<User>(db);
+const query = queryBuilder.build();
 ```
 
 **Good:**
 
 ```ts
-class Query {
+class QueryBuilder {
   private collection: string;
   private pageNumber: number = 1;
   private itemsPerPage: number = 100;
   private orderByFields: string[] = [];
 
 
-  from(collection: string): Query {
+  from(collection: string): this {
     this.collection = collection;
     return this;
   }
 
-  page(number: number, itemsPerPage: number = 100): Query {
+  page(number: number, itemsPerPage: number = 100): this {
     this.pageNumber = number;
     this.itemsPerPage = itemsPerPage;
     return this;
   }
 
-  orderBy(...fields: string[]): Query {
+  orderBy(...fields: string[]): this {
     this.orderByFields = fields;
     return this;
   }
 
-  async execute<T>(db: Database): Promise<T> {
+  build(): Query {
     // ...
   }
 }
 
 // ...
 
-const users = await new Query()
+const query = new QueryBuilder()
   .from('users')
   .page(1, 100)
   .orderBy('firstName', 'lastName')
-  .execute<User>(db);
+  .build();
 ```
 
 **[⬆ back to top](#table-of-contents)**
