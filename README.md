@@ -509,8 +509,8 @@ class Manager {
 
 function showEmployeeList(employee: Developer | Manager) {
   employee.forEach((employee) => {
-    const expectedSalary = developer.calculateExpectedSalary();
-    const experience = developer.getExperience();
+    const expectedSalary = employee.calculateExpectedSalary();
+    const experience = employee.getExperience();
     const extra = employee.getExtraDetails();
 
     const data = {
