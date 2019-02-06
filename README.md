@@ -1660,13 +1660,13 @@ What it really means is that you should always design your abstractions in a way
 **Bad:**
 
 ```ts
-interface ISmartPrinter {
+interface SmartPrinter {
   print();
   fax();
   scan();
 }
 
-class AllInOnePrinter implements ISmartPrinter {
+class AllInOnePrinter implements SmartPrinter {
   print() {
     // ...
   }  
@@ -1680,7 +1680,7 @@ class AllInOnePrinter implements ISmartPrinter {
   }
 }
 
-class EconomicPrinter implements ISmartPrinter {
+class EconomicPrinter implements SmartPrinter {
   print() {
     // ...
   }  
@@ -1698,19 +1698,19 @@ class EconomicPrinter implements ISmartPrinter {
 **Good:**
 
 ```ts
-interface IPrinter {
+interface Printer {
   print();
 }
 
-interface IFax {
+interface Fax {
   fax();
 }
 
-interface IScanner {
+interface Scanner {
   scan();
 }
 
-class AllInOnePrinter implements IPrinter, IFax, IScanner {
+class AllInOnePrinter implements Printer, Fax, Scanner {
   print() {
     // ...
   }  
@@ -1724,7 +1724,7 @@ class AllInOnePrinter implements IPrinter, IFax, IScanner {
   }
 }
 
-class EconomicPrinter implements IPrinter {
+class EconomicPrinter implements Printer {
   print() {
     // ...
   }
