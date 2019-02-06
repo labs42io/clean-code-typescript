@@ -591,7 +591,7 @@ Functions should do one thing. Split out your functions if they are following di
 **Bad:**
 
 ```ts
-function createFile(name:string, temp:boolean) {
+function createFile(name: string, temp: boolean) {
   if (temp) {
     fs.create(`./temp/${name}`);
   } else {
@@ -603,11 +603,11 @@ function createFile(name:string, temp:boolean) {
 **Good:**
 
 ```ts
-function createFile(name:string) {
+function createFile(name: string) {
   fs.create(name);
 }
 
-function createTempFile(name:string) {
+function createTempFile(name: string) {
   fs.create(`./temp/${name}`);
 }
 ```
@@ -702,7 +702,7 @@ declare global {
   }
 }
 
-if (!Array.prototype.diff){
+if (!Array.prototype.diff) {
   Array.prototype.diff = function <T>(other: T[]): T[] {
     const hash = new Set(other);
     return this.filter(elem => !hash.has(elem));
@@ -854,7 +854,7 @@ class Airplane {
     }
   }
 
-  private getMaxAltitude(): number{
+  private getMaxAltitude(): number {
     // ...
   }
 }
@@ -864,7 +864,7 @@ class Airplane {
 
 ```ts
 abstract class Airplane {
-  protected getMaxAltitude(): number{
+  protected getMaxAltitude(): number {
     // share logic with subclasses ...
   }
 
@@ -1178,11 +1178,11 @@ class UserManager {
   }
 
   async getUser(id: number): Promise<User> {
-    return await db.users.findOne({ id })
+    return await db.users.findOne({ id });
   }
 
   async getTransactions(userId: number): Promise<Transaction[]> {
-    return await db.transactions.find({ userId })
+    return await db.transactions.find({ userId });
   }
 
   async sendGreeting(): Promise<void> {
@@ -1207,11 +1207,11 @@ class UserService {
   }
 
   async getUser(id: number): Promise<User> {
-    return await db.users.findOne({ id })
+    return await db.users.findOne({ id });
   }
 
   async getTransactions(userId: number): Promise<Transaction[]> {
-    return await db.transactions.find({ userId })
+    return await db.transactions.find({ userId });
   }
 }
 
@@ -1263,7 +1263,7 @@ class Employee {
 class EmployeeTaxData extends Employee {
   constructor(
     name: string,
-    email:string,
+    email: string,
     private readonly ssn: string,
     private readonly salary: number) {
     super(name, email);
@@ -1810,7 +1810,7 @@ class JsonFormatter implements Formatter {
 }
 
 class ReportReader {
-  constructor(private readonly formatter: Formatter){
+  constructor(private readonly formatter: Formatter) {
   }
 
   async read(path: string): Promise<ReportData> {
@@ -1968,7 +1968,7 @@ There are utilities that transform existing functions using the callback style t
 import { get } from 'request';
 import { writeFile } from 'fs';
 
-function downloadPage(url: string, saveTo: string, callback: (error: Error, content?: string) => void){
+function downloadPage(url: string, saveTo: string, callback: (error: Error, content?: string) => void) {
   get(url, (error, response) => {
     if (error) {
       callback(error);
@@ -1981,7 +1981,7 @@ function downloadPage(url: string, saveTo: string, callback: (error: Error, cont
         }
       });
     }
-  })
+  });
 }
 
 downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html', (error, content) => {
@@ -2004,7 +2004,7 @@ const write = promisify(writeFile);
 
 function downloadPage(url: string, saveTo: string): Promise<string> {
   return get(url)
-    .then(response => write(saveTo, response))
+    .then(response => write(saveTo, response));
 }
 
 downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html')
@@ -2493,7 +2493,7 @@ Remember, use version control! There's no need for dead code, commented code, an
  * 2016-02-03: Added type-checking (LI)
  * 2015-03-14: Implemented combine (JR)
  */
-function combine(a:number, b:number): number {
+function combine(a: number, b: number): number {
   return a + b;
 }
 ```
@@ -2501,7 +2501,7 @@ function combine(a:number, b:number): number {
 **Good:**
 
 ```ts
-function combine(a:number, b:number): number {
+function combine(a: number, b: number): number {
   return a + b;
 }
 ```
