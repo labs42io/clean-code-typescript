@@ -773,7 +773,7 @@ const contributions = [
 ];
 
 const totalOutput = contributions
-  .reduce((totalLines, output) => totalLines + output.linesOfCode, 0)
+  .reduce((totalLines, output) => totalLines + output.linesOfCode, 0);
 ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -2039,7 +2039,7 @@ import { promisify } from 'util';
 const write = util.promisify(writeFile);
 
 function downloadPage(url: string, saveTo: string): Promise<string> {
-  return get(url).then(response => write(saveTo, response))
+  return get(url).then(response => write(saveTo, response));
 }
 
 downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html')
