@@ -1,7 +1,7 @@
 # clean-code-typescript [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Clean%20Code%20Typescript&url=https://github.com/labs42io/clean-code-typescript)
 
 Clean Code concepts adapted for TypeScript.  
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
+Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
 
 ## Table of Contents
 
@@ -56,7 +56,7 @@ Distinguish names in such a way that the reader knows what the differences offer
 **Bad:**
 
 ```ts
-function between<T>(a1: T, a2: T, a3: T) {
+function between<T>(a1: T, a2: T, a3: T): boolean {
   return a2 <= a1 && a1 <= a3;
 }
 
@@ -65,7 +65,7 @@ function between<T>(a1: T, a2: T, a3: T) {
 **Good:**
 
 ```ts
-function between<T>(value: T, left: T, right: T) {
+function between<T>(value: T, left: T, right: T): boolean {
   return left <= value && value <= right;
 }
 ```
@@ -79,20 +79,20 @@ If you can’t pronounce it, you can’t discuss it without sounding like an idi
 **Bad:**
 
 ```ts
-class DtaRcrd102 {
-  private genymdhms: Date;
-  private modymdhms: Date;
-  private pszqint = '102';
+type DtaRcrd102 = {
+  genymdhms: Date;
+  modymdhms: Date;
+  pszqint: number;
 }
 ```
 
 **Good:**
 
 ```ts
-class Customer {
-  private generationTimestamp: Date;
-  private modificationTimestamp: Date;
-  private recordId = '102';
+type Customer = {
+  generationTimestamp: Date;
+  modificationTimestamp: Date;
+  recordId: number;
 }
 ```
 
@@ -143,7 +143,7 @@ setTimeout(restart, MILLISECONDS_IN_A_DAY);
 **Bad:**
 
 ```ts
-declare const users:Map<string, User>;
+declare const users: Map<string, User>;
 
 for (const keyValue of users) {
   // iterate through users map
@@ -153,7 +153,7 @@ for (const keyValue of users) {
 **Good:**
 
 ```ts
-declare const users:Map<string, User>;
+declare const users: Map<string, User>;
 
 for (const [id, user] of users) {
   // iterate through users map
@@ -187,7 +187,7 @@ const transaction = charge(user, subscription);
 
 ### Don't add unneeded context
 
-If your class/object name tells you something, don't repeat that in your variable name.
+If your class/type/object name tells you something, don't repeat that in your variable name.
 
 **Bad:**
 
@@ -277,7 +277,7 @@ createMenu('Foo', 'Bar', 'Baz', true);
 **Good:**
 
 ```ts
-function createMenu(options: {title: string, body: string, buttonText: string, cancellable: boolean}) {
+function createMenu(options: { title: string, body: string, buttonText: string, cancellable: boolean }) {
   // ...
 }
 
@@ -289,11 +289,11 @@ createMenu({
 });
 ```
 
-You can further improve readability by using TypeScript's [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-aliases)
+You can further improve readability by using [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-aliases):
 
 ```ts
 
-type MenuOptions = {title: string, body: string, buttonText: string, cancellable: boolean};
+type MenuOptions = { title: string, body: string, buttonText: string, cancellable: boolean };
 
 function createMenu(options: MenuOptions) {
   // ...
@@ -376,7 +376,7 @@ When you have more than one level of abstraction your function is usually doing 
 **Bad:**
 
 ```ts
-function parseCode(code:string) {
+function parseCode(code: string) {
   const REGEXES = [ /* ... */ ];
   const statements = code.split(' ');
   const tokens = [];
@@ -403,7 +403,7 @@ function parseCode(code:string) {
 ```ts
 const REGEXES = [ /* ... */ ];
 
-function parseCode(code:string) {
+function parseCode(code: string) {
   const tokens = tokenize(code);
   const syntaxTree = parse(tokens);
 
@@ -412,9 +412,9 @@ function parseCode(code:string) {
   });
 }
 
-function tokenize(code: string):Token[] {
+function tokenize(code: string): Token[] {
   const statements = code.split(' ');
-  const tokens:Token[] = [];
+  const tokens: Token[] = [];
 
   REGEXES.forEach((regex) => {
     statements.forEach((statement) => {
@@ -426,7 +426,7 @@ function tokenize(code: string):Token[] {
 }
 
 function parse(tokens: Token[]): SyntaxTree {
-  const syntaxTree:SyntaxTree[] = [];
+  const syntaxTree: SyntaxTree[] = [];
   tokens.forEach((token) => {
     syntaxTree.push( /* ... */ );
   });
@@ -540,16 +540,11 @@ function createMenu(config: MenuConfig) {
   config.body = config.body || 'Bar';
   config.buttonText = config.buttonText || 'Baz';
   config.cancellable = config.cancellable !== undefined ? config.cancellable : true;
+
+  // ...
 }
 
-const menuConfig = {
-  title: null,
-  body: 'Bar',
-  buttonText: null,
-  cancellable: true
-};
-
-createMenu(menuConfig);
+createMenu({ body: 'Bar' });
 ```
 
 **Good:**
@@ -564,6 +559,8 @@ function createMenu(config: MenuConfig) {
     buttonText: 'Baz',
     cancellable: true
   }, config);
+
+  // ...
 }
 
 createMenu({ body: 'Bar' });
@@ -640,7 +637,6 @@ function toBase64() {
 }
 
 toBase64(); // produces side effects to `name` variable
-
 console.log(name); // expected to print 'Robert C. Martin' but instead 'Um9iZXJ0IEMuIE1hcnRpbg=='
 ```
 
@@ -651,12 +647,11 @@ console.log(name); // expected to print 'Robert C. Martin' but instead 'Um9iZXJ0
 // If we had another function that used this name, now it'd be an array and it could break it.
 const name = 'Robert C. Martin';
 
-function toBase64(text:string):string {
+function toBase64(text: string): string {
   return btoa(text);
 }
 
 const encodedName = toBase64(name);
-
 console.log(name);
 ```
 
@@ -679,7 +674,7 @@ Two caveats to mention to this approach:
 **Bad:**
 
 ```ts
-function addItemToCart(cart: CartItem[], item:Item):void {
+function addItemToCart(cart: CartItem[], item: Item): void {
   cart.push({ item, date: Date.now() });
 };
 ```
@@ -687,7 +682,7 @@ function addItemToCart(cart: CartItem[], item:Item):void {
 **Good:**
 
 ```ts
-function addItemToCart(cart: CartItem[], item:Item):CartItem[] {
+function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
   return [...cart, { item, date: Date.now() }];
 };
 ```
@@ -812,7 +807,7 @@ if (canActivateService(subscription, account)) {
 **Bad:**
 
 ```ts
-function isEmailNotUsed(email: string) {
+function isEmailNotUsed(email: string): boolean {
   // ...
 }
 
@@ -824,7 +819,7 @@ if (isEmailNotUsed(email)) {
 **Good:**
 
 ```ts
-function isEmailUsed(email) {
+function isEmailUsed(email): boolean {
   // ...
 }
 
@@ -858,13 +853,21 @@ class Airplane {
         throw new Error('Unknown airplane type.');
     }
   }
+
+  private getMaxAltitude(): number{
+    // ...
+  }
 }
 ```
 
 **Good:**
 
 ```ts
-class Airplane {
+abstract class Airplane {
+  protected getMaxAltitude(): number{
+    // share logic with subclasses ...
+  }
+
   // ...
 }
 
@@ -903,9 +906,9 @@ It makes refactoring more easier.
 ```ts
 function travelToTexas(vehicle: Bicycle | Car) {
   if (vehicle instanceof Bicycle) {
-    vehicle.pedal(this.currentLocation, new Location('texas'));
+    vehicle.pedal(currentLocation, new Location('texas'));
   } else if (vehicle instanceof Car) {
-    vehicle.drive(this.currentLocation, new Location('texas'));
+    vehicle.drive(currentLocation, new Location('texas'));
   }
 }
 ```
@@ -916,7 +919,7 @@ function travelToTexas(vehicle: Bicycle | Car) {
 type Vehicle = Bicycle | Car;
 
 function travelToTexas(vehicle: Vehicle) {
-  vehicle.move(this.currentLocation, new Location('texas'));
+  vehicle.move(currentLocation, new Location('texas'));
 }
 ```
 
@@ -1052,11 +1055,11 @@ class Circle {
     this.radius = radius;
   }
 
-  perimeter(){
+  perimeter() {
     return 2 * Math.PI * this.radius;
   }
 
-  surface(){
+  surface() {
     return Math.PI * this.radius * this.radius;
   }
 }
@@ -1069,11 +1072,11 @@ class Circle {
   constructor(private readonly radius: number) {
   }
 
-  perimeter(){
+  perimeter() {
     return 2 * Math.PI * this.radius;
   }
 
-  surface(){
+  surface() {
     return Math.PI * this.radius * this.radius;
   }
 }
@@ -1081,7 +1084,7 @@ class Circle {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Prefer readonly properties
+### Prefer immutability
 
 TypeScript's type system allows you to mark individual properties on an interface / class as readonly. This allows you to work in a functional way (unexpected mutation is bad).  
 For more advanced scenarios there is a built-in type `Readonly` that takes a type `T` and marks all of its properties as readonly using mapped types (see [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types)).
@@ -1249,8 +1252,8 @@ You might be wondering then, "when should I use inheritance?" It depends on your
 ```ts
 class Employee {
   constructor(
-    private readonly name: string, 
-    private readonly email:string) {
+    private readonly name: string,
+    private readonly email: string) {
   }
 
   // ...
@@ -1259,9 +1262,9 @@ class Employee {
 // Bad because Employees "have" tax data. EmployeeTaxData is not a type of Employee
 class EmployeeTaxData extends Employee {
   constructor(
-    name: string, 
+    name: string,
     email:string,
-    private readonly ssn: string, 
+    private readonly ssn: string,
     private readonly salary: number) {
     super(name, email);
   }
@@ -1277,8 +1280,8 @@ class Employee {
   private taxData: EmployeeTaxData;
 
   constructor(
-    private readonly name: string, 
-    private readonly email:string) {
+    private readonly name: string,
+    private readonly email: string) {
   }
 
   setTaxData(ssn: string, salary: number): Employee {
@@ -1314,7 +1317,6 @@ class QueryBuilder {
   private itemsPerPage: number = 100;
   private orderByFields: string[] = [];
 
-
   from(collection: string): void {
     this.collection = collection;
   }
@@ -1335,10 +1337,10 @@ class QueryBuilder {
 
 // ...
 
-const query = new QueryBuilder();
-query.from('users');
-query.page(1, 100);
-query.orderBy('firstName', 'lastName');
+const queryBuilder = new QueryBuilder();
+queryBuilder.from('users');
+queryBuilder.page(1, 100);
+queryBuilder.orderBy('firstName', 'lastName');
 
 const query = queryBuilder.build();
 ```
@@ -1492,6 +1494,8 @@ function makeHttpCall<T>(url: string): Promise<T> {
 ```ts
 abstract class Adapter {
   abstract async request<T>(url: string): Promise<T>;
+
+  // code shared to subclasses ...
 }
 
 class AjaxAdapter extends Adapter {
@@ -1542,12 +1546,12 @@ The best explanation for this is if you have a parent class and a child class, t
 ```ts
 class Rectangle {
   constructor(
-    protected width: number = 0, 
+    protected width: number = 0,
     protected height: number = 0) {
 
   }
 
-  setColor(color: string) {
+  setColor(color: string): this {
     // ...
   }
 
@@ -1555,12 +1559,14 @@ class Rectangle {
     // ...
   }
 
-  setWidth(width: number) {
+  setWidth(width: number): this {
     this.width = width;
+    return this;
   }
 
-  setHeight(height: number) {
+  setHeight(height: number): this {
     this.height = height;
+    return this;
   }
 
   getArea(): number {
@@ -1569,22 +1575,25 @@ class Rectangle {
 }
 
 class Square extends Rectangle {
-  setWidth(width: number) {
+  setWidth(width: number): this {
     this.width = width;
     this.height = width;
+    return this;
   }
 
-  setHeight(height: number) {
+  setHeight(height: number): this {
     this.width = height;
     this.height = height;
+    return this;
   }
 }
 
 function renderLargeRectangles(rectangles: Rectangle[]) {
   rectangles.forEach((rectangle) => {
-    rectangle.setWidth(4);
-    rectangle.setHeight(5);
-    const area = rectangle.getArea(); // BAD: Returns 25 for Square. Should be 20.
+    const area = rectangle
+      .setWidth(4)
+      .setHeight(5)
+      .getArea(); // BAD: Returns 25 for Square. Should be 20.
     rectangle.render(area);
   });
 }
@@ -1597,7 +1606,7 @@ renderLargeRectangles(rectangles);
 
 ```ts
 abstract class Shape {
-  setColor(color: string) {
+  setColor(color: string): this {
     // ...
   }
 
@@ -1610,7 +1619,7 @@ abstract class Shape {
 
 class Rectangle extends Shape {
   constructor(
-    private readonly width = 0, 
+    private readonly width = 0,
     private readonly height = 0) {
     super();
   }
@@ -1653,9 +1662,7 @@ What it really means is that you should always design your abstractions in a way
 ```ts
 interface ISmartPrinter {
   print();
-
   fax();
-
   scan();
 }
 
@@ -1804,7 +1811,6 @@ class JsonFormatter implements Formatter {
 
 class ReportReader {
   constructor(private readonly formatter: Formatter){
-
   }
 
   async read(path: string): Promise<ReportData> {
@@ -1817,7 +1823,7 @@ class ReportReader {
 const reader = new ReportReader(new XmlFormatter());
 await report = await reader.read('report.xml');
 
-// or if we had to read a json report:
+// or if we had to read a json report
 const reader = new ReportReader(new JsonFormatter());
 await report = await reader.read('report.json');
 ```
@@ -1953,7 +1959,7 @@ describe('Calendar', () => {
 ### Prefer promises vs callbacks
 
 Callbacks aren't clean, and they cause excessive amounts of nesting *(the callback hell)*.  
-There are utilities that transform existing functions using the callback style to a version that returns promises 
+There are utilities that transform existing functions using the callback style to a version that returns promises
 (for Node.js see [`util.promisify`](https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_promisify_original), for general purpose see [pify](https://www.npmjs.com/package/pify), [es6-promisify](https://www.npmjs.com/package/es6-promisify))
 
 **Bad:**
@@ -2006,7 +2012,7 @@ downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html'
   .catch(error => console.error(error));  
 ```
 
-Promises supports a few patterns that could be useful in some cases:  
+Promises supports a few helper methods that help make code more conscise:  
 
 | Pattern                  | Description                                |  
 | ------------------------ | -----------------------------------------  |  
@@ -2249,8 +2255,8 @@ const Artists = ['ACDC', 'Led Zeppelin', 'The Beatles'];
 function eraseDatabase() {}
 function restore_database() {}
 
-class animal {}
-class Container {}
+type animal { /* ... */ }
+type Container { /* ... */ }
 ```
 
 **Good:**
@@ -2265,8 +2271,8 @@ const ARTISTS = ['ACDC', 'Led Zeppelin', 'The Beatles'];
 function eraseDatabase() {}
 function restoreDatabase() {}
 
-class Animal {}
-class Container {}
+type Animal { /* ... */ }
+type Container { /* ... */ }
 ```
 
 Prefer using `PascalCase` for class, interface, type and namespace names.  
@@ -2367,7 +2373,6 @@ review.review();
 
 Use type when you might need a union or intersection. Use interface when you want `extends` or `implements`. There is no strict rule however, use the one that works for you.  
 Refer to this [explanation](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543) about the differences between `type` and `interface` in TypeScript.
-
 
 **Bad:**
 
