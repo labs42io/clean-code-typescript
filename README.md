@@ -199,7 +199,7 @@ type Car = {
 }
 
 function print(car: Car): void {
-  console.log(`${this.carMake} ${this.carModel} (${this.carColor})`);
+  console.log(`${car.carMake} ${car.carModel} (${car.carColor})`);
 }
 ```
 
@@ -213,7 +213,7 @@ type Car = {
 }
 
 function print(car: Car): void {
-  console.log(`${this.make} ${this.model} (${this.color})`);
+  console.log(`${car.make} ${car.model} (${car.color})`);
 }
 ```
 
