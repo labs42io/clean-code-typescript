@@ -36,7 +36,7 @@ Our craft of software engineering is just a bit over 50 years old, and we are
 still learning a lot. When software architecture is as old as architecture
 itself, maybe then we will have harder rules to follow. For now, let these
 guidelines serve as a touchstone by which to assess the quality of the
-JavaScript code that you and your team produce.
+TypeScript code that you and your team produce.
 
 One more thing: knowing these won't immediately make you a better software
 developer, and working with them for many years doesn't mean you won't make
@@ -629,22 +629,21 @@ The main point is to avoid common pitfalls like sharing state between objects wi
 
 ```ts
 // Global variable referenced by following function.
-// If we had another function that used this name, now it'd be an array and it could break it.
 let name = 'Robert C. Martin';
 
 function toBase64() {
   name = btoa(name);
 }
 
-toBase64(); // produces side effects to `name` variable
+toBase64();
+// If we had another function that used this name, now it'd be a Base64 value
+
 console.log(name); // expected to print 'Robert C. Martin' but instead 'Um9iZXJ0IEMuIE1hcnRpbg=='
 ```
 
 **Good:**
 
 ```ts
-// Global variable referenced by following function.
-// If we had another function that used this name, now it'd be an array and it could break it.
 const name = 'Robert C. Martin';
 
 function toBase64(text: string): string {
@@ -832,15 +831,15 @@ if (!isEmailUsed(node)) {
 
 ### Avoid conditionals
 
-This seems like an impossible task. Upon first hearing this, most people say, "how am I supposed to do anything without an `if` statement?" The answer is that you can use polymorphism to achieve the same task in many cases. The second question is usually, *"well that's great but why would I want to do that?"* The answer is a previous clean code concept we learned: a function should only do one thing. When you have classes and functions that have `if` statements, you are telling your user that your function does more than one thing. Remember, just do one thing.
+This seems like an impossible task. Upon first hearing this, most people say, "how am I supposed to do anything without an `if` statement?" The answer is that you can use polymorphism to achieve the same task in many cases. The second question is usually, "well that's great but why would I want to do that?" The answer is a previous clean code concept we learned: a function should only do one thing. When you have classes and functions that have `if` statements, you are telling your user that your function does more than one thing. Remember, just do one thing.
 
 **Bad:**
 
 ```ts
 class Airplane {
   private type: string;
-
   // ...
+
   getCruisingAltitude() {
     switch (this.type) {
       case '777':
@@ -865,7 +864,7 @@ class Airplane {
 ```ts
 abstract class Airplane {
   protected getMaxAltitude(): number {
-    // share logic with subclasses ...
+    // shared logic with subclasses ...
   }
 
   // ...
@@ -991,7 +990,7 @@ Using getters and setters to access data from objects that encapsulate behavior 
 "Why?" you might ask. Well, here's a list of reasons:
 
 * When you want to do more beyond getting an object property, you don't have to look up and change every accessor in your codebase.
-* Makes adding validation simple when doing a set.
+* Makes adding validation simple when doing a *set*.
 * Encapsulates the internal representation.
 * Easy to add logging and error handling when getting and setting.
 * You can lazy load your object's properties, let's say getting it from a server.
@@ -999,13 +998,16 @@ Using getters and setters to access data from objects that encapsulate behavior 
 **Bad:**
 
 ```ts
-class BankAccount {
-  balance: number = 0;
+type BankAccount = {
+  balance: number;
   // ...
 }
 
 const value = 100;
-const account = new BankAccount();
+const account: BankAccount = { 
+  balance: 0,
+  // ... 
+};
 
 if (value < 0) {
   throw new Error('Cannot set negative balance.');
@@ -1035,6 +1037,10 @@ class BankAccount {
   // ...
 }
 
+// Now `BankAccount` encapsulates the validation logic.
+// If one day the specifications change, and we need extra validation rule,
+// we would have to alter only the `setter` implementation, 
+// leaving all dependent code unchanged. 
 const account = new BankAccount();
 account.balance = 100;
 ```
@@ -1086,7 +1092,7 @@ class Circle {
 
 ### Prefer immutability
 
-TypeScript's type system allows you to mark individual properties on an interface / class as readonly. This allows you to work in a functional way (unexpected mutation is bad).  
+TypeScript's type system allows you to mark individual properties on an interface / class as *readonly*. This allows you to work in a functional way (unexpected mutation is bad).  
 For more advanced scenarios there is a built-in type `Readonly` that takes a type `T` and marks all of its properties as readonly using mapped types (see [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types)).
 
 **Bad:**
@@ -1158,7 +1164,7 @@ class Dashboard {
 ### High cohesion and low coupling
 
 Cohesion defines the degree to which class members are related to each other. Ideally, all fields within a class should be used by each method.
-We then say that the class is maximally cohesive. In practice, this however is not always possible, nor even advisable. You should however prefer cohesion to be high.  
+We then say that the class is *maximally cohesive*. In practice, this however is not always possible, nor even advisable. You should however prefer cohesion to be high.  
 
 Coupling refers to how related or dependent are two classes toward each other. Classes are said to be low coupled if changes in one of them doesn't affect the other one.  
   
@@ -1171,7 +1177,7 @@ class UserManager {
   // Bad: each private variable is used by one or another group of methods.
   // It makes clear evidence that the class is holding more than a single responsibility.
   // If I need only to create the service to get the transactions for a user,
-  // I'm still forced to pass and instance of emailSender.
+  // I'm still forced to pass and instance of `emailSender`.
   constructor(
     private readonly db: Database,
     private readonly emailSender: EmailSender) {
@@ -1207,11 +1213,11 @@ class UserService {
   }
 
   async getUser(id: number): Promise<User> {
-    return await db.users.findOne({ id });
+    return await this.db.users.findOne({ id });
   }
 
   async getTransactions(userId: number): Promise<Transaction[]> {
-    return await db.transactions.find({ userId });
+    return await this.db.transactions.find({ userId });
   }
 }
 
@@ -1220,11 +1226,11 @@ class UserNotifier {
   }
 
   async sendGreeting(): Promise<void> {
-    await emailSender.send('Welcome!');
+    await this.emailSender.send('Welcome!');
   }
 
   async sendNotification(text: string): Promise<void> {
-    await emailSender.send(text);
+    await this.emailSender.send(text);
   }
 
   async sendNewsletter(): Promise<void> {
@@ -1237,7 +1243,7 @@ class UserNotifier {
 
 ### Prefer composition over inheritance
 
-As stated famously in [Design Patterns](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four, you should prefer composition over inheritance where you can. There are lots of good reasons to use inheritance and lots of good reasons to use composition. The main point for this maxim is that if your mind instinctively goes for inheritance, try to think if composition could model your problem better. In some cases it can.  
+As stated famously in [Design Patterns](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four, you should *prefer composition over inheritance* where you can. There are lots of good reasons to use inheritance and lots of good reasons to use composition. The main point for this maxim is that if your mind instinctively goes for inheritance, try to think if composition could model your problem better. In some cases it can.  
   
 You might be wondering then, "when should I use inheritance?" It depends on your problem at hand, but this is a decent list of when inheritance makes more sense than composition:
 
@@ -1353,7 +1359,6 @@ class QueryBuilder {
   private pageNumber: number = 1;
   private itemsPerPage: number = 100;
   private orderByFields: string[] = [];
-
 
   from(collection: string): this {
     this.collection = collection;
@@ -1878,16 +1883,13 @@ describe('AwesomeDate', () => {
     let date: AwesomeDate;
 
     date = new AwesomeDate('1/1/2015');
-    date.addDays(30);
-    assert.equal('1/31/2015', date);
+    assert.equal('1/31/2015', date.addDays(30));
 
     date = new AwesomeDate('2/1/2016');
-    date.addDays(28);
-    assert.equal('02/29/2016', date);
+    assert.equal('2/29/2016', date.addDays(28));
 
     date = new AwesomeDate('2/1/2015');
-    date.addDays(28);
-    assert.equal('03/01/2015', date);
+    assert.equal('3/1/2015', date.addDays(28));
   });
 });
 ```
@@ -1900,20 +1902,17 @@ import { assert } from 'chai';
 describe('AwesomeDate', () => {
   it('handles 30-day months', () => {
     const date = new AwesomeDate('1/1/2015');
-    date.addDays(30);
-    assert.equal('1/31/2015', date);
+    assert.equal('1/31/2015', date.addDays(30));
   });
 
   it('handles leap year', () => {
     const date = new AwesomeDate('2/1/2016');
-    date.addDays(28);
-    assert.equal('02/29/2016', date);
+    assert.equal('2/29/2016', date.addDays(28));
   });
 
   it('handles non-leap year', () => {
     const date = new AwesomeDate('2/1/2015');
-    date.addDays(28);
-    assert.equal('03/01/2015', date);
+    assert.equal('3/1/2015', date.addDays(28));
   });
 });
 ```
@@ -2027,7 +2026,7 @@ Promises supports a few helper methods that help make code more conscise:
 
 ### Async/Await are even cleaner than Promises
 
-With async/await syntax you can write code that is far cleaner and more understandable that chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
+With `async`/`await` syntax you can write code that is far cleaner and more understandable that chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
 
 **Bad:**
 
@@ -2227,7 +2226,7 @@ For TypeScript there is a powerful tool called [TSLint](https://palantir.github.
 
 * [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - Airbnb style guide
 
-* [TSLint Clean Code](https://www.npmjs.com/package/tslint-clean-code) - TSLint rules inspired be the [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+* [TSLint Clean Code](https://www.npmjs.com/package/tslint-clean-code) - TSLint rules inspired by the [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 
 * [TSLint react](https://www.npmjs.com/package/tslint-react) - lint rules related to React & JSX
 
@@ -2372,7 +2371,7 @@ review.review();
 ### type vs. interface
 
 Use type when you might need a union or intersection. Use interface when you want `extends` or `implements`. There is no strict rule however, use the one that works for you.  
-Refer to this [explanation](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543) about the differences between `type` and `interface` in TypeScript.
+For a more detailed explanation refer to this [answer](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543) about the differences between `type` and `interface` in TypeScript.
 
 **Bad:**
 
@@ -2413,7 +2412,7 @@ type Config  = EmailConfig | DbConfig;
 // ...
 
 interface Shape {
-
+  // ...
 }
 
 class Circle implements Shape {
@@ -2461,7 +2460,7 @@ Version control exists for a reason. Leave old code in your history.
 **Bad:**
 
 ```ts
-class User {
+type User = {
   name: string;
   email: string;
   // age: number;
@@ -2472,7 +2471,7 @@ class User {
 **Good:**
 
 ```ts
-class User {
+type User = {
   name: string;
   email: string;
 }
@@ -2511,7 +2510,7 @@ function combine(a: number, b: number): number {
 ### Avoid positional markers
 
 They usually just add noise. Let the functions and variable names along with the proper indentation and formatting give the visual structure to your code.  
-Optionally you can use IDE support for code folding (see Visual Studio Code [folding regions](https://code.visualstudio.com/updates/v1_17#_folding-regions)).
+Most IDE support code folding feature that allows you to collapse/expand blocks of code (see Visual Studio Code [folding regions](https://code.visualstudio.com/updates/v1_17#_folding-regions)).
 
 **Bad:**
 
