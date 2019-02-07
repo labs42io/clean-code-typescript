@@ -603,12 +603,12 @@ function createFile(name: string, temp: boolean) {
 **Good:**
 
 ```ts
-function createFile(name: string) {
-  fs.create(name);
+function createTempFile(name: string) {
+  createFile(`./temp/${name}`);
 }
 
-function createTempFile(name: string) {
-  fs.create(`./temp/${name}`);
+function createFile(name: string) {
+  fs.create(name);
 }
 ```
 
