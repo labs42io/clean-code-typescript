@@ -991,8 +991,6 @@ items to access
 - built-in support for iterating items using the `for-of` syntax
 - iterables allow to implement optimized iterator patterns
 
-For
-
 **Bad:**
 
 ```ts
