@@ -2479,7 +2479,7 @@ This will avoid long relative paths when doing imports.
 **Bad:**
 
 ```ts
-import { UserService } from '../../../../../../../../../../../services/UserService';
+import { UserService } from '../../../services/UserService';
 ```
 
 **Good:**
