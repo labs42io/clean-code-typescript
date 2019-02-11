@@ -2428,7 +2428,9 @@ class Square implements Shape {
 
 ### Organize imports
 
-Import statements should be alphabetized and grouped.
+With clean and easy to read import statements you can quickly see the dependencies of current code. Make sure you apply following good practices for `import` statements:
+
+- Import statements should be alphabetized and grouped.
 - Unused imports should be removed.
 - Named imports must be alphabetized (i.e. `import {A, B, C} from 'foo';`)
 - Import sources must be alphabetized within groups, i.e.: `import * as foo from 'a'; import * as bar from 'b';`
