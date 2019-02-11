@@ -2426,9 +2426,10 @@ class Square implements Shape {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Grouping imports
+### Organize imports
 
 Import statements should be alphabetized and grouped.
+- Unused imports should be removed.
 - Named imports must be alphabetized (i.e. `import {A, B, C} from 'foo';`)
 - Import sources must be alphabetized within groups, i.e.: `import * as foo from 'a'; import * as bar from 'b';`
 - Groups of imports are delineated by blank lines.
@@ -2485,6 +2486,20 @@ import { UserService } from '../../../../../../../../../../../services/UserServi
 
 ```ts
 import { UserService } from '@services/UserService';
+```
+
+```js
+// tsconfig.json
+...
+  "compilerOptions": {
+    ...
+    "baseUrl": "src",
+    "paths": {
+      "@services": ["services/*"]
+    }
+    ...
+  }
+...
 ```
 
 **[⬆ back to top](#table-of-contents)**
