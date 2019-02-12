@@ -16,6 +16,7 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
   9. [Error Handling](#error-handling)
   10. [Formatting](#formatting)
   11. [Comments](#comments)
+  12. [Translations](#translations)
 
 ## Introduction
 
@@ -2759,3 +2760,16 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 ```
 
 **[⬆ back to top](#table-of-contents)**
+
+## Translations
+
+There is work in progress for translating this to:
+
+- Brazilian portuguese
+- Chinese
+- Japanese
+- Korean
+
+References will be added once translations are completed.  
+Check this [discussion](https://github.com/labs42io/clean-code-typescript/issues/15) for more details and progress.
+You can make an indispensable contribution to *Clean Code* community by translating this to your language.
