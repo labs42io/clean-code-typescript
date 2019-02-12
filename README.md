@@ -118,7 +118,7 @@ function getUser(): User;
 
 ### Use searchable names
 
-We will read more code than we will ever write. It's important that the code we do write is readable and searchable. By not naming variables that end up being meaningful for understanding our program, we hurt our readers. Make your names searchable. Tools like [TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) can help identify unnamed constants.
+We will read more code than we will ever write. It's important that the code we do write is readable and searchable. By *not* naming variables that end up being meaningful for understanding our program, we hurt our readers. Make your names searchable. Tools like [TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) can help identify unnamed constants.
 
 **Bad:**
 
@@ -658,11 +658,11 @@ console.log(name);
 
 ### Avoid Side Effects (part 2)
 
-In JavaScript, primitives are passed by value and objects/arrays are passed by reference. In the case of objects and arrays, if your function makes a change in a shopping cart array, for example, by adding an item to purchase, then any other function that uses that cart array will be affected by this addition. That may be great, however it can be bad too. Let's imagine a bad situation:  
+In JavaScript, primitives are passed by value and objects/arrays are passed by reference. In the case of objects and arrays, if your function makes a change in a shopping cart array, for example, by adding an item to purchase, then any other function that uses that `cart` array will be affected by this addition. That may be great, however it can be bad too. Let's imagine a bad situation:  
 
-The user clicks the "Purchase", button which calls a purchase function that spawns a network request and sends the cart array to the server. Because of a bad network connection, the purchase function has to keep retrying the request. Now, what if in the meantime the user accidentally clicks "Add to Cart" button on an item they don't actually want before the network request begins? If that happens and the network request begins, then that purchase function will send the accidentally added item because it has a reference to a shopping cart array that the *addItemToCart* function modified by adding an unwanted item.  
+The user clicks the "Purchase", button which calls a `purchase` function that spawns a network request and sends the `cart` array to the server. Because of a bad network connection, the purchase function has to keep retrying the request. Now, what if in the meantime the user accidentally clicks "Add to Cart" button on an item they don't actually want before the network request begins? If that happens and the network request begins, then that purchase function will send the accidentally added item because it has a reference to a shopping cart array that the `addItemToCart` function modified by adding an unwanted item.  
 
-A great solution would be for the *addItemToCart* to always clone the cart, edit it, and return the clone. This ensures that no other functions that are holding onto a reference of the shopping cart will be affected by any changes.  
+A great solution would be for the `addItemToCart` to always clone the `cart`, edit it, and return the clone. This ensures that no other functions that are holding onto a reference of the shopping cart will be affected by any changes.  
 
 Two caveats to mention to this approach:
 
@@ -690,7 +690,7 @@ function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
 
 ### Don't write to global functions
 
-Polluting globals is a bad practice in JavaScript because you could clash with another library and the user of your API would be none-the-wiser until they get an exception in production. Let's think about an example: what if you wanted to extend JavaScript's native Array method to have a diff method that could show the difference between two arrays? You could write your new function to the `Array.prototype`, but it could clash with another library that tried to do the same thing. What if that other library was just using `diff` to find the difference between the first and last elements of an array? This is why it would be much better to just use classes and simply extend the `Array` global.
+Polluting globals is a bad practice in JavaScript because you could clash with another library and the user of your API would be none-the-wiser until they get an exception in production. Let's think about an example: what if you wanted to extend JavaScript's native Array method to have a `diff` method that could show the difference between two arrays? You could write your new function to the `Array.prototype`, but it could clash with another library that tried to do the same thing. What if that other library was just using `diff` to find the difference between the first and last elements of an array? This is why it would be much better to just use classes and simply extend the `Array` global.
 
 **Bad:**
 
@@ -985,6 +985,7 @@ inventoryTracker('apples', req, 'www.inventory-awesome.io');
 
 Use generators and iterables when working with collections of data used like a stream.  
 There are some good reasons:
+
 - decouples the callee from the generator implementation in a sense that callee decides how many
 items to access
 - lazy execution, items are streamed on demand
@@ -998,7 +999,7 @@ function fibonacci(n: number): number[] {
   if (n === 1) return [0];
   if (n === 2) return [0, 1];
 
-  const items: number[] = [0, 1]; 
+  const items: number[] = [0, 1];
   while (items.length < n) {
     items.push(items[items.length - 2] + items[items.length - 1]);
   }
@@ -1021,7 +1022,7 @@ print(10);
 // The generator doesn't keep the array of all numbers.
 function* fibonacci(): IterableIterator<number> {
   let [a, b] = [0, 1];
- 
+
   while (true) {
     yield a;
     [a, b] = [b, a + b];
@@ -1040,9 +1041,9 @@ function print(n: number) {
 print(10);
 ```
 
-There are libraries that allow working with iterables in a simillar way as with native arrays, by
+There are libraries that allow working with iterables in a similar way as with native arrays, by
 chaining methods like `map`, `slice`, `forEach` etc. See [itiriri](https://www.npmjs.com/package/itiriri) for
-an example of advanced manipulation with iterables (or [itiriri-async](https://www.npmjs.com/package/itiriri-async) for manipulation of async iterables). 
+an example of advanced manipulation with iterables (or [itiriri-async](https://www.npmjs.com/package/itiriri-async) for manipulation of async iterables).
 
 ```ts
 import itiriri from 'itiriri';
@@ -1071,11 +1072,11 @@ TypeScript supports getter/setter syntax.
 Using getters and setters to access data from objects that encapsulate behavior could be better that simply looking for a property on an object.
 "Why?" you might ask. Well, here's a list of reasons:
 
-* When you want to do more beyond getting an object property, you don't have to look up and change every accessor in your codebase.
-* Makes adding validation simple when doing a *set*.
-* Encapsulates the internal representation.
-* Easy to add logging and error handling when getting and setting.
-* You can lazy load your object's properties, let's say getting it from a server.
+- When you want to do more beyond getting an object property, you don't have to look up and change every accessor in your codebase.
+- Makes adding validation simple when doing a `set`.
+- Encapsulates the internal representation.
+- Easy to add logging and error handling when getting and setting.
+- You can lazy load your object's properties, let's say getting it from a server.
 
 **Bad:**
 
@@ -1086,9 +1087,9 @@ type BankAccount = {
 }
 
 const value = 100;
-const account: BankAccount = { 
+const account: BankAccount = {
   balance: 0,
-  // ... 
+  // ...
 };
 
 if (value < 0) {
@@ -1121,8 +1122,8 @@ class BankAccount {
 
 // Now `BankAccount` encapsulates the validation logic.
 // If one day the specifications change, and we need extra validation rule,
-// we would have to alter only the `setter` implementation, 
-// leaving all dependent code unchanged. 
+// we would have to alter only the `setter` implementation,
+// leaving all dependent code unchanged.
 const account = new BankAccount();
 account.balance = 100;
 ```
@@ -1440,7 +1441,7 @@ class Employee {
 
 class EmployeeTaxData {
   constructor(
-    public readonly ssn: string, 
+    public readonly ssn: string,
     public readonly salary: number) {
   }
 
@@ -1979,9 +1980,9 @@ await report = await reader.read('report.json');
 
 Testing is more important than shipping. If you have no tests or an inadequate amount, then every time you ship code you won't be sure that you didn't break anything.
 Deciding on what constitutes an adequate amount is up to your team, but having 100% coverage (all statements and branches)
-is how you achieve very high confidence and developer peace of mind. This means that in addition to having a great testing framework, you also need to use a good coverage tool.
+is how you achieve very high confidence and developer peace of mind. This means that in addition to having a great testing framework, you also need to use a good [coverage tool](https://github.com/gotwarlost/istanbul).
 
-There's no excuse to not write tests. There are plenty of good JS test frameworks with typings support for TypeScript, so find one that your team prefers. When you find one that works for your team, then aim to always write tests for every new feature/module you introduce. If your preferred method is Test Driven Development (TDD), that is great, but the main point is to just make sure you are reaching your coverage goals before launching any feature, or refactoring an existing one.  
+There's no excuse to not write tests. There are [plenty of good JS test frameworks](http://jstherightway.org/#testing-tools) with typings support for TypeScript, so find one that your team prefers. When you find one that works for your team, then aim to always write tests for every new feature/module you introduce. If your preferred method is Test Driven Development (TDD), that is great, but the main point is to just make sure you are reaching your coverage goals before launching any feature, or refactoring an existing one.  
 
 ### The three laws of TDD
 
@@ -1997,15 +1998,15 @@ There's no excuse to not write tests. There are plenty of good JS test framework
 
 Clean tests should follow the rules:
 
-* **Fast** tests should be fast because we want to run them frequently.
+- **Fast** tests should be fast because we want to run them frequently.
 
-* **Independent** tests should not depend on each other. They should provide same output whether run independently or all together in any order.
+- **Independent** tests should not depend on each other. They should provide same output whether run independently or all together in any order.
 
-* **Repeatable** tests should be repeatable in any environment and there should be no excuse for why they fail.
+- **Repeatable** tests should be repeatable in any environment and there should be no excuse for why they fail.
 
-* **Self-Validating** a test should answer with either *Passed* or *Failed*. You don't need to compare log files to answer if a test passed.
+- **Self-Validating** a test should answer with either *Passed* or *Failed*. You don't need to compare log files to answer if a test passed.
 
-* **Timely** unit tests should be written before the production code. If you write tests after the production code, you might find writing tests too hard.
+- **Timely** unit tests should be written before the production code. If you write tests after the production code, you might find writing tests too hard.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -2362,19 +2363,19 @@ Formatting is subjective. Like many rules herein, there is no hard and fast rule
 
 For TypeScript there is a powerful tool called [TSLint](https://palantir.github.io/tslint/). It's a static analysis tool that can help you improve dramatically the readability and maintainability of your code. There are ready to use TSLint configurations that you can reference in your projects:
 
-* [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - standard style rules
+- [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - standard style rules
 
-* [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - Airbnb style guide
+- [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - Airbnb style guide
 
-* [TSLint Clean Code](https://www.npmjs.com/package/tslint-clean-code) - TSLint rules inspired by the [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+- [TSLint Clean Code](https://www.npmjs.com/package/tslint-clean-code) - TSLint rules inspired by the [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 
-* [TSLint react](https://www.npmjs.com/package/tslint-react) - lint rules related to React & JSX
+- [TSLint react](https://www.npmjs.com/package/tslint-react) - lint rules related to React & JSX
 
-* [TSLint + Prettier](https://www.npmjs.com/package/tslint-config-prettier) - lint rules for [Prettier](https://github.com/prettier/prettier) code formatter
+- [TSLint + Prettier](https://www.npmjs.com/package/tslint-config-prettier) - lint rules for [Prettier](https://github.com/prettier/prettier) code formatter
 
-* [ESLint rules for TSLint](https://www.npmjs.com/package/tslint-eslint-rules) - ESLint rules for TypeScript
+- [ESLint rules for TSLint](https://www.npmjs.com/package/tslint-eslint-rules) - ESLint rules for TypeScript
 
-* [Immutable](https://www.npmjs.com/package/tslint-immutable) - rules to disable mutation in TypeScript
+- [Immutable](https://www.npmjs.com/package/tslint-immutable) - rules to disable mutation in TypeScript
 
 Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html) source.
 
@@ -2495,7 +2496,7 @@ class PerformanceReview {
 
   private lookupManager() {
     return db.lookup(this.employee, 'manager');
-  } 
+  }
 
   private getSelfReview() {
     // ...
@@ -2597,7 +2598,7 @@ The use of a comments is an indication of failure to express without them. Code 
 
 ### Prefer self explanatory code instead of comments
 
-Comments are an apology, not a requirement. Good code mostly documents itself.
+Comments are an apology, not a requirement. Good code *mostly* documents itself.
 
 **Bad:**
 
@@ -2643,7 +2644,7 @@ type User = {
 
 ### Don't have journal comments
 
-Remember, use version control! There's no need for dead code, commented code, and especially journal comments. Use git log to get history!
+Remember, use version control! There's no need for dead code, commented code, and especially journal comments. Use `git log` to get history!
 
 **Bad:**
 
@@ -2748,7 +2749,7 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 }
 ```
 
-**Good**
+**Good:**
 
 ```ts
 function getActiveSubscriptions(): Promise<Subscription[]> {
