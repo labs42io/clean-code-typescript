@@ -5,17 +5,17 @@ Inspirado em [clean-code-javascript](https://github.com/ryanmcdermott/clean-code
 
 ## Conteúdos
 
-1. [Introdução](#introduction)
-2. [Variáveis](#variables)
-3. [Funções](#functions)
-4. [Objetos e Estruturas de dados](#objects-and-data-structures)
+1. [Introdução](#introdução)
+2. [Variáveis](#variáveis)
+3. [Funções](#funções)
+4. [Objetos e Estruturas de dados](#objetos-e-estruturas-de-dados)
 5. [Classes](#classes)
 6. [SOLID](#solid)
-7. [Testando](#testing)
-8. [Concorrência](#concurrency)
-9. [Tratamento de erros](#error-handling)
-10. [Formatação](#formatting)
-11. [Comentários](#comments)
+7. [Testando](#testando)
+8. [Concorrência](#concorrência)
+9. [Tratamento de erros](#tratamento-de-erros)
+10. [Formatação](#formatação)
+11. [Comentários](#comentários)
 
 ## Introdução
 
@@ -2152,7 +2152,7 @@ try {
 
 **[⬆ ir para o topo](#table-of-contents)**
 
-## Gerenciamento de erros
+## Tratamento de erros
 
 Erros lançados são uma coisa boa! Eles significam que o tempo de execução identificou com sucesso quando alguma coisa no seu programa deu errado e está deixando você saber parando a execução da função atual, matando o processo (em Node), e notificando você no console.
 
