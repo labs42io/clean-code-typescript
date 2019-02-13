@@ -2506,6 +2506,52 @@ class Square implements Shape {
 
 **[⬆ ir para o topo](#table-of-contents)**
 
+### Organize imports
+
+Com declarações de import fáceis e limpas de ler, você consegue rapidamente ver as dependências do seu código. Assegure-se de que está aplicando as boas práticas para fazer imports:
+
+- Imports devem ser em ordem alfabética e agrupados.
+- Imports não utilizadas tem de ser removidos.
+- Imports com nomes devem estar em ordem alfabética (ex.: `import {A, B, C} from 'foo';`).
+- As fontes do seu imports devem estar em ordem alfabética dividido em grupos, ex.: `import * as foo from 'a'; import * as bar from 'b';`
+- Grupos de imports são separados por espaços em branco.
+- Grupos devem respeitar a seguinte ordem:
+  - polyfills (ex.: `import 'reflect-metadata';`)
+  - módulos do node (ex.: `import fs from 'fs';`)
+  - módulos externos (ex.: `import { query } from 'itiriri';`)
+  - módulos internos (ex.: `import { UserService } from 'src/services/userService';`)
+  - módulos de um diretório pai (ex.: `import foo from '../foo'; import qux from '../../foo/qux';`)
+  - módulos de um mesmo diretório (ex.: `import bar from './bar'; import baz from './bar/baz';`)
+
+**Ruim:**
+
+```ts
+import { TypeDefinition } from '../types/typeDefinition';
+import { AttributeTypes } from '../model/attribute';
+import { ApiCredentials, Adapters } from './common/api/authorization';
+import fs from 'fs';
+import { ConfigPlugin } from './plugins/config/configPlugin';
+import { BindingScopeEnum, Container } from 'inversify';
+import 'reflect-metadata';
+```
+
+**Bom:**
+
+```ts
+import 'reflect-metadata';
+
+import fs from 'fs';
+import { BindingScopeEnum, Container } from 'inversify';
+
+import { AttributeTypes } from '../model/attribute';
+import { TypeDefinition } from '../types/typeDefinition';
+
+import { ApiCredentials, Adapters } from './common/api/authorization';
+import { ConfigPlugin } from './plugins/config/configPlugin';
+```
+
+**[⬆ ir para o topo](#table-of-contents)**
+
 ## Comentários
 
 O uso de comentários é uma indicação que você falhou ao se expressar sem eles. Seu código deve ser sua única fonte.
