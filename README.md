@@ -2552,6 +2552,40 @@ import { ConfigPlugin } from './plugins/config/configPlugin';
 
 **[⬆ ir para o topo](#table-of-contents)**
 
+### Use alias do typescript
+
+Faça imports mais agradáveis definindo caminhos e a propriedade baseUrl na seção compilerOptions em `tsconfig.json`
+
+Isso irá evitar caminhos relativos longos quando fizer imports.
+
+**Ruim:**
+
+```ts
+import { UserService } from '../../../services/UserService';
+```
+
+**Bom:**
+
+```ts
+import { UserService } from '@services/UserService';
+```
+
+```js
+// tsconfig.json
+...
+  "compilerOptions": {
+    ...
+    "baseUrl": "src",
+    "paths": {
+      "@services": ["services/*"]
+    }
+    ...
+  }
+...
+```
+
+**[⬆ ir para o topo](#table-of-contents)**
+
 ## Comentários
 
 O uso de comentários é uma indicação que você falhou ao se expressar sem eles. Seu código deve ser sua única fonte.
