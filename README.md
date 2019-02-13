@@ -1037,6 +1037,86 @@ inventoryTracker('apples', req, 'www.inventory-awesome.io');
 
 **[⬆ ir para o topo](#table-of-contents)**
 
+### Use iterators e generators
+
+Use generators e iterables quando trabalhar com coleções de dados que se comportam como uma corrente/fluxo.
+Há alguns bons motivos para isso:
+
+- desacopla quem está chamando o generator, deixando a ele a opção de quantos itens deseja acessar
+- 'lazy execution', os itens são chamados por demanda
+- suporte nativo para iterar itens utilizando a sintaxe `for-of`
+- 'iterables' permitem implementar um padrão mais otimizado de 'iterators'
+
+**Ruim:**
+
+```ts
+function fibonacci(n: number): number[] {
+  if (n === 1) return [0];
+  if (n === 2) return [0, 1];
+
+  const items: number[] = [0, 1];
+  while (items.length < n) {
+    items.push(items[items.length - 2] + items[items.length - 1]);
+  }
+
+  return items;
+}
+
+function print(n: number) {
+  fibonacci(n).forEach(fib => console.log(fib));
+}
+
+// Printa os 10 primeiros números de Fibonnaci.
+print(10);
+```
+
+**Bom:**
+
+```ts
+// Gera uma corrente infinita de números de Fibonacci.
+// O generator não mantém um array com todos os números.
+function* fibonacci(): IterableIterator<number> {
+  let [a, b] = [0, 1];
+
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+
+function print(n: number) {
+  let i = 0;
+  for (const fib in fibonacci()) {
+    if (i++ === n) break;
+    console.log(fib);
+  }
+}
+
+// Printa os 10 primeiros números de Fibonnaci.
+print(10);
+```
+
+Tem diversas bibliotecas que permitem trabalhar com iterables de uma forma similar aos arrays nativos, ao encadear métodos como `map`, `slice`, `forEach` etc. Veja [itiriri](https://www.npmjs.com/package/itiriri) para um exemplo avançado de manipulação utilizando iterables (ou [itiriri-async](https://www.npmjs.com/package/itiriri-async) para manipulação de iterables assíncronos).
+
+```ts
+import itiriri from 'itiriri';
+
+function* fibonacci(): IterableIterator<number> {
+  let [a, b] = [0, 1];
+
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+
+itiriri(fibonacci())
+  .take(10)
+  .forEach(fib => console.log(fib));
+```
+
+**[⬆ ir para o topo](#table-of-contents)**
+
 ## Objetos e estruturas de dados
 
 ### Use getters e setters
