@@ -1223,7 +1223,7 @@ interface Config {
 
 //...
 
-type Shape {
+type Shape = {
   // ...
 }
 ```
@@ -1232,11 +1232,11 @@ type Shape {
 
 ```ts
 
-type EmailConfig {
+type EmailConfig = {
   // ...
 }
 
-type DbConfig {
+type DbConfig = {
   // ...
 }
 
@@ -2396,8 +2396,8 @@ const Artists = ['ACDC', 'Led Zeppelin', 'The Beatles'];
 function eraseDatabase() {}
 function restore_database() {}
 
-type animal { /* ... */ }
-type Container { /* ... */ }
+type animal = { /* ... */ }
+type Container = { /* ... */ }
 ```
 
 **Good:**
@@ -2412,8 +2412,8 @@ const ARTISTS = ['ACDC', 'Led Zeppelin', 'The Beatles'];
 function eraseDatabase() {}
 function restoreDatabase() {}
 
-type Animal { /* ... */ }
-type Container { /* ... */ }
+type Animal = { /* ... */ }
+type Container = { /* ... */ }
 ```
 
 Prefer using `PascalCase` for class, interface, type and namespace names.  
