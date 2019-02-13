@@ -2652,4 +2652,30 @@ class Client {
 
 **[⬆ ir para o topo](#table-of-contents)**
 
+### Comentários de TODO
+
+Quando você reparar que precisa deixar notas no código, para alterar coisas futuramente, faça isso utilizando comentários `// TODO`. A maioria das IDEs tem um suporte especial para esse tipo de comentário para que possa voltar nesses comentários mais fácilmente depois.
+
+Tenha em mente que *TODO*s não são uma desculpa para código ruim.
+
+**Ruim:**
+
+```ts
+function getActiveSubscriptions(): Promise<Subscription[]> {
+  // garantir que `dueDate` está indexado
+  return db.subscriptions.find({ dueDate: { $lte: new Date() } });
+}
+```
+
+**Bom:**
+
+```ts
+function getActiveSubscriptions(): Promise<Subscription[]> {
+  // TODO: garantir que `dueDate` está indexado.
+  return db.subscriptions.find({ dueDate: { $lte: new Date() } });
+}
+```
+
+**[⬆ ir para o topo](#table-of-contents)**
+
 Um grande obrigado ao meu amigo [Luís Gustavo](https://github.com/lgustavogdc) que me deu uma força ao traduzir esse conteúdo maravilhoso!
