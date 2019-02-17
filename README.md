@@ -1263,7 +1263,7 @@ class Square implements Shape {
 
 ### Classes should be small
 
-The class' size is measured by it's responsibility. Following the *Single Responsibility principle* a class should be small.
+The class' size is measured by its responsibility. Following the *Single Responsibility principle* a class should be small.
 
 **Bad:**
 
@@ -2061,9 +2061,9 @@ describe('AwesomeDate', () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### The name of the test should reveal it's intention
+### The name of the test should reveal its intention
 
-When a test fail, it's name is the first indication of what may have gone wrong.
+When a test fail, its name is the first indication of what may have gone wrong.
 
 **Bad:**
 
