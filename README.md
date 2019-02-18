@@ -2765,7 +2765,9 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 
 This is also available in other languages:
 - ![br](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Brazilian Portuguese**: [vitorfreitas/clean-code-typescript](https://github.com/vitorfreitas/clean-code-typescript)
-- ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese**: [beginor/clean-code-typescript](https://github.com/beginor/clean-code-typescript)
+- ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese**: 
+  - [beginor/clean-code-typescript](https://github.com/beginor/clean-code-typescript)
+  - [pipiliang/clean-code-typescript](https://github.com/pipiliang/clean-code-typescript)
 
 There is work in progress for translating this to other languages:
 
