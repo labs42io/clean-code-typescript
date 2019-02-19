@@ -2768,10 +2768,10 @@ This is also available in other languages:
 - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese**: 
   - [beginor/clean-code-typescript](https://github.com/beginor/clean-code-typescript)
   - [pipiliang/clean-code-typescript](https://github.com/pipiliang/clean-code-typescript)
+- ![ja](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) **Japanese**: [MSakamaki/clean-code-typescript](https://github.com/MSakamaki/clean-code-typescript)
 
 There is work in progress for translating this to other languages:
 
-- ![ja](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) Japanese
 - ![kr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/South-Korea.png) Korean
 
 References will be added once translations are completed.  
