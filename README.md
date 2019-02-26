@@ -1032,7 +1032,7 @@ function* fibonacci(): IterableIterator<number> {
 
 function print(n: number) {
   let i = 0;
-  for (const fib in fibonacci()) {
+  for (const fib of fibonacci()) {
     if (i++ === n) break;  
     console.log(fib);
   }  
@@ -1047,7 +1047,7 @@ chaining methods like `map`, `slice`, `forEach` etc. See [itiriri](https://www.n
 an example of advanced manipulation with iterables (or [itiriri-async](https://www.npmjs.com/package/itiriri-async) for manipulation of async iterables).
 
 ```ts
-import itiriri from 'itiriri';
+import { query } from 'itiriri';
 
 function* fibonacci(): IterableIterator<number> {
   let [a, b] = [0, 1];
@@ -1058,7 +1058,7 @@ function* fibonacci(): IterableIterator<number> {
   }
 }
 
-itiriri(fibonacci())
+query(fibonacci())
   .take(10)
   .forEach(fib => console.log(fib));
 ```
