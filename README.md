@@ -1032,7 +1032,7 @@ function* fibonacci(): IterableIterator<number> {
 
 function print(n: number) {
   let i = 0;
-  for (const fib in fibonacci()) {
+  for (const fib of fibonacci()) {
     if (i++ === n) break;  
     console.log(fib);
   }  
