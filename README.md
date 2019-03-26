@@ -338,7 +338,7 @@ Esta é, de longe, a regra mais importante da engenharia de software. Quando fun
 **Ruim:**
 
 ```ts
-function emailClients(clients: Client) {
+function emailClients(clients: Client[]) {
   clients.forEach(client => {
     const clientRecord = database.lookup(client);
     if (clientRecord.isActive()) {
@@ -351,7 +351,7 @@ function emailClients(clients: Client) {
 **Bom:**
 
 ```ts
-function emailClients(clients: Client) {
+function emailClients(clients: Client[]) {
   clients.filter(isActiveClient).forEach(email);
 }
 
