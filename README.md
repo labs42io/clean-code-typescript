@@ -1086,7 +1086,7 @@ function* fibonacci(): IterableIterator<number> {
 
 function print(n: number) {
   let i = 0;
-  for (const fib in fibonacci()) {
+  for (const fib of fibonacci()) {
     if (i++ === n) break;
     console.log(fib);
   }
@@ -1691,7 +1691,7 @@ class HttpRequester {
 
 Este é um termo muito assustador para um conceito bem simples. É formalmente definido como "Se S é um subtipo de T, então os objetos do tipo T podem ser substituidos com objetos do tipo S(ou seja, objetos do tipo S podem substituir objetos do tipo T) sem alterar nenhuma propriedade desejáveis daquele programa (correção, tarefa executada, etc.)." E essa é uma definição ainda mais assustadora.
 
-A melhor explicação para isso é se você tem uma classe pi e uma classe filho, então a classe base e a classe filho podem ser usada sem ocorrer resultados incorretos. Isso pode ainda estar sendo confuso, então vamos dar uma olhada no exemplo clássico Quadrado-Retângulo. Matemáticamente, o quadrado é um retângulo, mas se você modelar o quadrado usando o relacionamento "é-um" via herança, você terá problemas.
+A melhor explicação para isso é se você tem uma classe pi e uma classe filho, então a classe pai e a classe filho podem ser usada sem ocorrer resultados incorretos. Isso pode ainda estar sendo confuso, então vamos dar uma olhada no exemplo clássico Quadrado-Retângulo. Matemáticamente, o quadrado é um retângulo, mas se você modelar o quadrado usando o relacionamento "é-um" via herança, você terá problemas.
 
 **Ruim:**
 
