@@ -243,6 +243,38 @@ function loadPages(count: number = 10) {
 
 **[⬆ back to top](#table-of-contents)**
 
+### Use enum for same type constants
+
+Enum helps you create a set of distinct cases or to define a set of named constants.
+
+**Bad:**
+
+```ts
+const GENRE = {
+  ROMANTIC: 'Romantic',
+  DRAMA: 'Drama',
+  COMEDY: 'Comedy',
+  DOCUMENTARY: 'Documentary',
+}
+
+const comedy = async requestFilm(GENRE.COMEDY);
+```
+
+**Good:**
+
+```ts
+enum GENRE {
+  ROMANTIC = 'Romantic',
+  DRAMA = 'Drama',
+  COMEDY = 'Comedy',
+  DOCUMENTARY = 'Documentary',
+}
+
+const comedy = async requestFilm(GENRE.COMEDY);
+```
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Functions
 
 ### Function arguments (2 or fewer ideally)
