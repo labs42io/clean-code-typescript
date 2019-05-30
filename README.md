@@ -1199,6 +1199,77 @@ interface Config {
 }
 ```
 
+Case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
+do not allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the value.
+
+**Bad:**
+
+```ts
+const array: number[] = [ 1, 3, 5 ];
+array = []; // error
+array.push(100); // array will updated
+```
+
+**Good:**
+
+```ts
+const array: ReadonlyArray<number> = [ 1, 3, 5 ];
+array = []; // error
+array.push(100); // error
+```
+
+Declaring read-only arguments in [TypeScript 3.4 is a bit easier](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#improvements-for-readonlyarray-and-readonly-tuples).
+
+```ts
+function hoge(args: readonly string[]) {
+  args.push(1); // error
+}
+```
+
+Prefer [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) for literal values.
+
+**Bad:**
+
+```ts
+const config = {
+  hello: 'world'
+};
+config.hello = 'world'; // value is changed
+
+const array  = [ 1, 3, 5 ];
+array[0] = 10; // value is changed
+
+// writable objects is returned
+function readonlyData(value: number) {
+  return { value };
+}
+
+const result = readonlyData(100);
+result.value = 200; // value is changed
+```
+
+**Good:**
+
+```ts
+// read-only object
+const config = {
+  hello: 'world'
+} as const;
+config.hello = 'world'; // error
+
+// read-only array
+const array  = [ 1, 3, 5 ] as const;
+array[0] = 10; // error
+
+// You can return read-only objects
+function readonlyData(value: number) {
+  return { value } as const;
+}
+
+const result = readonlyData(100);
+result.value = 200; // error
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### type vs. interface
