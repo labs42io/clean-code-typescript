@@ -265,7 +265,7 @@ class Projector {
   configureFilm(genre) {
     switch (genre) {
       case GENRE.ROMANTIC:
-        // some logit to be executed 
+        // some logic to be executed 
     }
   }
 }
@@ -288,7 +288,7 @@ class Projector {
   configureFilm(genre) {
     switch (genre) {
       case GENRE.ROMANTIC:
-        // some logit to be executed 
+        // some logic to be executed 
     }
   }
 }
