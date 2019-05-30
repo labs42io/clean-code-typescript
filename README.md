@@ -1205,7 +1205,7 @@ do not allow changes such as `push()` and `fill()`, but can use features such as
 **Bad:**
 
 ```ts
-const array: Array<number> = [ 1, 3, 5 ];
+const array: number[] = [ 1, 3, 5 ];
 array = []; // error
 array.push(100); // array will updated
 ```
@@ -1226,27 +1226,26 @@ function hoge(args: readonly string[]) {
 }
 ```
 
-Prefer [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) for literal values
+Prefer [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) for literal values.
 
 **Bad:**
 
 ```ts
-// const object
 const config = {
   hello: 'world'
 };
-config.hello = 'world'; // value is written
+config.hello = 'world'; // value is changed
 
-// const array
 const array  = [ 1, 3, 5 ];
-array[0] = 10; // value is written
+array[0] = 10; // value is changed
 
 // writable objects is returned
 function readonlyData(value: number) {
   return { value };
 }
+
 const result = readonlyData(100);
-result.value = 200; // value is written
+result.value = 200; // value is changed
 ```
 
 **Good:**
@@ -1266,6 +1265,7 @@ array[0] = 10; // error
 function readonlyData(value: number) {
   return { value } as const;
 }
+
 const result = readonlyData(100);
 result.value = 200; // error
 ```
