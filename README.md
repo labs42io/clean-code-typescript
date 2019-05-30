@@ -243,34 +243,55 @@ function loadPages(count: number = 10) {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Use enum for same type constants
+### Use enum to document the intent
 
-Enum helps you create a set of distinct cases or to define a set of named constants.
+Enums can help you document the intent of the code. For example when we are concerned about values being
+different rather than the exact value of those.
 
 **Bad:**
 
 ```ts
 const GENRE = {
-  ROMANTIC: 'Romantic',
-  DRAMA: 'Drama',
-  COMEDY: 'Comedy',
-  DOCUMENTARY: 'Documentary',
+  ROMANTIC: 'romantic',
+  DRAMA: 'drama',
+  COMEDY: 'comedy',
+  DOCUMENTARY: 'documentary',
 }
 
-const comedy = async requestFilm(GENRE.COMEDY);
+projector.configureFilm(GENRE.COMEDY);
+
+class Projector {
+  // delactation of Projector
+  configureFilm(genre) {
+    switch (genre) {
+      case GENRE.ROMANTIC:
+        // some logit to be executed 
+    }
+  }
+}
 ```
 
 **Good:**
 
 ```ts
 enum GENRE {
-  ROMANTIC = 'Romantic',
-  DRAMA = 'Drama',
-  COMEDY = 'Comedy',
-  DOCUMENTARY = 'Documentary',
+  ROMANTIC,
+  DRAMA,
+  COMEDY,
+  DOCUMENTARY,
 }
 
-const comedy = async requestFilm(GENRE.COMEDY);
+projector.configureFilm(GENRE.COMEDY);
+
+class Projector {
+  // delactation of Projector
+  configureFilm(genre) {
+    switch (genre) {
+      case GENRE.ROMANTIC:
+        // some logit to be executed 
+    }
+  }
+}
 ```
 
 **[⬆ back to top](#table-of-contents)**
