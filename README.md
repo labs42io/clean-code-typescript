@@ -317,7 +317,7 @@ This is by far the most important rule in software engineering. When functions d
 **Bad:**
 
 ```ts
-function emailClients(clients: Client) {
+function emailClients(clients: Client[]) {
   clients.forEach((client) => {
     const clientRecord = database.lookup(client);
     if (clientRecord.isActive()) {
@@ -330,7 +330,7 @@ function emailClients(clients: Client) {
 **Good:**
 
 ```ts
-function emailClients(clients: Client) {
+function emailClients(clients: Client[]) {
   clients.filter(isActiveClient).forEach(email);
 }
 
@@ -1032,7 +1032,7 @@ function* fibonacci(): IterableIterator<number> {
 
 function print(n: number) {
   let i = 0;
-  for (const fib in fibonacci()) {
+  for (const fib of fibonacci()) {
     if (i++ === n) break;  
     console.log(fib);
   }  
@@ -1070,7 +1070,7 @@ itiriri(fibonacci())
 ### Use getters and setters
 
 TypeScript supports getter/setter syntax.
-Using getters and setters to access data from objects that encapsulate behavior could be better that simply looking for a property on an object.
+Using getters and setters to access data from objects that encapsulate behavior could be better than simply looking for a property on an object.
 "Why?" you might ask. Well, here's a list of reasons:
 
 - When you want to do more beyond getting an object property, you don't have to look up and change every accessor in your codebase.
@@ -1263,7 +1263,7 @@ class Square implements Shape {
 
 ### Classes should be small
 
-The class' size is measured by it's responsibility. Following the *Single Responsibility principle* a class should be small.
+The class' size is measured by its responsibility. Following the *Single Responsibility principle* a class should be small.
 
 **Bad:**
 
@@ -1686,7 +1686,7 @@ class HttpRequester {
 
 This is a scary term for a very simple concept. It's formally defined as "If S is a subtype of T, then objects of type T may be replaced with objects of type S (i.e., objects of type S may substitute objects of type T) without altering any of the desirable properties of that program (correctness, task performed, etc.)." That's an even scarier definition.  
   
-The best explanation for this is if you have a parent class and a child class, then the base class and child class can be used interchangeably without getting incorrect results. This might still be confusing, so let's take a look at the classic Square-Rectangle example. Mathematically, a square is a rectangle, but if you model it using the "is-a" relationship via inheritance, you quickly get into trouble.
+The best explanation for this is if you have a parent class and a child class, then the parent class and child class can be used interchangeably without getting incorrect results. This might still be confusing, so let's take a look at the classic Square-Rectangle example. Mathematically, a square is a rectangle, but if you model it using the "is-a" relationship via inheritance, you quickly get into trouble.
 
 **Bad:**
 
@@ -2061,9 +2061,9 @@ describe('AwesomeDate', () => {
 
 **[⬆ back to top](#table-of-contents)**
 
-### The name of the test should reveal it's intention
+### The name of the test should reveal its intention
 
-When a test fail, it's name is the first indication of what may have gone wrong.
+When a test fail, its name is the first indication of what may have gone wrong.
 
 **Bad:**
 
@@ -2168,7 +2168,7 @@ Promises supports a few helper methods that help make code more conscise:
 
 ### Async/Await are even cleaner than Promises
 
-With `async`/`await` syntax you can write code that is far cleaner and more understandable that chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
+With `async`/`await` syntax you can write code that is far cleaner and more understandable than chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
 
 **Bad:**
 
@@ -2765,11 +2765,13 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 
 This is also available in other languages:
 - ![br](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Brazilian Portuguese**: [vitorfreitas/clean-code-typescript](https://github.com/vitorfreitas/clean-code-typescript)
+- ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese**: 
+  - [beginor/clean-code-typescript](https://github.com/beginor/clean-code-typescript)
+  - [pipiliang/clean-code-typescript](https://github.com/pipiliang/clean-code-typescript)
+- ![ja](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) **Japanese**: [MSakamaki/clean-code-typescript](https://github.com/MSakamaki/clean-code-typescript)
 
 There is work in progress for translating this to other languages:
 
-- ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) Chinese
-- ![ja](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) Japanese
 - ![kr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/South-Korea.png) Korean
 
 References will be added once translations are completed.  
