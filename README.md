@@ -1199,14 +1199,26 @@ interface Config {
 }
 ```
 
-case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
+Case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
 do not allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the value.
+
+**Bad:**
+
+```ts
+const array: Array<number> = [ 1, 3, 5 ];
+array = []; // error
+array.push(100); // array will updated
+```
+
+**Good:**
 
 ```ts
 const array: ReadonlyArray<number> = [ 1, 3, 5 ];
+array = []; // error
+array.push(100); // error
 ```
 
-declaring read-only arguments in [TypeScript 3.4 is a bit easier](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#improvements-for-readonlyarray-and-readonly-tuples).
+Declaring read-only arguments in [TypeScript 3.4 is a bit easier](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#improvements-for-readonlyarray-and-readonly-tuples).
 
 ```ts
 function hoge(args: readonly string[]) {
@@ -1214,25 +1226,41 @@ function hoge(args: readonly string[]) {
 }
 ```
 
-TypeScript 3.4 introduces a new construct for literal values called [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions).
+Prefer [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) for literal values
 
-- no literal types in that expression should be widened (e.g. no going from "hello" to string)
-- object literals get readonly properties
-- array literals become readonly tuples
+**Bad:**
 
 ```ts
-// can not assign except the "word" string
-let hello = 'world' as const;
-hello = 'world'; // success
-hello = 'world'; // error
+// const object
+const config = {
+  hello: 'world'
+};
+config.hello = 'world'; // value is written
 
+// const array
+const array  = [ 1, 3, 5 ];
+array[0] = 10; // value is written
+
+// writable objects is returned
+function readonlyData(value: number) {
+  return { value };
+}
+const result = readonlyData(100);
+result.value = 200; // value is written
+```
+
+**Good:**
+
+```ts
 // read-only object
 const config = {
   hello: 'world'
 } as const;
+config.hello = 'world'; // error
 
 // read-only array
 const array  = [ 1, 3, 5 ] as const;
+array[0] = 10; // error
 
 // You can return read-only objects
 function readonlyData(value: number) {
