@@ -1199,6 +1199,49 @@ interface Config {
 }
 ```
 
+case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
+do not allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the value.
+
+```ts
+const array: ReadonlyArray<number> = [ 1, 3, 5 ];
+```
+
+declaring read-only arguments in [TypeScript 3.4 is a bit easier](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#improvements-for-readonlyarray-and-readonly-tuples).
+
+```ts
+function hoge(args: readonly string[]) {
+  args.push(1); // error
+}
+```
+
+TypeScript 3.4 introduces a new construct for literal values called [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions).
+
+- no literal types in that expression should be widened (e.g. no going from "hello" to string)
+- object literals get readonly properties
+- array literals become readonly tuples
+
+```ts
+// can not assign except the "word" string
+let hello = 'world' as const;
+hello = 'world'; // success
+hello = 'world'; // error
+
+// read-only object
+const config = {
+  hello: 'world'
+} as const;
+
+// read-only array
+const array  = [ 1, 3, 5 ] as const;
+
+// You can return read-only objects
+function readonlyData(value: number) {
+  return { value } as const;
+}
+const result = readonlyData(100);
+result.value = 200; // error
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ### type vs. interface
