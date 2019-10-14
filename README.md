@@ -5,8 +5,8 @@ Temiz Kod konseptleri TypeScript için uyarlandı.
 
 ## İçindekiler
 
-1. [Giriş](#introduction)
-2. [Değişkenler](#variables)
+1. [Giriş](#giriş)
+2. [Değişkenler](#değişkenler)
 3. [Fonksiyonlar](#functions)
 4. [Obje ve Veri Yapısı](#objects-and-data-structures)
 5. [Claslar](#classes)
@@ -29,20 +29,20 @@ Bu makale bir stil rehberi değildir. Bu makale; TypeScript ile [okunabilir, tek
 Buradaki her ilkenin kesinlikle takip edilmesi gerekmiyor ve hatta daha az bir kısmı evrensel olarak kabul edilecektir.  
 Buradaki bilgiler sadece bir klavuz niteliği taşımaktadır ve bundan daha fazlası değildir ancak önemi; _Clean Code_ yazarlarının yıllarca süren kod yazma tecrübelerinin sonucu ortaya çıkmış olmasıdır.
 
-Yazılım mühendisliği sanatımız 50 yaşından biraz daha fazla ve hâlâ sürekli öğreniyoruz. Yazılım mimarisi, mimarinin kendisi kadar yaşlı olduğunda belki o zaman takip etmesi zor kurallarımız olabilir ama şimdilik bu kılavuz; sizin ve ekibinizin TypeScript kodlarını değerlendirebileceği bir mihenk taşı niteliğinde.
+Yazılım mühendisliği sanatımız 50 yaşından biraz daha fazla ve hâlâ sürekli öğreniyoruz. Yazılım mimarisi, mimarinin kendisi kadar yaşlı olduğunda belki o zaman takip etmesi zor kurallarımız olabilir ama şimdilik bu kılavuzu; sizin ve ekibinizin TypeScript kodlarını değerlendirebileceği bir mihenk taşı niteliğinde kabul edebilirsiniz.
 
 Birşey daha: Bu bilgileri bilmek sizi hemencecik daha iyi bir yazılımcı yapmayacak, hatta bu bilgilerle yıllarca çalışmak da hata yapmayacağınız anlamına gelmiyor.  
 Her bir kod parçası hayatına, ıslak bir kilin son şeklini alırcasına, taslak olarak başlar, en sonunda kusurlar, ekip ile beraber gözden geçirilerek onarılır. Asla zamanının hepsini ilk taslakların daha iyi geliştirilmesi gerektiğini düşünerek harcama, bunun yerine önce koda ve genel yapıya odaklan.
 
-**[⬆ sayfanın başına git](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Değişkenler
 
-### Use meaningful variable names
+### Anlamlı değişken isimleri kullanın
 
-Distinguish names in such a way that the reader knows what the differences offer.
+Değişken isimlerini öyle bir şekilde ayırt edin ki, okuyan kişi değişken isimlerinin neyi ifade ettiğini anlayabilsin.
 
-**Bad:**
+**Kötü:**
 
 ```ts
 function between<T>(a1: T, a2: T, a3: T): boolean {
@@ -50,7 +50,7 @@ function between<T>(a1: T, a2: T, a3: T): boolean {
 }
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 function between<T>(value: T, left: T, right: T): boolean {
@@ -58,13 +58,13 @@ function between<T>(value: T, left: T, right: T): boolean {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Use pronounceable variable names
+### Telaffuzu rahat değişken isimleri kullanın
 
-If you can’t pronounce it, you can’t discuss it without sounding like an idiot.
+Eğer isimleri telaffuz edemezseniz, bir aptal gibi konuşmadan tartışamazsınız.
 
-**Bad:**
+**Kötü:**
 
 ```ts
 type DtaRcrd102 = {
@@ -74,7 +74,7 @@ type DtaRcrd102 = {
 };
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 type Customer = {
@@ -84,11 +84,11 @@ type Customer = {
 };
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Use the same vocabulary for the same type of variable
+### Aynı değişkenler için aynı isimleri kullanmaya çalışın
 
-**Bad:**
+**Kötü:**
 
 ```ts
 function getUserInfo(): User;
@@ -96,26 +96,28 @@ function getUserDetails(): User;
 function getUserData(): User;
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 function getUser(): User;
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Use searchable names
+### Aranması kolay isimler kullanın
 
-We will read more code than we will ever write. It's important that the code we do write is readable and searchable. By _not_ naming variables that end up being meaningful for understanding our program, we hurt our readers. Make your names searchable. Tools like [TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) can help identify unnamed constants.
+Kodumuzu yazmaktan çok okumak için vakit ayıracağız, bu yüzden yazacağımız kodların anlaşılabilir ve istediğimiz zaman kolayca bulunabilir olması çok önemli.  
+Anlamlı bir şekilde isimlendirmesi yapılmamış kodlar, kodları okuyacak kişiler için çok zor bir hâl alacaktır.  
+[TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) gibi araçlar adsız sabitleri tanımlamaya yardımcı olurlar. Örneğin, "86400000" değerinin _TSLint_ sayesinde adlandırılması gerektiğini farkedebilirsiniz.
 
-**Bad:**
+**Kötü:**
 
 ```ts
 // What the heck is 86400000 for?
 setTimeout(restart, 86400000);
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 // Declare them as capitalized named constants.
@@ -124,11 +126,13 @@ const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 setTimeout(restart, MILLISECONDS_IN_A_DAY);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Use explanatory variables
+### Açıklayıcı değişkenler kullanın
 
-**Bad:**
+Örnekte görüldüğü üzere, döngü çıktılarını "keyValue" diyerek tek değişkende toplamak yerine, çıktıların neler olabileceğini "[id, user]" en başta belirtmek kodun anlaşılabilirliği için önemli rol oynayacaktır.
+
+**Kötü:**
 
 ```ts
 declare const users: Map<string, User>;
@@ -138,7 +142,7 @@ for (const keyValue of users) {
 }
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 declare const users: Map<string, User>;
@@ -148,14 +152,14 @@ for (const [id, user] of users) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Avoid Mental Mapping
+### Zihninizde canlanabileceğini düşündüğünüz harf haritalaması yapmaktan kaçının
 
-Explicit is better than implicit.  
-_Clarity is king._
+Açıklayıcı olmak kısaltma yapmaktan her zaman iyidir.  
+_Berraklık en iyisidir._
 
-**Bad:**
+**Kötü:**
 
 ```ts
 const u = getUser();
@@ -163,7 +167,7 @@ const s = getSubscription();
 const t = charge(u, s);
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 const user = getUser();
@@ -171,13 +175,13 @@ const subscription = getSubscription();
 const transaction = charge(user, subscription);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Don't add unneeded context
+### İsimlerde gereksiz uzatmalar yapmayın
 
-If your class/type/object name tells you something, don't repeat that in your variable name.
+Eğer zaten oluşturduğunuz class/type/object isimleri size kendileri hakkında açıklayıcı oluyorlar ise, onlara bağlı olan değişken isimlerinde aynısını tekrar etmeyin, saf değişken isimleri oluşturun.
 
-**Bad:**
+**Kötü:**
 
 ```ts
 type Car = {
@@ -191,7 +195,7 @@ function print(car: Car): void {
 }
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 type Car = {
@@ -205,13 +209,13 @@ function print(car: Car): void {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Use default arguments instead of short circuiting or conditionals
+### Şartlandırmalar yerine varsayılan değerler kullanın
 
-Default arguments are often cleaner than short circuiting.
+Varsayılan değerler, kısa şartlandırmalardan daha temiz bir yapı oluştururlar.
 
-**Bad:**
+**Kötü:**
 
 ```ts
 function loadPages(count?: number) {
@@ -220,7 +224,7 @@ function loadPages(count?: number) {
 }
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 function loadPages(count: number = 10) {
@@ -228,14 +232,13 @@ function loadPages(count: number = 10) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
-### Use enum to document the intent
+### Amacı belgelemek için enum kullanın
 
-Enums can help you document the intent of the code. For example when we are concerned about values being
-different rather than the exact value of those.
+Enum kullanımı kodun amacını belgelemek için size yardımcı olur. Örneğin, girilen değerlerin kesin değerlerinden farklı olacağından endişelendiğimiz bir durumda, enumlar bu endişeyi ortadan kaldırırlar. Aynı şeyi "Kötü" örnekte olduğu gibi yaparsak, "İyi" koda göre fazla tanımlama yapıp okunaklılığı azaltmış oluruz.
 
-**Bad:**
+**Kötü:**
 
 ```ts
 const GENRE = {
@@ -258,7 +261,7 @@ class Projector {
 }
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 enum GENRE {
@@ -281,7 +284,7 @@ class Projector {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Functions
 
@@ -362,7 +365,7 @@ createMenu({
 });
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Functions should do one thing
 
@@ -394,7 +397,7 @@ function isActiveClient(client: Client) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Function names should say what they do
 
@@ -422,7 +425,7 @@ const date = new Date();
 addMonthToDate(date, 1);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Functions should only be one level of abstraction
 
@@ -494,7 +497,7 @@ function parse(tokens: Token[]): SyntaxTree {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Remove duplicate code
 
@@ -585,7 +588,7 @@ function showEmployeeList(employee: Developer | Manager) {
 
 You should be critical about code duplication. Sometimes there is a tradeoff between duplicated code and increased complexity by introducing unnecessary abstraction. When two implementations from two different modules look similar but live in different domains, duplication might be acceptable and preferred over extracting the common code. The extracted common code in this case introduces an indirect dependency between the two modules.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Set default objects with Object.assign or destructuring
 
@@ -664,7 +667,7 @@ createMenu({ body: 'Bar' });
 To avoid any side effects and unexpected behavior by passing in explicitly the `undefined` or `null` value, you can tell the TypeScript compiler to not allow it.
 See [`--strictNullChecks`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#--strictnullchecks) option in TypeScript.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Don't use flags as function parameters
 
@@ -695,7 +698,7 @@ function createFile(name: string) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Avoid Side Effects (part 1)
 
@@ -737,7 +740,7 @@ const encodedName = toBase64(name);
 console.log(name);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Avoid Side Effects (part 2)
 
@@ -769,7 +772,7 @@ function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Don't write to global functions
 
@@ -803,7 +806,7 @@ class MyArray<T> extends Array<T> {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Favor functional programming over imperative programming
 
@@ -866,7 +869,7 @@ const totalOutput = contributions.reduce(
 );
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Encapsulate conditionals
 
@@ -890,7 +893,7 @@ if (canActivateService(subscription, account)) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Avoid negative conditionals
 
@@ -918,7 +921,7 @@ if (!isEmailUsed(node)) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Avoid conditionals
 
@@ -983,7 +986,7 @@ class Cessna extends Airplane {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Avoid type checking
 
@@ -1013,7 +1016,7 @@ function travelToTexas(vehicle: Vehicle) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Don't over-optimize
 
@@ -1037,7 +1040,7 @@ for (let i = 0; i < list.length; i++) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Remove dead code
 
@@ -1070,7 +1073,7 @@ const req = requestModule;
 inventoryTracker('apples', req, 'www.inventory-awesome.io');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Use iterators and generators
 
@@ -1153,7 +1156,7 @@ itiriri(fibonacci())
   .forEach(fib => console.log(fib));
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Objects and Data Structures
 
@@ -1219,7 +1222,7 @@ const account = new BankAccount();
 account.balance = 100;
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Make objects have private/protected members
 
@@ -1261,7 +1264,7 @@ class Circle {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Prefer immutability
 
@@ -1359,7 +1362,7 @@ const result = readonlyData(100);
 result.value = 200; // error
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### type vs. interface
 
@@ -1416,7 +1419,7 @@ class Square implements Shape {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Classes
 
@@ -1493,7 +1496,7 @@ class Dashboard {
 // ...
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### High cohesion and low coupling
 
@@ -1571,7 +1574,7 @@ class UserNotifier {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Prefer composition over inheritance
 
@@ -1632,7 +1635,7 @@ class EmployeeTaxData {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Use method chaining
 
@@ -1714,7 +1717,7 @@ const query = new QueryBuilder()
   .build();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## SOLID
 
@@ -1766,7 +1769,7 @@ class UserSettings {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Open/Closed Principle (OCP)
 
@@ -1857,7 +1860,7 @@ class HttpRequester {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Liskov Substitution Principle (LSP)
 
@@ -1968,7 +1971,7 @@ const shapes = [new Rectangle(4, 5), new Rectangle(4, 5), new Square(5)];
 renderLargeShapes(shapes);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Interface Segregation Principle (ISP)
 
@@ -2049,7 +2052,7 @@ class EconomicPrinter implements Printer {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Dependency Inversion Principle (DIP)
 
@@ -2146,7 +2149,7 @@ const reader = new ReportReader(new JsonFormatter());
 await report = await reader.read('report.json');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Testing
 
@@ -2164,7 +2167,7 @@ There's no excuse to not write tests. There are [plenty of good JS test framewor
 
 3. You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### F.I.R.S.T. rules
 
@@ -2180,7 +2183,7 @@ Clean tests should follow the rules:
 
 - **Timely** unit tests should be written before the production code. If you write tests after the production code, you might find writing tests too hard.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Single concept per test
 
@@ -2230,7 +2233,7 @@ describe('AwesomeDate', () => {
 });
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### The name of the test should reveal its intention
 
@@ -2264,7 +2267,7 @@ describe('Calendar', () => {
 });
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Concurrency
 
@@ -2345,7 +2348,7 @@ Promises supports a few helper methods that help make code more conscise:
 
 `Promise.all` is especially useful when there is a need to run tasks in parallel. `Promise.race` makes it easier to implement things like timeouts for promises.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Async/Await are even cleaner than Promises
 
@@ -2399,7 +2402,7 @@ try {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Error Handling
 
@@ -2466,7 +2469,7 @@ function calculateTotal(items: Item[]): Failable<number, 'empty'> {
 
 For the detailed explanation of this idea refer to the [original post](https://medium.com/@dhruvrajvanshi/making-exceptions-type-safe-in-typescript-c4d200ee78e9).
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Don't ignore caught errors
 
@@ -2502,7 +2505,7 @@ try {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Don't ignore rejected promises
 
@@ -2543,7 +2546,7 @@ try {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Formatting
 
@@ -2614,7 +2617,7 @@ type Container = {
 Prefer using `PascalCase` for class, interface, type and namespace names.  
 Prefer using `camelCase` for variables, functions and class members.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Function callers and callees should be close
 
@@ -2701,7 +2704,7 @@ const review = new PerformanceReview(employee);
 review.review();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Organize imports
 
@@ -2747,7 +2750,7 @@ import { ApiCredentials, Adapters } from './common/api/authorization';
 import { ConfigPlugin } from './plugins/config/configPlugin';
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Use typescript aliases
 
@@ -2781,7 +2784,7 @@ import { UserService } from '@services/UserService';
 ...
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Comments
 
@@ -2811,7 +2814,7 @@ if (isSubscriptionActive) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Don't leave commented out code in your codebase
 
@@ -2837,7 +2840,7 @@ type User = {
 };
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Don't have journal comments
 
@@ -2865,7 +2868,7 @@ function combine(a: number, b: number): number {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### Avoid positional markers
 
@@ -2927,7 +2930,7 @@ class Client {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ### TODO comments
 
@@ -2955,7 +2958,7 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ sayfanın başına git](#İçindekiler)**
 
 ## Translations
 
