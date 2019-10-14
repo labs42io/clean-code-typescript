@@ -18,12 +18,12 @@ Temiz Kod konseptleri TypeScript için uyarlandı.
 11. [Yorum Satırları](#comments)
 12. [Dil Çevirmeleri](#translations)
 
-## Introduction
+## Giriş
 
 ![Humorous image of software quality estimation as a count of how many expletives
 you shout when reading code](https://www.osnews.com/images/comics/wtfm.jpg)
 
-TypeScript için uyarlanmış Robert C. Martin'in [_Clean Code_](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882) adlı kitabından yazılım mühendisliği ilkeleri.  
+TypeScript için uyarlanmış yazılım mühendisliği ilkeleri. Robert C. Martin'in [_Clean Code_](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882) adlı kitabından.  
 Bu makale bir stil rehberi değildir. Bu makale; TypeScript ile [okunabilir, tekrar kullanılabilir, ve geliştirilebilir](https://github.com/ryanmcdermott/3rs-of-software-architecture) yazılım üretebilmenin rehberidir.
 
 Buradaki her ilkenin kesinlikle takip edilmesi gerekmiyor ve hatta daha az bir kısmı evrensel olarak kabul edilecektir.  
@@ -32,7 +32,7 @@ Buradaki bilgiler sadece bir klavuz niteliği taşımaktadır ve bundan daha faz
 Yazılım mühendisliği sanatımız 50 yaşından biraz daha fazla ve hâlâ sürekli öğreniyoruz. Yazılım mimarisi, mimarinin kendisi kadar yaşlı olduğunda belki o zaman takip etmesi zor kurallarımız olabilir ama şimdilik bu kılavuz; sizin ve ekibinizin TypeScript kodlarını değerlendirebileceği bir mihenk taşı niteliğinde.
 
 Birşey daha: Bu bilgileri bilmek sizi hemencecik daha iyi bir yazılımcı yapmayacak, hatta bu bilgilerle yıllarca çalışmak da hata yapmayacağınız anlamına gelmiyor.  
-Her bir kod parçası, ıslak bir kilin son şeklini alırcasına, taslak olarak başlar. En sonunda, kusurları takım arkadaşlarımızla beraber gözden geçirerek budarız. Asla zamanının hepsini, ilk taslakların daha iyi geliştirilmesi gerektiğini düşünerek harcama, bunun yerine önce koda ve genel yapıya odaklan.
+Her bir kod parçası hayatına, ıslak bir kilin son şeklini alırcasına, taslak olarak başlar, en sonunda kusurlar, ekip ile beraber gözden geçirilerek onarılır. Asla zamanının hepsini ilk taslakların daha iyi geliştirilmesi gerektiğini düşünerek harcama, bunun yerine önce koda ve genel yapıya odaklan.
 
 **[⬆ sayfanın başına git](#table-of-contents)**
 
