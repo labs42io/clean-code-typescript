@@ -286,29 +286,31 @@ class Projector {
 
 **[⬆ sayfanın başına git](#İçindekiler)**
 
-## Functions
+## Fonksiyonlar
 
-### Function arguments (2 or fewer ideally)
+### Fonksiyon parametreleri (ideali 2 ya da daha az)
 
-Limiting the amount of function parameters is incredibly important because it makes testing your function easier.
-Having more than three leads to a combinatorial explosion where you have to test tons of different cases with each separate argument.
+Fonksyion parametrelerini limitlemek çok önemlidir, çünkü bu iş, fonksyionların testlerini kolaylaştıracaktır.  
+Bir fonksiyona üçten fazla parametre eklemek, birçok kombinasyonlu durumu test etmenizi gerektirecektir, bu da testlerin zorlaşması anlamına geliyor.
 
-One or two arguments is the ideal case, and three should be avoided if possible. Anything more than that should be consolidated.
-Usually, if you have more than two arguments then your function is trying to do too much.
-In cases where it's not, most of the time a higher-level object will suffice as an argument.
+Mümkünse bir ya da iki parametre en ideal seçim olacaktır.  
+Bundan daha fazlası için, kod içerisinde sağlamlaştırma yapılmalıdır.  
+Genellikle, iki den fazla parametre fonksiyonlarınız ağır çalışmasına sebep olacaktır. Aksi durumlarda, genellikle yüksek seviye bir fonksiyon parametre olarak kullanılır.
 
 Consider using object literals if you are finding yourself needing a lot of arguments.
 
-To make it obvious what properties the function expects, you can use the [destructuring](https://basarat.gitbooks.io/typescript/docs/destructuring.html) syntax.
-This has a few advantages:
+Eğer birden fazla parametreye ihityacınız var ise, alternatif olarak object literallerini kullanmaya çalışın.
 
-1. When someone looks at the function signature, it's immediately clear what properties are being used.
+Fonksiyonların ne tür parametreler beklediğini belirtmek için, [destructuring](https://basarat.gitbooks.io/typescript/docs/destructuring.html) sentakslarını kullanabilirsiniz ve hatta bunun avantajlarından da bahsedelim.
 
-2. Destructuring also clones the specified primitive values of the argument object passed into the function. This can help prevent side effects. Note: objects and arrays that are destructured from the argument object are NOT cloned.
+1. Herhangi biri, fonksiyon satırına baktığı zaman, hangi parametrelerin kullandığını apaçık görecektir.
 
-3. TypeScript warns you about unused properties, which would be impossible without destructuring.
+2. Destructuring işlemi, fonksiyonda belirtilen basit parametrelerin kopyasını oluşturacağından dolayı side effect sorununu önleyecektir.  
+NOT: Destruct yapılan objeler ve arraylar kopyalanmazlar.
 
-**Bad:**
+1. TypeScript, sizi kullanılmayan değişekenler için uyaracaktır ki bu destructing işlemi yapmadan imkansızdır.
+
+**Kötü:**
 
 ```ts
 function createMenu(
@@ -323,7 +325,7 @@ function createMenu(
 createMenu('Foo', 'Bar', 'Baz', true);
 ```
 
-**Good:**
+**İyi:**
 
 ```ts
 function createMenu(options: {
