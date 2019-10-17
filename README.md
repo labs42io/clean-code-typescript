@@ -290,14 +290,12 @@ class Projector {
 
 ### Fonksiyon parametreleri (ideali 2 ya da daha az)
 
-Fonksyion parametrelerini limitlemek çok önemlidir, çünkü bu iş, fonksyionların testlerini kolaylaştıracaktır.  
+Fonksiyon parametrelerini limitlemek çok önemlidir, çünkü bu iş, fonksyionların testlerini kolaylaştıracaktır.  
 Bir fonksiyona üçten fazla parametre eklemek, birçok kombinasyonlu durumu test etmenizi gerektirecektir, bu da testlerin zorlaşması anlamına geliyor.
 
 Mümkünse bir ya da iki parametre en ideal seçim olacaktır.  
 Bundan daha fazlası için, kod içerisinde sağlamlaştırma yapılmalıdır.  
-Genellikle, iki den fazla parametre fonksiyonlarınız ağır çalışmasına sebep olacaktır. Aksi durumlarda, genellikle yüksek seviye bir fonksiyon parametre olarak kullanılır.
-
-Consider using object literals if you are finding yourself needing a lot of arguments.
+Genellikle iki den fazla parametre fonksiyonlarınızın ağır çalışmasına sebep olacaktır. Aksi durumlarda, yüksek seviye bir fonksiyon parametre olarak kullanılabilir.
 
 Eğer birden fazla parametreye ihityacınız var ise, alternatif olarak object literallerini kullanmaya çalışın.
 
@@ -306,9 +304,9 @@ Fonksiyonların ne tür parametreler beklediğini belirtmek için, [destructurin
 1. Herhangi biri, fonksiyon satırına baktığı zaman, hangi parametrelerin kullandığını apaçık görecektir.
 
 2. Destructuring işlemi, fonksiyonda belirtilen basit parametrelerin kopyasını oluşturacağından dolayı side effect sorununu önleyecektir.  
-NOT: Destruct yapılan objeler ve arraylar kopyalanmazlar.
+   NOT: Destruct yapılan objeler ve arraylar kopyalanmazlar.
 
-1. TypeScript, sizi kullanılmayan değişekenler için uyaracaktır ki bu destructing işlemi yapmadan imkansızdır.
+3. TypeScript, sizi kullanılmayan değişekenler için uyaracaktır ki bu destructing işlemi yapmadan imkansızdır.
 
 **Kötü:**
 
@@ -345,7 +343,7 @@ createMenu({
 });
 ```
 
-You can further improve readability by using [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-aliases):
+Okunabilirliği artırmak için [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-aliases) kullanabilirsiniz:
 
 ```ts
 type MenuOptions = {
@@ -369,7 +367,7 @@ createMenu({
 
 **[⬆ sayfanın başına git](#İçindekiler)**
 
-### Functions should do one thing
+### Fonksiyonlar tek bir iş yapmalıdır
 
 This is by far the most important rule in software engineering. When functions do more than one thing, they are harder to compose, test, and reason about. When you can isolate a function to just one action, they can be refactored easily and your code will read much cleaner. If you take nothing else away from this guide other than this, you'll be ahead of many developers.
 
