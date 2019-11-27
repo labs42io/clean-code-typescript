@@ -372,7 +372,7 @@ function addToDate(date: Date, month: number): Date {
 
 const date = new Date();
 
-// It's hard to tell from the function name what is added
+// É difícil dizer pelo nome da função o que será adicionado
 addToDate(date, 1);
 ```
 
