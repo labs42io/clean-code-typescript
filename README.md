@@ -124,7 +124,7 @@ Nós vamos ler mais código do que escrever. É importante que o código que esc
 **Ruim:**
 
 ```ts
-// What the heck is 86400000 for?
+// O que diabos é 86400000?
 setTimeout(restart, 86400000);
 ```
 
