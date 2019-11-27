@@ -188,8 +188,6 @@ const transaction = charge(user, subscription);
 
 ### Não adicione contextos desnecessários
 
-If your class/object name tells you something, don't repeat that in your variable name.
-
 Se o nome da sua classe/objeto expressa algo, não repita isso no nome da variável.
 
 **Ruim:**
