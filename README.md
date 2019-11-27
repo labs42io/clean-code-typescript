@@ -266,9 +266,9 @@ Aqui vão algumas vantagens:
 
 1. Quando alguém olhar a assinatura da função, imediatamente será claro quais propriedades estão sendo usadas.
 
-2. Desestruturação também clone os valores primitivos especificados do objeto passado como argumento para a função. Isso ajuda a evitar efeitos colaterais. Nota: Objetos e Arrays que são desestruturados do objeto _argument_ não são clonados.
+2. Desestruturação também clona os valores primitivos especificados do objeto passado como argumento para a função. Isso ajuda a evitar efeitos colaterais. Nota: Objetos e Arrays que são desestruturados do objeto _argument_ não são clonados.
 
-3. TypeScript irá te avisar quando haver propriedades não utilizadas, o que seria impossivel sem usar desestruturação.
+3. TypeScript irá te avisar quando houver propriedades não utilizadas, o que seria impossivel sem usar desestruturação.
 
 **Ruim:**
 
