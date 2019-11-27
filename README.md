@@ -249,7 +249,7 @@ function loadPages(count: number = 10) {
 
 Limitar a quantidade de parametros de uma função é incrivelmente importantante
 porque isso torna sua função fácil de testar.
-Ter mais de três de leva em uma explosão onde você tem que testar vários
+Ter mais de três leva a uma explosão combinatória onde você tem que testar vários
 casos diferentes, com argumentos separados.
 
 Um ou dois argumentos é o caso ideal, e três deve ser evitado se possível.
