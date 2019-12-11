@@ -1,52 +1,51 @@
 # clean-code-typescript [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Clean%20Code%20Typescript&url=https://github.com/labs42io/clean-code-typescript)
 
-Clean Code concepts adapted for TypeScript.  
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
+Концепции чистого кода адаптированные для TypeScript, вдохновленные [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
 
-## Table of Contents
+Оригинал на английском [clean-code-typescript](https://github.com/labs42io/clean-code-typescript)
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-  3. [Functions](#functions)
-  4. [Objects and Data Structures](#objects-and-data-structures)
-  5. [Classes](#classes)
+*У переводчика не идеальные знания английского, указывайте пожалуйста на ошибки!*
+
+## Содержание
+
+  1. [Введение](#introduction)
+  2. [Переменные](#variables)
+  3. [Функции](#functions)
+  4. [Объекты и структуры данных](#objects-and-data-structures)
+  5. [Классы](#classes)
   6. [SOLID](#solid)
-  7. [Testing](#testing)
-  8. [Concurrency](#concurrency)
-  9. [Error Handling](#error-handling)
-  10. [Formatting](#formatting)
-  11. [Comments](#comments)
-  12. [Translations](#translations)
+  7. [Тестирование](#testing)
+  8. [Асинхронность](#concurrency)
+  9. [Обработка ошибок](#error-handling)
+  10. [Форматирование](#formatting)
+  11. [Комментарии](#comments)
+  12. [Переводы](#translations)
 
-## Introduction
+## Введение
 
 ![Humorous image of software quality estimation as a count of how many expletives
 you shout when reading code](https://www.osnews.com/images/comics/wtfm.jpg)
 
-Software engineering principles, from Robert C. Martin's book
+Инженерные принципы ПО, из книги Robert C. Martin'
 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for TypeScript. This is not a style guide. It's a guide to producing
-[readable, reusable, and refactorable](https://github.com/ryanmcdermott/3rs-of-software-architecture) software in TypeScript.
+адаптированные для TypeScript. Это не руководство по стилю. Это руководство по написанию
+[читаемого, переиспользуемого и пригодного для рефакторинга](https://github.com/ryanmcdermott/3rs-of-software-architecture) кода на TypeScript.
 
-Not every principle herein has to be strictly followed, and even fewer will be
-universally agreed upon. These are guidelines and nothing more, but they are
-ones codified over many years of collective experience by the authors of
-*Clean Code*.
+Не каждый принцип описанный здесь должен строго соблюдаться и еще меньше получать
+всеобщего признаний. Это принципы и ни чего более, оно они накапливались в течение
+многих лет с опытом коллектива авторов *Чистого Кода*
 
-Our craft of software engineering is just a bit over 50 years old, and we are
-still learning a lot. When software architecture is as old as architecture
-itself, maybe then we will have harder rules to follow. For now, let these
-guidelines serve as a touchstone by which to assess the quality of the
-TypeScript code that you and your team produce.
+Ремеслу по написанию программного обеспечения чуть более 50 лет, но мы все еще многому учимся.
+Когда программная архитектура постареет до возрастра самой архитектуры, быть может тогда у нас
+появятся жесткие правила которым необходимо следовать. А сейчас пусть это служит критериями,
+с помощью которого вы будете оценивать качество вашего TypeScript кода и вашей команды. 
 
-One more thing: knowing these won't immediately make you a better software
-developer, and working with them for many years doesn't mean you won't make
-mistakes. Every piece of code starts as a first draft, like wet clay getting
-shaped into its final form. Finally, we chisel away the imperfections when
-we review it with our peers. Don't beat yourself up for first drafts that need
-improvement. Beat up the code instead!
+И еще одна вещь: знание этих принципов не делает вас сразу лучшим разработчиком ПО, а их использование в
+течение многих лет не гарантирует, что вы не будете совершать ошибки. Каждый кусок кода начинается как
+черновик, как мокрый кусок глины который только постеменно приобретает свою форму. Не упрекайте себя при
+первых набросках кода, которые нуждаются в улучшении. Улучшайте код вместо этого!
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ Вернуться в начало](#table-of-contents)**
 
 ## Variables
 
