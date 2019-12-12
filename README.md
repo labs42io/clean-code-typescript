@@ -8,7 +8,7 @@
 
 ## Содержание
 
-  1. [Введение](#introduction)
+  1. [Введение](#введение)
   2. [Переменные](#variables)
   3. [Функции](#functions)
   4. [Объекты и структуры данных](#objects-and-data-structures)
@@ -45,15 +45,15 @@ you shout when reading code](https://www.osnews.com/images/comics/wtfm.jpg)
 черновик, как мокрый кусок глины который только постеменно приобретает свою форму. Не упрекайте себя при
 первых набросках кода, которые нуждаются в улучшении. Улучшайте код вместо этого!
 
-**[⬆ Вернуться в начало](#table-of-contents)**
+**[⬆ Вернуться в начало](#содержание)**
 
-## Variables
+## Переменные
 
-### Use meaningful variable names
+### Используйте выразительные имена переменных
 
-Distinguish names in such a way that the reader knows what the differences offer.
+Различайте имена таким образом, чтобы читатель знал что они означают.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function between<T>(a1: T, a2: T, a3: T): boolean {
@@ -62,7 +62,7 @@ function between<T>(a1: T, a2: T, a3: T): boolean {
 
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function between<T>(value: T, left: T, right: T): boolean {
@@ -70,13 +70,13 @@ function between<T>(value: T, left: T, right: T): boolean {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Use pronounceable variable names
+### Используйте произносительные имена переменных
 
-If you can’t pronounce it, you can’t discuss it without sounding like an idiot.
+Если вы не можете произносить их, вы не можете обсуждать их не выглядя как идиот.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 type DtaRcrd102 = {
@@ -86,7 +86,7 @@ type DtaRcrd102 = {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 type Customer = {
@@ -96,11 +96,11 @@ type Customer = {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Use the same vocabulary for the same type of variable
+### Используйте один и тот же словарь для одних и тех же типов переменных
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function getUserInfo(): User;
@@ -108,26 +108,30 @@ function getUserDetails(): User;
 function getUserData(): User;
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function getUser(): User;
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Use searchable names
+### Используйте имена, доступные для поиска 
 
-We will read more code than we will ever write. It's important that the code we do write is readable and searchable. By *not* naming variables that end up being meaningful for understanding our program, we hurt our readers. Make your names searchable. Tools like [TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) can help identify unnamed constants.
+Мы читаем больще кода, чем пишем. Это важно чтобы код, который мы пишем, был читаемым и достумным для поиска.
+Не называйте переменные, которые в конечном итое имеют смысл только для наших программ мы вредим нашим читателям.
+Делайте ваши имена доступными для поиска.
+Такие инструменты, как [TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) и [ESLint](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-magic-numbers.md)
+могут помочь идентифицировать не названные константы.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 // What the heck is 86400000 for?
 setTimeout(restart, 86400000);
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 // Declare them as capitalized named constants.
@@ -136,11 +140,11 @@ const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 setTimeout(restart, MILLISECONDS_IN_A_DAY);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Use explanatory variables
+### Используйте объясняющие переменные
 
-**Bad:**
+**Плохо:**
 
 ```ts
 declare const users: Map<string, User>;
@@ -150,7 +154,7 @@ for (const keyValue of users) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 declare const users: Map<string, User>;
@@ -160,14 +164,14 @@ for (const [id, user] of users) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Avoid Mental Mapping
+### Избегайте ментальных связей
 
-Explicit is better than implicit.  
-*Clarity is king.*
+Явное лучше, чем неявное. 
+*Ясность - это король.*
 
-**Bad:**
+**Плохо:**
 
 ```ts
 const u = getUser();
@@ -175,7 +179,7 @@ const s = getSubscription();
 const t = charge(u, s);
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 const user = getUser();
@@ -183,13 +187,13 @@ const subscription = getSubscription();
 const transaction = charge(user, subscription);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Don't add unneeded context
+### Не добавляйте не нужный контекст
 
-If your class/type/object name tells you something, don't repeat that in your variable name.
+Если имя вашего класса/типа/объекта говорит само за себя, не повторяйте его в вашем именни переменной.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 type Car = {
@@ -203,7 +207,7 @@ function print(car: Car): void {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 type Car = {
@@ -217,13 +221,13 @@ function print(car: Car): void {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Use default arguments instead of short circuiting or conditionals
+### Используйте аргументы по умолчанию вместо замыканий или вычислений
 
-Default arguments are often cleaner than short circuiting.
+Аргументы по умолчанию часто чище, чем короткое вычисление.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function loadPages(count?: number) {
@@ -232,7 +236,7 @@ function loadPages(count?: number) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function loadPages(count: number = 10) {
@@ -240,14 +244,14 @@ function loadPages(count: number = 10) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Use enum to document the intent
+### Используйте enum дл документирования
 
-Enums can help you document the intent of the code. For example when we are concerned about values being
-different rather than the exact value of those.
+Enam'ы могут помочь документированию вашего кода. Например когда мы обеспокоены, что наши переменные
+отличаются от значений.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 const GENRE = {
@@ -270,7 +274,7 @@ class Projector {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 enum GENRE {
@@ -293,9 +297,9 @@ class Projector {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-## Functions
+## Функции
 
 ### Function arguments (2 or fewer ideally)
 
