@@ -301,27 +301,31 @@ class Projector {
 
 ## Функции
 
-### Function arguments (2 or fewer ideally)
+### Аргументы функции (идеально два или меньше)
 
-Limiting the amount of function parameters is incredibly important because it makes testing your function easier.
-Having more than three leads to a combinatorial explosion where you have to test tons of different cases with each separate argument.  
+Ограничение колличества парамметров функции невероятно важно, потому что это делает тестирование ваших
+функций проще. Наличие более 3-х аргументов приводит к комбинаторному взрыву, где вы должны протестировать
+множество вариантов с каждым отдельным аргументом
 
-One or two arguments is the ideal case, and three should be avoided if possible. Anything more than that should be consolidated.
-Usually, if you have more than two arguments then your function is trying to do too much.
-In cases where it's not, most of the time a higher-level object will suffice as an argument.  
+Один или два аргумента это идеальный случай, а три и более следует избегать, если это возможно.
+Большое колличество аргументов лучше объеденять. Обычно если вы используете более двух аргументов, то ваша функция пытается
+делать слишком много. В случаях когда это не так, то лучше использовать объект верхнего уровня. 
 
-Consider using object literals if you are finding yourself needing a lot of arguments.  
+Подумайте о том чтобы использовать объектные литералы, если вам необходимо много аргументов.
 
-To make it obvious what properties the function expects, you can use the [destructuring](https://basarat.gitbooks.io/typescript/docs/destructuring.html) syntax.
-This has a few advantages:
+Для того чтобы вы знали какие параметры ожидает функция, вы можете использовать
+[синтаксис деструктуризации](https://basarat.gitbooks.io/typescript/docs/destructuring.html).
 
-1. When someone looks at the function signature, it's immediately clear what properties are being used.
+Он имеет несколько преимуществ:
 
-2. Destructuring also clones the specified primitive values of the argument object passed into the function. This can help prevent side effects. Note: objects and arrays that are destructured from the argument object are NOT cloned.
+1. Когда кто-то смотрит на синатуру функции, то сразу становится понятка какие свойства она использует.
 
-3. TypeScript warns you about unused properties, which would be impossible without destructuring.
+2. Деструктуризация также клонирует примитивные значения аргумента-объекта переданного в функцию.
+ Это помогает избежать сайд эффекта. Заметка: объекты и массивы которые деструктурированы из аргумента-объекта не клонируются.
 
-**Bad:**
+3. TypeScript предупреждает о неиспользуемых свойствах, это было бы не возможно без деструктуризации.
+
+**Плохо:**
 
 ```ts
 function createMenu(title: string, body: string, buttonText: string, cancellable: boolean) {
@@ -331,7 +335,7 @@ function createMenu(title: string, body: string, buttonText: string, cancellable
 createMenu('Foo', 'Bar', 'Baz', true);
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function createMenu(options: { title: string, body: string, buttonText: string, cancellable: boolean }) {
@@ -346,7 +350,7 @@ createMenu({
 });
 ```
 
-You can further improve readability by using [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-aliases):
+Вы можете еще больше повысить читаемость, если будете использовать [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-aliases):
 
 ```ts
 
@@ -364,13 +368,16 @@ createMenu({
 });
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Functions should do one thing
+### Функции должны выполнять одну задачу
 
-This is by far the most important rule in software engineering. When functions do more than one thing, they are harder to compose, test, and reason about. When you can isolate a function to just one action, they can be refactored easily and your code will read much cleaner. If you take nothing else away from this guide other than this, you'll be ahead of many developers.
+Это одно из самых важных правил в разработке ПО. Когда функции решают больше одной задачи,
+их труднее объеденять, тестировать. Если вы сможете изолировать функцию так чтобы она выполняла только одну задачу,
+  в дальнейшем она может быть легко переработана, а ваш код будет чище. Если вы запомните только это правило из этого
+  руководства, то вы уже будете лучще многих разработчиков.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function emailClients(clients: Client[]) {
@@ -383,7 +390,7 @@ function emailClients(clients: Client[]) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function emailClients(clients: Client[]) {
@@ -396,11 +403,11 @@ function isActiveClient(client: Client) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Function names should say what they do
+### Название функций должны говорить что они делают
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function addToDate(date: Date, month: number): Date {
@@ -413,7 +420,7 @@ const date = new Date();
 addToDate(date, 1);
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function addMonthToDate(date: Date, month: number): Date {
@@ -424,7 +431,7 @@ const date = new Date();
 addMonthToDate(date, 1);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Functions should only be one level of abstraction
 
