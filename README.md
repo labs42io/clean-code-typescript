@@ -405,7 +405,7 @@ function isActiveClient(client: Client) {
 
 **[⬆ back to top](#содержание)**
 
-### Название функций должны говорить что они делают
+### Название функций должны описывать что они делают
 
 **Плохо:**
 
@@ -433,11 +433,12 @@ addMonthToDate(date, 1);
 
 **[⬆ back to top](#содержание)**
 
-### Functions should only be one level of abstraction
+### Функции должны иметь один уровень абстракции
 
-When you have more than one level of abstraction your function is usually doing too much. Splitting up functions leads to reusability and easier testing.
+Если у вас больще одного уровня абстракции, то обычно эта функция делает слишком мноое. Разделение функций дает возможность
+переиспользования и простого тестирования.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function parseCode(code: string) {
@@ -462,7 +463,7 @@ function parseCode(code: string) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 const REGEXES = [ /* ... */ ];
@@ -499,22 +500,26 @@ function parse(tokens: Token[]): SyntaxTree {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Remove duplicate code
+### Удаляйте дублированный код
 
-Do your absolute best to avoid duplicate code.
-Duplicate code is bad because it means that there's more than one place to alter something if you need to change some logic.  
+Делайте все возможное для избежания дублирования кода.
+Дублирование кода плохо, тем что если вам придется править логику, её придется править в нескольких местах.  
 
-Imagine if you run a restaurant and you keep track of your inventory: all your tomatoes, onions, garlic, spices, etc.
-If you have multiple lists that you keep this on, then all have to be updated when you serve a dish with tomatoes in them.
-If you only have one list, there's only one place to update!  
+Представьте если вы открыли ресторан и ведете учет ваших продуктов: всех ваших томатов, лука, чеснока, специй и д.р..
+Если у вас закажут блюда из томатов то вам придется вносить изменения во все ваши списки. Если список будет только один
+то и править нужно будет только его.
 
-Oftentimes you have duplicate code because you have two or more slightly different things, that share a lot in common, but their differences force you to have two or more separate functions that do much of the same things. Removing duplicate code means creating an abstraction that can handle this set of different things with just one function/module/class.  
+Часто вы дублируете код из-за того что когда вам требуется реализовать два и более незначительно различающихся действий,
+которые очень похожи, но их различия заставляют вас завести несколько функций, делающий практически одно и тоже. Удаление
+дублирующихся частей кода, означает создание абстракции, обрабатывающий разную логику с помощью всего одной функции/модуля/класса.
 
-Getting the abstraction right is critical, that's why you should follow the [SOLID](#solid) principles. Bad abstractions can be worse than duplicate code, so be careful! Having said this, if you can make a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself updating multiple places anytime you want to change one thing.
+Получение абстракции имеет важное значение, поэтому вы должны следовать принципам [SOLID](#solid). Плохие абстракции могут
+оказаться хуже дублирующего кода, будьте осторожны! Если вы можете сделать хорошую абстракцию делайте. Не повторяйте себя
+в противном случае вы можете обнаружить себя вносящим изменения в разные места, для одной единственной логики.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function showDeveloperList(developers: Developer[]) {
@@ -550,7 +555,7 @@ function showManagerList(managers: Manager[]) {
 }
 ```
 
-**Good:**
+**Хорощо:**
 
 ```ts
 class Developer {
@@ -588,13 +593,16 @@ function showEmployeeList(employee: Developer | Manager) {
 }
 ```
 
-You should be critical about code duplication. Sometimes there is a tradeoff between duplicated code and increased complexity by introducing unnecessary abstraction. When two implementations from two different modules look similar but live in different domains, duplication might be acceptable and preferred over extracting the common code. The extracted common code in this case introduces an indirect dependency between the two modules.
+Вы должны критически относиться к дублированию кода. Иногда существует компромисс между дублированием кода и увеличением
+сложности, вводя новую абстракцию. Когда две реализации из двух разных модулей выглядят одинаково, но существуют в разных
+доменах, дублирование может быть приемлемым и предпочтительным вариантом, нежели объеденений в общий код. Перенос логики
+в общий код, вводит косвенную зависимость между двумя модулями.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Set default objects with Object.assign or destructuring
+### Устанавливайте объекты по умолчанию с помощью Object.assign или деструктуризации
 
-**Bad:**
+**Плохо:**
 
 ```ts
 type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
@@ -611,7 +619,7 @@ function createMenu(config: MenuConfig) {
 createMenu({ body: 'Bar' });
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
@@ -630,7 +638,7 @@ function createMenu(config: MenuConfig) {
 createMenu({ body: 'Bar' });
 ```
 
-Alternatively, you can use destructuring with default values:
+Кроме того можно использовать деструктуризацию со значениями по умолчанию:
 
 ```ts
 type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
@@ -642,17 +650,18 @@ function createMenu({ title = 'Foo', body = 'Bar', buttonText = 'Baz', cancellab
 createMenu({ body: 'Bar' });
 ```
 
-To avoid any side effects and unexpected behavior by passing in explicitly the `undefined` or `null` value, you can tell the TypeScript compiler to not allow it.
-See [`--strictNullChecks`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#--strictnullchecks) option in TypeScript.
+Чтобы избежать каких-либо побочных эффектов и неожиданноо поведения передавая явно `undefined` или `null` вы можете сказать
+компилятору TypeScript чтобы он не разрешал этого.
+Смотрите [`--strictNullChecks`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#--strictnullchecks) опция для TypeScript.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Don't use flags as function parameters
+### Не используйте флаги в качестве параметров функции
 
-Flags tell your user that this function does more than one thing.
-Functions should do one thing. Split out your functions if they are following different code paths based on a boolean.
+Флаги говорят пользователю, что функция совершает более одного действия. Функция должна решать одну задачу.
+Разделяйте функции, если они исполняют различные варианты кода на основе логического значения.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function createFile(name: string, temp: boolean) {
@@ -664,7 +673,7 @@ function createFile(name: string, temp: boolean) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function createTempFile(name: string) {
@@ -676,20 +685,24 @@ function createFile(name: string) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Avoid Side Effects (part 1)
+### Избегайте побочных эффектов (часть 1)
 
-A function produces a side effect if it does anything other than take a value in and return another value or values.
-A side effect could be writing to a file, modifying some global variable, or accidentally wiring all your money to a stranger.  
+Функция производит побочный эффект, если она совершает какое-либо действие помимо получения значения и
+возврата другого значения или значений. Побочный эффект может быть записью в файл, изменением каких-то
+глобальных переменных или случайным переводом всех ваших денег неизвестным лицам.
+  
+Впрочем, побочные эффекты в программе необходимы. Пусть, как и в предыдущем примере, вам требуется запись в файл.
+Опишите то, что вы хотите сделать, строго в одном месте. Не создавайте несколько функций и классов, которые пишут что-то
+в конкретный файл. Создайте один сервис, который всем этим занимается. Один и только один.
 
-Now, you do need to have side effects in a program on occasion. Like the previous example, you might need to write to a file.
-What you want to do is to centralize where you are doing this. Don't have several functions and classes that write to a particular file.
-Have one service that does it. One and only one.  
+Суть в том, чтобы избегать распространенных ошибок, таких как, например, передача состояния между объектами
+без какой-либо структуры, с помощью изменяемых данных, которые может перезаписывать кто угодно, в обход
+централизованного места применения побочных эффектов. Если научитесь так делать, вы станете счастливее, чем подавляющее
+большинство других программистов.
 
-The main point is to avoid common pitfalls like sharing state between objects without any structure, using mutable data types that can be written to by anything, and not centralizing where your side effects occur. If you can do this, you will be happier than the vast majority of other programmers.
-
-**Bad:**
+**Плохо:**
 
 ```ts
 // Global variable referenced by following function.
@@ -705,7 +718,7 @@ toBase64();
 console.log(name); // expected to print 'Robert C. Martin' but instead 'Um9iZXJ0IEMuIE1hcnRpbg=='
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 const name = 'Robert C. Martin';
@@ -718,7 +731,7 @@ const encodedName = toBase64(name);
 console.log(name);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Avoid Side Effects (part 2)
 
