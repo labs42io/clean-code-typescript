@@ -733,21 +733,33 @@ console.log(name);
 
 **[⬆ back to top](#содержание)**
 
-### Avoid Side Effects (part 2)
+### Избегайте побочных эффектов (Часть 2)
 
-In JavaScript, primitives are passed by value and objects/arrays are passed by reference. In the case of objects and arrays, if your function makes a change in a shopping cart array, for example, by adding an item to purchase, then any other function that uses that `cart` array will be affected by this addition. That may be great, however it can be bad too. Let's imagine a bad situation:  
+В JavaScript примитивы передаются по значению, а объекты и массивы передаются по ссылке. В случае объектов или массивов,
+если ваша функция вносит изменения в корзину покупок(массив), например при добавлении элемента в массив, то любая другая
+функция использующаяя `корзину` массив будет зависеть от этого добавления. Это может быть как хорошо, так и плохо. Давайте
+представим плохую ситуации:
 
-The user clicks the "Purchase", button which calls a `purchase` function that spawns a network request and sends the `cart` array to the server. Because of a bad network connection, the purchase function has to keep retrying the request. Now, what if in the meantime the user accidentally clicks "Add to Cart" button on an item they don't actually want before the network request begins? If that happens and the network request begins, then that purchase function will send the accidentally added item because it has a reference to a shopping cart array that the `addItemToCart` function modified by adding an unwanted item.  
+Пользователь нажимает кнопку "Купить" вызывующюю функцию `purchase` которая делает сетевой запрос и отправляет `корзину`
+массив на сервер. Если происходит плохое подключение к сети функция должна отправить повторный запрос. Теперь, если пользователь
+случайно нажимает на кнопку "Добавить в корзину", но пока не хочет покупать товар? Если это произойдет и в этот момент начнется
+запрос на сервер, то функция purchase отправит случайно добавленный элемент, так как он имеет ссылку на корзину покупок,
+котора была изменена функцией `addItemToCart`. Путем добавления нежелательного элемента.
 
-A great solution would be for the `addItemToCart` to always clone the `cart`, edit it, and return the clone. This ensures that no other functions that are holding onto a reference of the shopping cart will be affected by any changes.  
+Хорошим бы рещением было бы что бы функция `addItemToCart` всегда клонировала бы массив `cart` редактировала его и
+возвращала клон. Это бы гарантировало, что никакие другие функции, использующие ссылку на массив корзины покупок,
+не будут затронуты какими-либо изменениями.  
 
-Two caveats to mention to this approach:
+Два предостережения по-поводу такого подхода:
 
-1. There might be cases where you actually want to modify the input object, but when you adopt this programming practice you will find that those cases are pretty rare. Most things can be refactored to have no side effects! (see [pure function](https://en.wikipedia.org/wiki/Pure_function))
+1. Возможны случаи, когда вы на самом деле хотите изменить объект по ссылке, но такие случаи крайне редки.
+Большинство функций могут быть объявлены без сайд эффектов! (Смотрите [pure function](https://en.wikipedia.org/wiki/Pure_function))
 
-2. Cloning big objects can be very expensive in terms of performance. Luckily, this isn't a big issue in practice because there are great libraries that allow this kind of programming approach to be fast and not as memory intensive as it would be for you to manually clone objects and arrays.
+2.Клонирование больших объектов может быть очень нагрузочным и влиять на производительность. К счастью, это не является
+большой проблемой на практике, потому что есть отличные библиотеки, которые позволяют клонировать объекты с меньшей
+нагрузкой на память в отличии от клонирования вручную.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function addItemToCart(cart: CartItem[], item: Item): void {
@@ -755,7 +767,7 @@ function addItemToCart(cart: CartItem[], item: Item): void {
 };
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
@@ -767,7 +779,12 @@ function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
 
 ### Don't write to global functions
 
-Polluting globals is a bad practice in JavaScript because you could clash with another library and the user of your API would be none-the-wiser until they get an exception in production. Let's think about an example: what if you wanted to extend JavaScript's native Array method to have a `diff` method that could show the difference between two arrays? You could write your new function to the `Array.prototype`, but it could clash with another library that tried to do the same thing. What if that other library was just using `diff` to find the difference between the first and last elements of an array? This is why it would be much better to just use classes and simply extend the `Array` global.
+Polluting globals is a bad practice in JavaScript because you could clash with another library and the user of your API
+ would be none-the-wiser until they get an exception in production. Let's think about an example: what if you wanted
+  to extend JavaScript's native Array method to have a `diff` method that could show the difference between two arrays?
+   You could write your new function to the `Array.prototype`, but it could clash with another library that tried to do 
+   the same thing. What if that other library was just using `diff` to find the difference between the first and last 
+   elements of an array? This is why it would be much better to just use classes and simply extend the `Array` global.
 
 **Bad:**
 
