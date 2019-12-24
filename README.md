@@ -775,18 +775,19 @@ function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
 };
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Don't write to global functions
+### Не пешите глобальные функции
 
-Polluting globals is a bad practice in JavaScript because you could clash with another library and the user of your API
- would be none-the-wiser until they get an exception in production. Let's think about an example: what if you wanted
-  to extend JavaScript's native Array method to have a `diff` method that could show the difference between two arrays?
-   You could write your new function to the `Array.prototype`, but it could clash with another library that tried to do 
-   the same thing. What if that other library was just using `diff` to find the difference between the first and last 
-   elements of an array? This is why it would be much better to just use classes and simply extend the `Array` global.
+Загрязнение глобальных переменных — плохая практика в JavaScript, так как может породить конфликты с другой библиотекой,
+и пользователь вашего API не увидит ошибок, пока не получит исключение в продакшене. Давайте рассмотрим пример:
+что если вы хотите расширить стандартный метод Array JavaScript, имея метод `diff` который бы вычислял различие между
+двумя массивами? Вы должны были бы записать новую функцию в `Array.prototype`, но тогда она может войти в конфликт 
+с другой библиотекой, которая пыталась сделать то же самое. Что если другая библиотека использовала метод `diff`,
+чтобы найти разницу между первым и последним элементами массива? В этом случае лучше использовать классы и просто
+сделать наследование от глобального `Array`.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 declare global {
@@ -803,7 +804,7 @@ if (!Array.prototype.diff) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class MyArray<T> extends Array<T> {
@@ -814,13 +815,13 @@ class MyArray<T> extends Array<T> {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Favor functional programming over imperative programming
+### Предпочтение функциональное программирование над императивным
 
-Favor this style of programming when you can.
+Отдавайте предпочтение этому стилю программирования, когда можете.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 const contributions = [
@@ -846,7 +847,7 @@ for (let i = 0; i < contributions.length; i++) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 const contributions = [
@@ -869,11 +870,11 @@ const totalOutput = contributions
   .reduce((totalLines, output) => totalLines + output.linesOfCode, 0);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Encapsulate conditionals
+### Инкапсулируйте условия
 
-**Bad:**
+**Плохо:**
 
 ```ts
 if (subscription.isTrial || account.balance > 0) {
@@ -881,7 +882,7 @@ if (subscription.isTrial || account.balance > 0) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function canActivateService(subscription: Subscription, account: Account) {
@@ -893,11 +894,11 @@ if (canActivateService(subscription, account)) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Avoid negative conditionals
+### Избегайте негативных условий
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function isEmailNotUsed(email: string): boolean {
@@ -909,7 +910,7 @@ if (isEmailNotUsed(email)) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function isEmailUsed(email): boolean {
@@ -921,13 +922,18 @@ if (!isEmailUsed(node)) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Avoid conditionals
+### Избегайте условных операторов
 
-This seems like an impossible task. Upon first hearing this, most people say, "how am I supposed to do anything without an `if` statement?" The answer is that you can use polymorphism to achieve the same task in many cases. The second question is usually, "well that's great but why would I want to do that?" The answer is a previous clean code concept we learned: a function should only do one thing. When you have classes and functions that have `if` statements, you are telling your user that your function does more than one thing. Remember, just do one thing.
+Эта задача кажется невозможной. Большинство людей, впервые услышав это, говорят, "как я должен делать что-либо без
+выражения `if`?". Ответ заключается в том, что во многих случаях для достижения тех же целей можно использовать
+полиморфизм. Второй вопро обычно, "хорошо, замечательно, но почему я должен их избегать?" Ответ, предыдущая концепция
+чистого кода, которую вы узнали: функция должна выполнять только одну задачу. Когда у вас есть классы и функции,
+содержащие конструкцию `if`, вы говорите своему пользователю, что ваша функция выполняет больше одной задачи.
+Запомните, делать только одну задачу.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class Airplane {
@@ -953,7 +959,7 @@ class Airplane {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 abstract class Airplane {
@@ -986,15 +992,15 @@ class Cessna extends Airplane {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Avoid type checking
+### Избегайте проверки типов
 
-TypeScript is a strict syntactical superset of JavaScript and adds optional static type checking to the language.
-Always prefer to specify types of variables, parameters and return values to leverage the full power of TypeScript features.
-It makes refactoring more easier.
+TypeScript является надмножеством синтаксиса JavaScript и добавляют дополнительные статические проверки типов для языка.
+Всегда предпочитайте указывать типы переменных, параметров и возвращаемых значений, чтобы использовать
+всю мощь TypeScript. Это делает рефакторинг более легким.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function travelToTexas(vehicle: Bicycle | Car) {
@@ -1006,7 +1012,7 @@ function travelToTexas(vehicle: Bicycle | Car) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 type Vehicle = Bicycle | Car;
@@ -1016,13 +1022,16 @@ function travelToTexas(vehicle: Vehicle) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Don't over-optimize
+### Не делайте слишком много оптимизаций
 
-Modern browsers do a lot of optimization under-the-hood at runtime. A lot of times, if you are optimizing then you are just wasting your time. There are good [resources](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) for seeing where optimization is lacking. Target those in the meantime, until they are fixed if they can be.
+Современные браузеры производят множество оптимизаций под капотом во время исполнения кода. Оптимизируя код вручную вы
+зачастую, просто тратите свое время. Есть хорошие [ресурсы](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers)
+для того чтобы увидеть где оптимизация отсутствует. Поглядывайте на них в свободное время, пока эти проблемы не будут
+исправлены, если вообще будут, конечно.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 // On old browsers, each iteration with uncached `list.length` would be costly
@@ -1032,7 +1041,7 @@ for (let i = 0, len = list.length; i < len; i++) {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 for (let i = 0; i < list.length; i++) {
@@ -1040,14 +1049,14 @@ for (let i = 0; i < list.length; i++) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Remove dead code
+### Удаляйте мертвый код
 
-Dead code is just as bad as duplicate code. There's no reason to keep it in your codebase.
-If it's not being called, get rid of it! It will still be safe in your version history if you still need it.
-
-**Bad:**
+Мертвый код - так же плохо, как повторяющийся код. Нет никаких оснований продолжать хранить его в кодовой базе.
+Если он не используется, избавьтесь от него! В случае надобности, его всегда можно найти в истории версий.
+                           
+**Плохо:**
 
 ```ts
 function oldRequestModule(url: string) {
@@ -1062,7 +1071,7 @@ const req = requestModule;
 inventoryTracker('apples', req, 'www.inventory-awesome.io');
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function requestModule(url: string) {
@@ -1073,20 +1082,20 @@ const req = requestModule;
 inventoryTracker('apples', req, 'www.inventory-awesome.io');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
-### Use iterators and generators
+### Используйте итераторы и генераторы
 
-Use generators and iterables when working with collections of data used like a stream.  
-There are some good reasons:
+Используйте генераторы и итераторы при работе с коллекциями данных, которые используются как поток.
+Есть несколько причин для этого:
 
-- decouples the callee from the generator implementation in a sense that callee decides how many
-items to access
-- lazy execution, items are streamed on demand
-- built-in support for iterating items using the `for-of` syntax
-- iterables allow to implement optimized iterator patterns
+- отделяет вызываемый объект от реализации генератора в том смысле, что вызываемый объект решает сколько элементов
+ иметь для доступа
+- ленивое выполнение, элементы передаются по требованию
+- встроенная поддержка итерации элементов с использованием синтаксиса `for-of`
+- итераторы позволяют реализовать оптимизированные паттерны итераторов
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function fibonacci(n: number): number[] {
@@ -1109,7 +1118,7 @@ function print(n: number) {
 print(10);
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 // Generates an infinite stream of Fibonacci numbers.
@@ -1135,9 +1144,10 @@ function print(n: number) {
 print(10);
 ```
 
-There are libraries that allow working with iterables in a similar way as with native arrays, by
-chaining methods like `map`, `slice`, `forEach` etc. See [itiriri](https://www.npmjs.com/package/itiriri) for
-an example of advanced manipulation with iterables (or [itiriri-async](https://www.npmjs.com/package/itiriri-async) for manipulation of async iterables).
+Существуют библиотеки, которые позволяют работать с итераторами так же, как и с собственными массивами, путем
+цепочка методов, таких как `map`, `slice`, `forEach` и др. Смотрите [itiriri](https://www.npmjs.com/package/itiriri)
+пример продвинутой манипуляции с итераторами (или [itiriri-async](https://www.npmjs.com/package/itiriri-async)
+для  манипуляции с асинхронными итераторами).
 
 ```ts
 import itiriri from 'itiriri';
@@ -1156,7 +1166,7 @@ itiriri(fibonacci())
   .forEach(fib => console.log(fib));
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Objects and Data Structures
 
@@ -1172,7 +1182,7 @@ Using getters and setters to access data from objects that encapsulate behavior 
 - Easy to add logging and error handling when getting and setting.
 - You can lazy load your object's properties, let's say getting it from a server.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 type BankAccount = {
@@ -1193,7 +1203,7 @@ if (value < 0) {
 account.balance = value;
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class BankAccount {
@@ -1222,13 +1232,13 @@ const account = new BankAccount();
 account.balance = 100;
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Make objects have private/protected members
 
 TypeScript supports `public` *(default)*, `protected` and `private` accessors on class members.  
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class Circle {
@@ -1248,7 +1258,7 @@ class Circle {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class Circle {
@@ -1265,14 +1275,14 @@ class Circle {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Prefer immutability
 
 TypeScript's type system allows you to mark individual properties on an interface / class as *readonly*. This allows you to work in a functional way (unexpected mutation is bad).  
 For more advanced scenarios there is a built-in type `Readonly` that takes a type `T` and marks all of its properties as readonly using mapped types (see [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types)).
 
-**Bad:**
+**Плохо:**
 
 ```ts
 interface Config {
@@ -1282,7 +1292,7 @@ interface Config {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 interface Config {
@@ -1295,7 +1305,7 @@ interface Config {
 Case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
 do not allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the value.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 const array: number[] = [ 1, 3, 5 ];
@@ -1303,7 +1313,7 @@ array = []; // error
 array.push(100); // array will updated
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 const array: ReadonlyArray<number> = [ 1, 3, 5 ];
@@ -1321,7 +1331,7 @@ function hoge(args: readonly string[]) {
 
 Prefer [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) for literal values.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 const config = {
@@ -1341,7 +1351,7 @@ const result = readonlyData(100);
 result.value = 200; // value is changed
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 // read-only object
@@ -1363,14 +1373,14 @@ const result = readonlyData(100);
 result.value = 200; // error
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### type vs. interface
 
 Use type when you might need a union or intersection. Use interface when you want `extends` or `implements`. There is no strict rule however, use the one that works for you.  
 For a more detailed explanation refer to this [answer](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543) about the differences between `type` and `interface` in TypeScript.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 interface EmailConfig {
@@ -1392,7 +1402,7 @@ type Shape = {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 
@@ -1421,7 +1431,7 @@ class Square implements Shape {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Classes
 
@@ -1429,7 +1439,7 @@ class Square implements Shape {
 
 The class' size is measured by its responsibility. Following the *Single Responsibility principle* a class should be small.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class Dashboard {
@@ -1452,7 +1462,7 @@ class Dashboard {
 
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class Dashboard {
@@ -1465,7 +1475,7 @@ class Dashboard {
 // ...
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### High cohesion and low coupling
 
@@ -1476,7 +1486,7 @@ Coupling refers to how related or dependent are two classes toward each other. C
   
 Good software design has **high cohesion** and **low coupling**.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class UserManager {
@@ -1511,7 +1521,7 @@ class UserManager {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class UserService {
@@ -1545,7 +1555,7 @@ class UserNotifier {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Prefer composition over inheritance
 
@@ -1559,7 +1569,7 @@ You might be wondering then, "when should I use inheritance?" It depends on your
 
 3. You want to make global changes to derived classes by changing a base class. (Change the caloric expenditure of all animals when they move).
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class Employee {
@@ -1585,7 +1595,7 @@ class EmployeeTaxData extends Employee {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class Employee {
@@ -1614,13 +1624,13 @@ class EmployeeTaxData {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Use method chaining
 
 This pattern is very useful and commonly used in many libraries. It allows your code to be expressive, and less verbose. For that reason, use method chaining and take a look at how clean your code will be.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class QueryBuilder {
@@ -1657,7 +1667,7 @@ queryBuilder.orderBy('firstName', 'lastName');
 const query = queryBuilder.build();
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class QueryBuilder {
@@ -1696,7 +1706,7 @@ const query = new QueryBuilder()
   .build();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## SOLID
 
@@ -1704,7 +1714,7 @@ const query = new QueryBuilder()
 
 As stated in Clean Code, "There should never be more than one reason for a class to change". It's tempting to jam-pack a class with a lot of functionality, like when you can only take one suitcase on your flight. The issue with this is that your class won't be conceptually cohesive and it will give it many reasons to change. Minimizing the amount of times you need to change a class is important. It's important because if too much functionality is in one class and you modify a piece of it, it can be difficult to understand how that will affect other dependent modules in your codebase.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class UserSettings {
@@ -1723,7 +1733,7 @@ class UserSettings {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class UserAuth {
@@ -1751,13 +1761,13 @@ class UserSettings {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Open/Closed Principle (OCP)
 
 As stated by Bertrand Meyer, "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification." What does that mean though? This principle basically states that you should allow users to add new functionalities without changing existing code.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class AjaxAdapter extends Adapter {
@@ -1800,7 +1810,7 @@ function makeHttpCall<T>(url: string): Promise<T> {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 abstract class Adapter {
@@ -1844,7 +1854,7 @@ class HttpRequester {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Liskov Substitution Principle (LSP)
 
@@ -1852,7 +1862,7 @@ This is a scary term for a very simple concept. It's formally defined as "If S i
   
 The best explanation for this is if you have a parent class and a child class, then the parent class and child class can be used interchangeably without getting incorrect results. This might still be confusing, so let's take a look at the classic Square-Rectangle example. Mathematically, a square is a rectangle, but if you model it using the "is-a" relationship via inheritance, you quickly get into trouble.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class Rectangle {
@@ -1913,7 +1923,7 @@ const rectangles = [new Rectangle(), new Rectangle(), new Square()];
 renderLargeRectangles(rectangles);
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 abstract class Shape {
@@ -1961,14 +1971,14 @@ const shapes = [new Rectangle(4, 5), new Rectangle(4, 5), new Square(5)];
 renderLargeShapes(shapes);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Interface Segregation Principle (ISP)
 
 ISP states that "Clients should not be forced to depend upon interfaces that they do not use.". This principle is very much related to the Single Responsibility Principle.
 What it really means is that you should always design your abstractions in a way that the clients that are using the exposed methods do not get the whole pie instead. That also include imposing the clients with the burden of implementing methods that they don’t actually need.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 interface SmartPrinter {
@@ -2006,7 +2016,7 @@ class EconomicPrinter implements SmartPrinter {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 interface Printer {
@@ -2042,7 +2052,7 @@ class EconomicPrinter implements Printer {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Dependency Inversion Principle (DIP)
 
@@ -2056,7 +2066,7 @@ This can be hard to understand at first, but if you've worked with Angular, you'
   
 DIP is usually achieved by a using an inversion of control (IoC) container. An example of a powerful IoC container for TypeScript is [InversifyJs](https://www.npmjs.com/package/inversify)
 
-**Bad:**
+**Плохо:**
 
 ```ts
 import { readFile as readFileCb } from 'fs';
@@ -2091,7 +2101,7 @@ const reader = new ReportReader();
 await report = await reader.read('report.xml');
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import { readFile as readFileCb } from 'fs';
@@ -2139,7 +2149,7 @@ const reader = new ReportReader(new JsonFormatter());
 await report = await reader.read('report.json');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Testing
 
@@ -2157,7 +2167,7 @@ There's no excuse to not write tests. There are [plenty of good JS test framewor
 
 3. You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### F.I.R.S.T. rules
 
@@ -2173,13 +2183,13 @@ Clean tests should follow the rules:
 
 - **Timely** unit tests should be written before the production code. If you write tests after the production code, you might find writing tests too hard.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Single concept per test
 
 Tests should also follow the *Single Responsibility Principle*. Make only one assert per unit test.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 import { assert } from 'chai';
@@ -2200,7 +2210,7 @@ describe('AwesomeDate', () => {
 });
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import { assert } from 'chai';
@@ -2223,13 +2233,13 @@ describe('AwesomeDate', () => {
 });
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### The name of the test should reveal its intention
 
 When a test fail, its name is the first indication of what may have gone wrong.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 describe('Calendar', () => {
@@ -2243,7 +2253,7 @@ describe('Calendar', () => {
 });
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 describe('Calendar', () => {
@@ -2257,7 +2267,7 @@ describe('Calendar', () => {
 });
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Concurrency
 
@@ -2267,7 +2277,7 @@ Callbacks aren't clean, and they cause excessive amounts of nesting *(the callba
 There are utilities that transform existing functions using the callback style to a version that returns promises
 (for Node.js see [`util.promisify`](https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_promisify_original), for general purpose see [pify](https://www.npmjs.com/package/pify), [es6-promisify](https://www.npmjs.com/package/es6-promisify))
 
-**Bad:**
+**Плохо:**
 
 ```ts
 import { get } from 'request';
@@ -2298,7 +2308,7 @@ downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html'
 });
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import { get } from 'request';
@@ -2328,13 +2338,13 @@ Promises supports a few helper methods that help make code more conscise:
 
 `Promise.all` is especially useful when there is a need to run tasks in parallel. `Promise.race` makes it easier to implement things like timeouts for promises.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Async/Await are even cleaner than Promises
 
 With `async`/`await` syntax you can write code that is far cleaner and more understandable than chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
 
-**Bad:**
+**Плохо:**
 
 ```ts
 import { get } from 'request';
@@ -2352,7 +2362,7 @@ downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html'
   .catch(error => console.error(error));  
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import { get } from 'request';
@@ -2376,7 +2386,7 @@ try {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Error Handling
 
@@ -2391,7 +2401,7 @@ It would be very confusing to catch a string message there and would make
 [debugging more painful](https://basarat.gitbooks.io/typescript/docs/types/exceptions.html#always-use-error).  
 For the same reason you should reject promises with `Error` types.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function calculateTotal(items: Item[]): number {
@@ -2403,7 +2413,7 @@ function get(): Promise<Item[]> {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function calculateTotal(items: Item[]): number {
@@ -2443,13 +2453,13 @@ function calculateTotal(items: Item[]): Failable<number, 'empty'> {
 
 For the detailed explanation of this idea refer to the [original post](https://medium.com/@dhruvrajvanshi/making-exceptions-type-safe-in-typescript-c4d200ee78e9).
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Don't ignore caught errors
 
 Doing nothing with a caught error doesn't give you the ability to ever fix or react to said error. Logging the error to the console (`console.log`) isn't much better as often times it can get lost in a sea of things printed to the console. If you wrap any bit of code in a `try/catch` it means you think an error may occur there and therefore you should have a plan, or create a code path, for when it occurs.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 try {
@@ -2467,7 +2477,7 @@ try {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import { logger } from './logging'
@@ -2479,13 +2489,13 @@ try {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Don't ignore rejected promises
 
 For the same reason you shouldn't ignore caught errors from `try/catch`.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 getUser()
@@ -2497,7 +2507,7 @@ getUser()
   });
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import { logger } from './logging'
@@ -2520,7 +2530,7 @@ try {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Formatting
 
@@ -2548,7 +2558,7 @@ Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://
 
 Capitalization tells you a lot about your variables, functions, etc. These rules are subjective, so your team can choose whatever they want. The point is, no matter what you all choose, just *be consistent*.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 const DAYS_IN_WEEK = 7;
@@ -2564,7 +2574,7 @@ type animal = { /* ... */ }
 type Container = { /* ... */ }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 const DAYS_IN_WEEK = 7;
@@ -2583,14 +2593,14 @@ type Container = { /* ... */ }
 Prefer using `PascalCase` for class, interface, type and namespace names.  
 Prefer using `camelCase` for variables, functions and class members.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Function callers and callees should be close
 
 If a function calls another, keep those functions vertically close in the source file. Ideally, keep the caller right above the callee.
 We tend to read code from top-to-bottom, like a newspaper. Because of this, make your code read that way.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 class PerformanceReview {
@@ -2631,7 +2641,7 @@ const review = new PerformanceReview(employee);
 review.review();
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class PerformanceReview {
@@ -2672,7 +2682,7 @@ const review = new PerformanceReview(employee);
 review.review();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Organize imports
 
@@ -2691,7 +2701,7 @@ With clean and easy to read import statements you can quickly see the dependenci
   - modules from a parent directory (i.e. `import foo from '../foo'; import qux from '../../foo/qux';`)
   - modules from the same or a sibling's directory (i.e. `import bar from './bar'; import baz from './bar/baz';`)
 
-**Bad:**
+**Плохо:**
 
 ```ts
 import { TypeDefinition } from '../types/typeDefinition';
@@ -2703,7 +2713,7 @@ import { BindingScopeEnum, Container } from 'inversify';
 import 'reflect-metadata';
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import 'reflect-metadata';
@@ -2718,7 +2728,7 @@ import { ApiCredentials, Adapters } from './common/api/authorization';
 import { ConfigPlugin } from './plugins/config/configPlugin';
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Use typescript aliases
 
@@ -2726,13 +2736,13 @@ Create prettier imports by defining the paths and baseUrl properties in the comp
 
 This will avoid long relative paths when doing imports.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 import { UserService } from '../../../services/UserService';
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 import { UserService } from '@services/UserService';
@@ -2752,7 +2762,7 @@ import { UserService } from '@services/UserService';
 ...
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Comments
 
@@ -2765,27 +2775,27 @@ The use of a comments is an indication of failure to express without them. Code 
 
 Comments are an apology, not a requirement. Good code *mostly* documents itself.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 // Check if subscription is active.
 if (subscription.endDate > Date.now) {  }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 const isSubscriptionActive = subscription.endDate > Date.now;
 if (isSubscriptionActive) { /* ... */ }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Don't leave commented out code in your codebase
 
 Version control exists for a reason. Leave old code in your history.
 
-**Bad:**
+**Плохо:**
 
 ```ts
 type User = {
@@ -2796,7 +2806,7 @@ type User = {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 type User = {
@@ -2805,13 +2815,13 @@ type User = {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Don't have journal comments
 
 Remember, use version control! There's no need for dead code, commented code, and especially journal comments. Use `git log` to get history!
 
-**Bad:**
+**Плохо:**
 
 ```ts
 /**
@@ -2825,7 +2835,7 @@ function combine(a: number, b: number): number {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function combine(a: number, b: number): number {
@@ -2833,14 +2843,14 @@ function combine(a: number, b: number): number {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### Avoid positional markers
 
 They usually just add noise. Let the functions and variable names along with the proper indentation and formatting give the visual structure to your code.  
 Most IDE support code folding feature that allows you to collapse/expand blocks of code (see Visual Studio Code [folding regions](https://code.visualstudio.com/updates/v1_17#_folding-regions)).
 
-**Bad:**
+**Плохо:**
 
 ```ts
 ////////////////////////////////////////////////////////////////////////////////
@@ -2872,7 +2882,7 @@ class Client {
 };
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 class Client {
@@ -2895,7 +2905,7 @@ class Client {
 };
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ### TODO comments
 
@@ -2905,7 +2915,7 @@ you can quickly go over the entire list of todos.
 
 Keep in mind however that a *TODO* comment is not an excuse for bad code. 
 
-**Bad:**
+**Плохо:**
 
 ```ts
 function getActiveSubscriptions(): Promise<Subscription[]> {
@@ -2914,7 +2924,7 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 }
 ```
 
-**Good:**
+**Хорошо:**
 
 ```ts
 function getActiveSubscriptions(): Promise<Subscription[]> {
@@ -2923,7 +2933,7 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#содержание)**
 
 ## Translations
 
