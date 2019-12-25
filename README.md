@@ -10,8 +10,8 @@
 
   1. [Введение](#введение)
   2. [Переменные](#переменные)
-  3. [Функции](#functions)
-  4. [Объекты и структуры данных](#objects-and-data-structures)
+  3. [Функции](#функции)
+  4. [Объекты и структуры данных](#объекты-и-структуры-данных)
   5. [Классы](#classes)
   6. [SOLID](#solid)
   7. [Тестирование](#testing)
@@ -777,7 +777,7 @@ function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
 
 **[⬆ back to top](#содержание)**
 
-### Не пешите глобальные функции
+### Не пишите глобальные функции
 
 Загрязнение глобальных переменных — плохая практика в JavaScript, так как может породить конфликты с другой библиотекой,
 и пользователь вашего API не увидит ошибок, пока не получит исключение в продакшене. Давайте рассмотрим пример:
@@ -1168,19 +1168,21 @@ itiriri(fibonacci())
 
 **[⬆ back to top](#содержание)**
 
-## Objects and Data Structures
+## Объекты и структуры данных
 
-### Use getters and setters
+### Используйте геттеры и сеттеры
 
-TypeScript supports getter/setter syntax.
-Using getters and setters to access data from objects that encapsulate behavior could be better than simply looking for a property on an object.
-"Why?" you might ask. Well, here's a list of reasons:
 
-- When you want to do more beyond getting an object property, you don't have to look up and change every accessor in your codebase.
-- Makes adding validation simple when doing a `set`.
-- Encapsulates the internal representation.
-- Easy to add logging and error handling when getting and setting.
-- You can lazy load your object's properties, let's say getting it from a server.
+TypeScript поддерживает синтаксис геттеров и сеттеров.
+Использовать геттеры и сеттеры для доступа к данным объекта гораздо лучше, чем напрямую обращаться к его свойствам.
+"Почему?" спросите вы. Вот список причин:
+
+- Если вы хотите реализовать больше, чем просто доступ к свойству, вам нужно поменять реализацию в одном месте,
+а не по всему коду.
+- Валидацию легко реализовать на уровне реализации `set`.
+- Инкапсуляция внутреннего состояния.
+- Легко добавить логирование и обработку ошибок на уровне геттеров и сеттеров.
+- Вы можете лениво подгружать свойства вашего объекта, например, с сервера.
 
 **Плохо:**
 
@@ -1224,19 +1226,19 @@ class BankAccount {
   // ...
 }
 
-// Now `BankAccount` encapsulates the validation logic.
-// If one day the specifications change, and we need extra validation rule,
-// we would have to alter only the `setter` implementation,
-// leaving all dependent code unchanged.
+// Теперь `BankAccount` инкапсулирует логику проверки.
+// Если однажды спецификации изменятся, и нам понадобится дополнительное правило проверки,
+// нам придется изменить только реализацию `сеттера`,
+// оставив весь зависимый код без изменений.
 const account = new BankAccount();
 account.balance = 100;
 ```
 
 **[⬆ back to top](#содержание)**
 
-### Make objects have private/protected members
+### Создавайте объекты с приватными/защищенными полями
 
-TypeScript supports `public` *(default)*, `protected` and `private` accessors on class members.  
+TypeScript поддерживает `public` *(по умолчанию)*, `protected` и `private` средства доступа к свойствам класса.  
 
 **Плохо:**
 
@@ -1277,10 +1279,12 @@ class Circle {
 
 **[⬆ back to top](#содержание)**
 
-### Prefer immutability
+### Предпочитайте иммутабельность
 
-TypeScript's type system allows you to mark individual properties on an interface / class as *readonly*. This allows you to work in a functional way (unexpected mutation is bad).  
-For more advanced scenarios there is a built-in type `Readonly` that takes a type `T` and marks all of its properties as readonly using mapped types (see [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types)).
+Система типов в TypeScript позволяет помечать отдельные свойства интерфейса/класса как *readonly поля (только для чтения)*.
+Это позволяет вам работать функционально (неожиданная мутация это плохо).  
+Для более сложных сценариев есть встроенный тип `Readonly`, который принимает тип` T` и помечает все его свойства
+только для чтения с использованием mapped types (смотрите [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types)).
 
 **Плохо:**
 
@@ -1302,8 +1306,8 @@ interface Config {
 }
 ```
 
-Case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
-do not allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the value.
+В случае массива вы можете создать массив только для чтения, используя `ReadonlyArray<T>`.
+не делайте изменений с использованием `push()` и `fill()`, но можно использовать `concat()` и `slice()` они не меняют значения.
 
 **Плохо:**
 
@@ -1321,7 +1325,7 @@ array = []; // error
 array.push(100); // error
 ```
 
-Declaring read-only arguments in [TypeScript 3.4 is a bit easier](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#improvements-for-readonlyarray-and-readonly-tuples).
+Объявление аргументов только для чтения [TypeScript 3.4 is a bit easier](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#improvements-for-readonlyarray-and-readonly-tuples).
 
 ```ts
 function hoge(args: readonly string[]) {
@@ -1329,7 +1333,7 @@ function hoge(args: readonly string[]) {
 }
 ```
 
-Prefer [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) for literal values.
+Предпочтение [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-new-in-TypeScript#const-assertions) для литеральных значений.
 
 **Плохо:**
 
@@ -1375,10 +1379,12 @@ result.value = 200; // error
 
 **[⬆ back to top](#содержание)**
 
-### type vs. interface
+### Типы vs. интерфейсы
 
-Use type when you might need a union or intersection. Use interface when you want `extends` or `implements`. There is no strict rule however, use the one that works for you.  
-For a more detailed explanation refer to this [answer](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543) about the differences between `type` and `interface` in TypeScript.
+Используйте типы, когда вам может понадобиться объединение или пересечение. Используйте интерфейс, когда хотите `extends`
+или `implements`. Однако строгого правила не существует, используйте то, что работает у вас.  
+Для более подробного объяснения посмотрите это [ответы](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543)
+о различиях между `type` and `interface` в TypeScript.
 
 **Плохо:**
 
@@ -1433,11 +1439,11 @@ class Square implements Shape {
 
 **[⬆ back to top](#содержание)**
 
-## Classes
+## Классы
 
-### Classes should be small
+### Классы должны быть маленькими
 
-The class' size is measured by its responsibility. Following the *Single Responsibility principle* a class should be small.
+Размер класса измеряется его ответственностью. Following the *Single Responsibility principle* a class should be small.
 
 **Плохо:**
 
@@ -1477,7 +1483,7 @@ class Dashboard {
 
 **[⬆ back to top](#содержание)**
 
-### High cohesion and low coupling
+### Высокая сплоченность низкая связь
 
 Cohesion defines the degree to which class members are related to each other. Ideally, all fields within a class should be used by each method.
 We then say that the class is *maximally cohesive*. In practice, this however is not always possible, nor even advisable. You should however prefer cohesion to be high.  
@@ -1557,7 +1563,7 @@ class UserNotifier {
 
 **[⬆ back to top](#содержание)**
 
-### Prefer composition over inheritance
+### Предпочитайте композицию наследованию
 
 As stated famously in [Design Patterns](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four, you should *prefer composition over inheritance* where you can. There are lots of good reasons to use inheritance and lots of good reasons to use composition. The main point for this maxim is that if your mind instinctively goes for inheritance, try to think if composition could model your problem better. In some cases it can.  
   
@@ -1626,7 +1632,7 @@ class EmployeeTaxData {
 
 **[⬆ back to top](#содержание)**
 
-### Use method chaining
+### Используйте метод цепочки
 
 This pattern is very useful and commonly used in many libraries. It allows your code to be expressive, and less verbose. For that reason, use method chaining and take a look at how clean your code will be.
 
@@ -1710,7 +1716,7 @@ const query = new QueryBuilder()
 
 ## SOLID
 
-### Single Responsibility Principle (SRP)
+### Принцип единой ответственности (SRP)
 
 As stated in Clean Code, "There should never be more than one reason for a class to change". It's tempting to jam-pack a class with a lot of functionality, like when you can only take one suitcase on your flight. The issue with this is that your class won't be conceptually cohesive and it will give it many reasons to change. Minimizing the amount of times you need to change a class is important. It's important because if too much functionality is in one class and you modify a piece of it, it can be difficult to understand how that will affect other dependent modules in your codebase.
 
@@ -1763,7 +1769,7 @@ class UserSettings {
 
 **[⬆ back to top](#содержание)**
 
-### Open/Closed Principle (OCP)
+### Принцип открытости/закрытости  (OCP)
 
 As stated by Bertrand Meyer, "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification." What does that mean though? This principle basically states that you should allow users to add new functionalities without changing existing code.
 
@@ -1856,7 +1862,7 @@ class HttpRequester {
 
 **[⬆ back to top](#содержание)**
 
-### Liskov Substitution Principle (LSP)
+### Принцип подстановки Лисков (LSP)
 
 This is a scary term for a very simple concept. It's formally defined as "If S is a subtype of T, then objects of type T may be replaced with objects of type S (i.e., objects of type S may substitute objects of type T) without altering any of the desirable properties of that program (correctness, task performed, etc.)." That's an even scarier definition.  
   
@@ -1973,7 +1979,7 @@ renderLargeShapes(shapes);
 
 **[⬆ back to top](#содержание)**
 
-### Interface Segregation Principle (ISP)
+### Принцип разделения интерфейса (ISP)
 
 ISP states that "Clients should not be forced to depend upon interfaces that they do not use.". This principle is very much related to the Single Responsibility Principle.
 What it really means is that you should always design your abstractions in a way that the clients that are using the exposed methods do not get the whole pie instead. That also include imposing the clients with the burden of implementing methods that they don’t actually need.
@@ -2054,7 +2060,7 @@ class EconomicPrinter implements Printer {
 
 **[⬆ back to top](#содержание)**
 
-### Dependency Inversion Principle (DIP)
+### Принцип инверсии зависимостей (DIP)
 
 This principle states two essential things:
 
@@ -2151,7 +2157,7 @@ await report = await reader.read('report.json');
 
 **[⬆ back to top](#содержание)**
 
-## Testing
+## Тестирование
 
 Testing is more important than shipping. If you have no tests or an inadequate amount, then every time you ship code you won't be sure that you didn't break anything.
 Deciding on what constitutes an adequate amount is up to your team, but having 100% coverage (all statements and branches)
@@ -2159,7 +2165,7 @@ is how you achieve very high confidence and developer peace of mind. This means 
 
 There's no excuse to not write tests. There are [plenty of good JS test frameworks](http://jstherightway.org/#testing-tools) with typings support for TypeScript, so find one that your team prefers. When you find one that works for your team, then aim to always write tests for every new feature/module you introduce. If your preferred method is Test Driven Development (TDD), that is great, but the main point is to just make sure you are reaching your coverage goals before launching any feature, or refactoring an existing one.  
 
-### The three laws of TDD
+### Три закона TDD
 
 1. You are not allowed to write any production code unless it is to make a failing unit test pass.
 
@@ -2169,7 +2175,7 @@ There's no excuse to not write tests. There are [plenty of good JS test framewor
 
 **[⬆ back to top](#содержание)**
 
-### F.I.R.S.T. rules
+### Правила F.I.R.S.T.
 
 Clean tests should follow the rules:
 
@@ -2185,7 +2191,7 @@ Clean tests should follow the rules:
 
 **[⬆ back to top](#содержание)**
 
-### Single concept per test
+### Одна концепция на тест
 
 Tests should also follow the *Single Responsibility Principle*. Make only one assert per unit test.
 
@@ -2235,7 +2241,7 @@ describe('AwesomeDate', () => {
 
 **[⬆ back to top](#содержание)**
 
-### The name of the test should reveal its intention
+### Название теста должно раскрывать его намерение
 
 When a test fail, its name is the first indication of what may have gone wrong.
 
@@ -2269,9 +2275,9 @@ describe('Calendar', () => {
 
 **[⬆ back to top](#содержание)**
 
-## Concurrency
+## Асинхронность
 
-### Prefer promises vs callbacks
+### Предпочитайте promises а не callbacks
 
 Callbacks aren't clean, and they cause excessive amounts of nesting *(the callback hell)*.  
 There are utilities that transform existing functions using the callback style to a version that returns promises
@@ -2340,7 +2346,7 @@ Promises supports a few helper methods that help make code more conscise:
 
 **[⬆ back to top](#содержание)**
 
-### Async/Await are even cleaner than Promises
+### Async/Await делает код чище, чем промисы
 
 With `async`/`await` syntax you can write code that is far cleaner and more understandable than chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
 
@@ -2388,7 +2394,7 @@ try {
 
 **[⬆ back to top](#содержание)**
 
-## Error Handling
+## Обработка ошибок
 
 Thrown errors are a good thing! They mean the runtime has successfully identified when something in your program has gone wrong and it's letting you know by stopping function
 execution on the current stack, killing the process (in Node), and notifying you in the console with a stack trace.
@@ -2455,7 +2461,7 @@ For the detailed explanation of this idea refer to the [original post](https://m
 
 **[⬆ back to top](#содержание)**
 
-### Don't ignore caught errors
+### Не игнорируйте отловленные ошибки
 
 Doing nothing with a caught error doesn't give you the ability to ever fix or react to said error. Logging the error to the console (`console.log`) isn't much better as often times it can get lost in a sea of things printed to the console. If you wrap any bit of code in a `try/catch` it means you think an error may occur there and therefore you should have a plan, or create a code path, for when it occurs.
 
@@ -2491,7 +2497,7 @@ try {
 
 **[⬆ back to top](#содержание)**
 
-### Don't ignore rejected promises
+### Не игнорируйте ошибки, возникшие в промисах
 
 For the same reason you shouldn't ignore caught errors from `try/catch`.
 
@@ -2532,7 +2538,7 @@ try {
 
 **[⬆ back to top](#содержание)**
 
-## Formatting
+## Форматирование
 
 Formatting is subjective. Like many rules herein, there is no hard and fast rule that you must follow. The main point is *DO NOT ARGUE* over formatting. There are tons of tools to automate this. Use one! It's a waste of time and money for engineers to argue over formatting. The general rule to follow is *keep consistent formatting rules*.  
 
@@ -2554,7 +2560,7 @@ For TypeScript there is a powerful tool called [TSLint](https://palantir.github.
 
 Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html) source.
 
-### Use consistent capitalization
+### Используйте один вариант именования
 
 Capitalization tells you a lot about your variables, functions, etc. These rules are subjective, so your team can choose whatever they want. The point is, no matter what you all choose, just *be consistent*.
 
@@ -2595,7 +2601,7 @@ Prefer using `camelCase` for variables, functions and class members.
 
 **[⬆ back to top](#содержание)**
 
-### Function callers and callees should be close
+### Связанные функции должны находится рядом
 
 If a function calls another, keep those functions vertically close in the source file. Ideally, keep the caller right above the callee.
 We tend to read code from top-to-bottom, like a newspaper. Because of this, make your code read that way.
@@ -2684,7 +2690,7 @@ review.review();
 
 **[⬆ back to top](#содержание)**
 
-### Organize imports
+### Организация импортов
 
 With clean and easy to read import statements you can quickly see the dependencies of current code. Make sure you apply following good practices for `import` statements:
 
@@ -2730,7 +2736,7 @@ import { ConfigPlugin } from './plugins/config/configPlugin';
 
 **[⬆ back to top](#содержание)**
 
-### Use typescript aliases
+### Используйте typescript алиасы
 
 Create prettier imports by defining the paths and baseUrl properties in the compilerOptions section in the `tsconfig.json`
 
@@ -2764,7 +2770,7 @@ import { UserService } from '@services/UserService';
 
 **[⬆ back to top](#содержание)**
 
-## Comments
+## Комментарии
 
 The use of a comments is an indication of failure to express without them. Code should be the only source of truth.
   
