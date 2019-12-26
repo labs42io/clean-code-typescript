@@ -1443,7 +1443,7 @@ class Square implements Shape {
 
 ### Классы должны быть маленькими
 
-Размер класса измеряется его ответственностью. Following the *Single Responsibility principle* a class should be small.
+Размер класса измеряется его ответственностью. Следуя *Принципу единственной ответственности* класс должен быть маленьким.
 
 **Плохо:**
 
@@ -1485,12 +1485,12 @@ class Dashboard {
 
 ### Высокая сплоченность низкая связь
 
-Cohesion defines the degree to which class members are related to each other. Ideally, all fields within a class should be used by each method.
-We then say that the class is *maximally cohesive*. In practice, this however is not always possible, nor even advisable. You should however prefer cohesion to be high.  
+Сплоченность определяет степень, в которой члены класса связаны друг с другом. В идеале все поля в классе должны
+использоваться каждым методом. Мы говорим, что класс *максимально связный*. На практике это, однако, не всегда возможно
+и даже не желательно. Однако вы должны добиваться, того чтобы сплоченность была высокой.  
 
-Coupling refers to how related or dependent are two classes toward each other. Classes are said to be low coupled if changes in one of them doesn't affect the other one.  
-  
-Good software design has **high cohesion** and **low coupling**.
+Соединение относится и к тому, как связаны или зависимы два класса друг от друга. Классы считаются слабосвязанными если
+изменения в одном из них не влияют на другой.  
 
 **Плохо:**
 
@@ -1565,15 +1565,19 @@ class UserNotifier {
 
 ### Предпочитайте композицию наследованию
 
-As stated famously in [Design Patterns](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four, you should *prefer composition over inheritance* where you can. There are lots of good reasons to use inheritance and lots of good reasons to use composition. The main point for this maxim is that if your mind instinctively goes for inheritance, try to think if composition could model your problem better. In some cases it can.  
+Как сказано в  [Design Patterns](https://en.wikipedia.org/wiki/Design_Patterns) от банды черытех в должны
+*Предпочитать композицию наследованию* где можете. Есть много веских причин использовать наследование и много хороших
+причин использовать композицию. Суть этого принципа в том, что если ваш ум инстинктивно идет на наследование,
+попробуйте подумать, может ли композиция лучше смоделировать вашу проблему. В некоторых случаях может.  
   
-You might be wondering then, "when should I use inheritance?" It depends on your problem at hand, but this is a decent list of when inheritance makes more sense than composition:
+Тогда вы можете спросить: "Когда я должен использовать наследование?" Это зависит от вашей проблемы, но это достойный
+список, когда наследование имеет больше смысла, чем композиция:
 
-1. Your inheritance represents an "is-a" relationship and not a "has-a" relationship (Human->Animal vs. User->UserDetails).
+1. Ваше наследование представляет собой "is-a" отношения а не "has-a" отношения (Human->Animal vs. User->UserDetails).
 
-2. You can reuse code from the base classes (Humans can move like all animals).
+2. Вы можете повторно использовать код из базовых классов (Люди могут двигаться как все животные).
 
-3. You want to make global changes to derived classes by changing a base class. (Change the caloric expenditure of all animals when they move).
+3. Вы хотите внести глобальные изменения в производные классы, изменив базовый класс. (Изменение расхода калорий у всех животных при их перемещении).
 
 **Плохо:**
 
@@ -1632,9 +1636,10 @@ class EmployeeTaxData {
 
 **[⬆ back to top](#содержание)**
 
-### Используйте метод цепочки
+### Используйте цепочки методов
 
-This pattern is very useful and commonly used in many libraries. It allows your code to be expressive, and less verbose. For that reason, use method chaining and take a look at how clean your code will be.
+Этот паттеррн очень полезен и обычно используется во многих библиотеках. Это позволяет вашему коду быть выразительным
+и менее многословным. По этой причине используйте цепочку методов и посмотрите, насколько чистым будет ваш код.
 
 **Плохо:**
 
@@ -1718,7 +1723,10 @@ const query = new QueryBuilder()
 
 ### Принцип единой ответственности (SRP)
 
-As stated in Clean Code, "There should never be more than one reason for a class to change". It's tempting to jam-pack a class with a lot of functionality, like when you can only take one suitcase on your flight. The issue with this is that your class won't be conceptually cohesive and it will give it many reasons to change. Minimizing the amount of times you need to change a class is important. It's important because if too much functionality is in one class and you modify a piece of it, it can be difficult to understand how that will affect other dependent modules in your codebase.
+Как написано в Чистом Коде, "Должна быть лишь одна причина для изменения класса". аманчиво представить себе класс,
+переполненный большим количеством функционала, словно в полет вам позволили взять всего один чемодан. Проблема в том, что
+ваш класс не будет концептуально связан, и вы будете часто его изменять. Очень важно минимизировать изменения в классе.
+Когда вы вносите изменения в класс с огромным функционалом, тяжело отследить последствия ваших изменений.
 
 **Плохо:**
 
@@ -1771,7 +1779,9 @@ class UserSettings {
 
 ### Принцип открытости/закрытости  (OCP)
 
-As stated by Bertrand Meyer, "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification." What does that mean though? This principle basically states that you should allow users to add new functionalities without changing existing code.
+Как заявил Бертран Мейер, "программные сущности (классы, модули, функции и т.д.) должны оставаться открытыми для
+расширения, но закрытыми для модификации." Что это означает на практике? Принцип закрепляет, что вы должны позволить
+пользователям добавлять новые функциональные возможности, но без изменения существующего кода.
 
 **Плохо:**
 
@@ -1799,20 +1809,20 @@ class HttpRequester {
   async fetch<T>(url: string): Promise<T> {
     if (this.adapter instanceof AjaxAdapter) {
       const response = await makeAjaxCall<T>(url);
-      // transform response and return
+      // трансформируем ответ и возвращаем
     } else if (this.adapter instanceof NodeAdapter) {
       const response = await makeHttpCall<T>(url);
-      // transform response and return
+      // трансформируем ответ и возвращаем
     }
   }
 }
 
 function makeAjaxCall<T>(url: string): Promise<T> {
-  // request and return promise
+  // запрос и возвращение промиса
 }
 
 function makeHttpCall<T>(url: string): Promise<T> {
-  // request and return promise
+  // запрос и возвращение промиса
 }
 ```
 
@@ -1822,7 +1832,7 @@ function makeHttpCall<T>(url: string): Promise<T> {
 abstract class Adapter {
   abstract async request<T>(url: string): Promise<T>;
 
-  // code shared to subclasses ...
+  // общий код для подклассов ...
 }
 
 class AjaxAdapter extends Adapter {
@@ -1831,7 +1841,7 @@ class AjaxAdapter extends Adapter {
   }
 
   async request<T>(url: string): Promise<T>{
-    // request and return promise
+    // запрос и возвращение промиса
   }
 
   // ...
@@ -1843,7 +1853,7 @@ class NodeAdapter extends Adapter {
   }
 
   async request<T>(url: string): Promise<T>{
-    // request and return promise
+    // запрос и возвращение промиса
   }
 
   // ...
@@ -1855,7 +1865,7 @@ class HttpRequester {
 
   async fetch<T>(url: string): Promise<T> {
     const response = await this.adapter.request<T>(url);
-    // transform response and return
+    // трансформируем ответ и возвращаем
   }
 }
 ```
@@ -1864,9 +1874,14 @@ class HttpRequester {
 
 ### Принцип подстановки Лисков (LSP)
 
-This is a scary term for a very simple concept. It's formally defined as "If S is a subtype of T, then objects of type T may be replaced with objects of type S (i.e., objects of type S may substitute objects of type T) without altering any of the desirable properties of that program (correctness, task performed, etc.)." That's an even scarier definition.  
+Это страшный термин для очень простой концепции. Формальным языком он звучит как  "Если S является подтипом T, то
+объекты типа Т могут быть заменены на объекты типа S (то есть, объекты типа S могут заменить объекты типа Т) без влияния
+на важные свойства программы (корректность, пригодность для выполнения задач и т.д.)." Это еще более страшное определение.  
   
-The best explanation for this is if you have a parent class and a child class, then the parent class and child class can be used interchangeably without getting incorrect results. This might still be confusing, so let's take a look at the classic Square-Rectangle example. Mathematically, a square is a rectangle, but if you model it using the "is-a" relationship via inheritance, you quickly get into trouble.
+Лучшее объяснение заключается в том, что если у вас есть родительский и дочерний классы, то они могут использоваться как
+взаимозаменяемые, не приводя при этом к некорректным результатам. Это по-прежнему может сбивать с толку, так что давайте
+взглянем на классический пример квадрата-прямоугольника. Математически квадрат представляет собой прямоугольник, но если 
+вы смоделируете их отношения через наследование, вы быстро наткнетесь на неприятности..
 
 **Плохо:**
 
@@ -1981,8 +1996,11 @@ renderLargeShapes(shapes);
 
 ### Принцип разделения интерфейса (ISP)
 
-ISP states that "Clients should not be forced to depend upon interfaces that they do not use.". This principle is very much related to the Single Responsibility Principle.
-What it really means is that you should always design your abstractions in a way that the clients that are using the exposed methods do not get the whole pie instead. That also include imposing the clients with the burden of implementing methods that they don’t actually need.
+ISP говорит что "Клиенты не должны зависеть от классов, которые они не используют.". Этот принцип очень
+связан с Принципом единой ответственности.
+На самом деле это означает, что вы всегда должны проектировать свои абстракции таким образом, чтобы клиенты, которые
+используют открытые методы не получали весь пирог. Это также включает в себя возложение на клиентов бремени реализации
+методов, которые им на самом деле не нужны.
 
 **Плохо:**
 
@@ -2062,15 +2080,19 @@ class EconomicPrinter implements Printer {
 
 ### Принцип инверсии зависимостей (DIP)
 
-This principle states two essential things:
+Этот принцип закрепляет две важные вещи:
 
-1. High-level modules should not depend on low-level modules. Both should depend on abstractions.
+1. Модули высшего уровня не должны зависеть от модулей низшего уровня. Оба должны зависеть от абстракций.
 
-2. Abstractions should not depend upon details. Details should depend on abstractions.
+2. Абстракции не должны зависеть от деталей. Детали должны зависеть от абстракций.
 
-This can be hard to understand at first, but if you've worked with Angular, you've seen an implementation of this principle in the form of Dependency Injection (DI). While they are not identical concepts, DIP keeps high-level modules from knowing the details of its low-level modules and setting them up. It can accomplish this through DI. A huge benefit of this is that it reduces the coupling between modules. Coupling is a very bad development pattern because it makes your code hard to refactor.  
+Сначала трудно понять этот принцип. Но если вы работали с AngularJS, вы видели реализацию этого принципа в виде
+Dependency Injection (DI). Несмотря на то, что они не являются идентичными понятиями, DIP даёт возможность отграничить
+модули высокого уровня от деталей модулей низкого уровня и установки их. Он может сделать это через DI. Этот принцип
+уменьшает связь между модулями. Если ваши модули тесно связаны, их тяжело рефакторить.
   
-DIP is usually achieved by a using an inversion of control (IoC) container. An example of a powerful IoC container for TypeScript is [InversifyJs](https://www.npmjs.com/package/inversify)
+DIP обычно достигается использованием контейнера инверсии управления (IoC). Пример мощного контейнера IoC для
+TypeScript это [InversifyJs](https://www.npmjs.com/package/inversify)
 
 **Плохо:**
 
