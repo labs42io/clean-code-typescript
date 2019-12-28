@@ -12,14 +12,14 @@
   2. [Переменные](#переменные)
   3. [Функции](#функции)
   4. [Объекты и структуры данных](#объекты-и-структуры-данных)
-  5. [Классы](#classes)
+  5. [Классы](#классы)
   6. [SOLID](#solid)
-  7. [Тестирование](#testing)
-  8. [Асинхронность](#concurrency)
-  9. [Обработка ошибок](#error-handling)
-  10. [Форматирование](#formatting)
-  11. [Комментарии](#comments)
-  12. [Переводы](#translations)
+  7. [Тестирование](#тестирование)
+  8. [Асинхронность](#асинхронность)
+  9. [Обработка ошибок](#обработка-ошибок)
+  10. [Форматирование](#форматирование)
+  11. [Комментарии](#комментарии)
+  12. [Переводы](#переводы)
 
 ## Введение
 
@@ -2181,41 +2181,51 @@ await report = await reader.read('report.json');
 
 ## Тестирование
 
-Testing is more important than shipping. If you have no tests or an inadequate amount, then every time you ship code you won't be sure that you didn't break anything.
-Deciding on what constitutes an adequate amount is up to your team, but having 100% coverage (all statements and branches)
-is how you achieve very high confidence and developer peace of mind. This means that in addition to having a great testing framework, you also need to use a good [coverage tool](https://github.com/gotwarlost/istanbul).
+Тестирование важнее деплоя. Если у вас нет тестов или их мало, то каждый раз при выкладке кода на боевые сервера у вас
+не будет уверенности, что ничего не сломается.
+Решение о достаточном количестве тестов остается на совести вашей команды, но 100% покрытие тестами всех выражений и
+ветвлений обеспечивает высокое доверие к вашему коду и спокойствие всех разработчиков. Из этого следует, что в дополнение
+к отличному фреймворку для тестирования, необходимо также использовать хороший [инструмент покрытия](https://github.com/gotwarlost/istanbul).
 
-There's no excuse to not write tests. There are [plenty of good JS test frameworks](http://jstherightway.org/#testing-tools) with typings support for TypeScript, so find one that your team prefers. When you find one that works for your team, then aim to always write tests for every new feature/module you introduce. If your preferred method is Test Driven Development (TDD), that is great, but the main point is to just make sure you are reaching your coverage goals before launching any feature, or refactoring an existing one.  
+Нет никакого оправдания, чтобы не писать тесты. Есть [много хороших фреймворков для тестирования на JS](http://jstherightway.org/#testing-tools) with typings support for TypeScript, so find one that your team prefers. When you find one that works for your team, then aim to always write tests for every new feature/module you introduce. If your preferred method is Test Driven Development (TDD), that is great, but the main point is to just make sure you are reaching your coverage goals before launching any feature, or refactoring an existing one.  
 
 ### Три закона TDD
 
-1. You are not allowed to write any production code unless it is to make a failing unit test pass.
+1. Новый рабочий код пишется только после того, как будет написан модульный тест, который не проходит.
 
-2. You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.
+2. Вы пишете ровно такой объем кода модульного теста, какой необходим для того, чтобы этот тест не проходил (если код
+теста не компилируется, считается, что он не проходит).
 
-3. You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
+3. Вы пишете ровно такой объем рабочего кода, какой необходим для прохождения модульного теста, который в данный момент
+не проходит.
 
 **[⬆ back to top](#содержание)**
 
 ### Правила F.I.R.S.T.
 
-Clean tests should follow the rules:
+Чистые тесты должны следовать правилам:
 
-- **Fast** tests should be fast because we want to run them frequently.
+- **Быстрота(Fast)** Тесты должны выполняться быстро. Все мы знаем, что разработчики люди, а люди ленивы, поскольку 
+эти выражения являются “транзитивными”, то можно сделать вывод, что люди тоже ленивы. А ленивый человек не захочет
+запускать тесты при каждом изменении кода, если они будут долго выполняться.
 
-- **Independent** tests should not depend on each other. They should provide same output whether run independently or all together in any order.
+- **Независимость(Independent)** Тесты не должны зависеть друг от друга. Они должны обеспечивать одинаковые выходные
+данные независимо от того, выполняются ли они независимо или все вместе в любом порядке.
 
-- **Repeatable** tests should be repeatable in any environment and there should be no excuse for why they fail.
+- **Повторяемость(Repeatable)** Тесты должны выполняться в любой среде, и не должно быть никаких оправданий тому, почему
+они провалились.
 
-- **Self-Validating** a test should answer with either *Passed* or *Failed*. You don't need to compare log files to answer if a test passed.
+- **Очевидность(Self-Validating)** Тест должен отвечать либо *Passed*, либо *Failed*. Вам не нужно сравнивать файлы
+журналов, чтобы ответить, что тест пройден.
 
-- **Timely** unit tests should be written before the production code. If you write tests after the production code, you might find writing tests too hard.
+- **Своевременность(Timely)** Юнит тесты должны быть написаны перед производственным кодом. Если вы пишете тесты после
+производственного кода, то вам может показаться, что писать тесты слишком сложно.
 
 **[⬆ back to top](#содержание)**
 
-### Одна концепция на тест
+### Один кейс на тест
 
-Tests should also follow the *Single Responsibility Principle*. Make only one assert per unit test.
+Тесты также должны соответствовать *Принципу единой ответственности(SPP)*. Делайте только одно утверждение за единицу теста.
 
 **Плохо:**
 
@@ -2265,7 +2275,7 @@ describe('AwesomeDate', () => {
 
 ### Название теста должно раскрывать его намерение
 
-When a test fail, its name is the first indication of what may have gone wrong.
+Когда тест не пройден, его имя является первым признаком того, что могло пойти не так.
 
 **Плохо:**
 
@@ -2301,9 +2311,9 @@ describe('Calendar', () => {
 
 ### Предпочитайте promises а не callbacks
 
-Callbacks aren't clean, and they cause excessive amounts of nesting *(the callback hell)*.  
-There are utilities that transform existing functions using the callback style to a version that returns promises
-(for Node.js see [`util.promisify`](https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_promisify_original), for general purpose see [pify](https://www.npmjs.com/package/pify), [es6-promisify](https://www.npmjs.com/package/es6-promisify))
+Callback-функции ухудшают читаемость и приводят к чрезмерному количеству вложенности *(ад обратных вызовов(callback hell))*.  
+Существуют утилиты, которые преобразуют существующие функции, используя стиль callback-ов, в версию, которая возвращает промисы
+(для Node.js смотрите [`util.promisify`](https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_promisify_original), for general purpose see [pify](https://www.npmjs.com/package/pify), [es6-promisify](https://www.npmjs.com/package/es6-promisify))
 
 **Плохо:**
 
@@ -2355,22 +2365,24 @@ downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html'
   .catch(error => console.error(error));  
 ```
 
-Promises supports a few helper methods that help make code more conscise:  
+Промисы поддерживают несколько вспомогательных методов, которые помогают сделать код более понятным:  
 
-| Pattern                  | Description                                |  
+| Методы                   | Описание                                   |  
 | ------------------------ | -----------------------------------------  |  
-| `Promise.resolve(value)` | Convert a value into a resolved promise.   |  
-| `Promise.reject(error)`  | Convert an error into a rejected promise.  |  
-| `Promise.all(promises)`  |Returns a new promise which is fulfilled with an array of fulfillment values for the passed promises or rejects with the reason of the first promise that rejects. |
-| `Promise.race(promises)`|Returns a new promise which is fulfilled/rejected with the result/error of the first settled promise from the array of passed promises. |
+| `Promise.resolve(value)` | Преобразуйте значение в решенный промис.   |  
+| `Promise.reject(error)`  | Преобразуйте ошибку в отклоненный промис.  |  
+| `Promise.all(promises)`  | Возвращает новый промис, который выполняется с массивом значений выполнения для переданных промисов или отклоняется по причине первого промиса, который выполняется с ошибкой. |
+| `Promise.race(promises)` | Возвращает новый промис, который выполнен/отклонен с результатом/ошибкой первого выполненного промиса из массива переданных промисов. |
 
-`Promise.all` is especially useful when there is a need to run tasks in parallel. `Promise.race` makes it easier to implement things like timeouts for promises.
+`Promise.all` особенно полезен, когда есть необходимость запускать задачи параллельно. `Promise.race` облегчает реализацию таких вещей, как тайм-ауты для промисов.
 
 **[⬆ back to top](#содержание)**
 
 ### Async/Await делает код чище, чем промисы
 
-With `async`/`await` syntax you can write code that is far cleaner and more understandable than chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
+С помощью синтаксиса `async`` await` вы можете написать код, который будет намного чище и понятнее, чем промисы, связанные
+цепочкой. Внутри функции с префиксом ключевого слова `async` у вас есть способ указать среде выполнения JavaScript
+приостановить выполнение кода по ключевому слову `await` (при использовании в промисе).
 
 **Плохо:**
 
@@ -2405,7 +2417,7 @@ async function downloadPage(url: string, saveTo: string): Promise<string> {
   return response;
 }
 
-// somewhere in an async function
+// где-то в асинхронной функции
 try {
   const content = await downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html');
   console.log(content);
@@ -2418,16 +2430,17 @@ try {
 
 ## Обработка ошибок
 
-Thrown errors are a good thing! They mean the runtime has successfully identified when something in your program has gone wrong and it's letting you know by stopping function
-execution on the current stack, killing the process (in Node), and notifying you in the console with a stack trace.
+Бросать ошибки — хорошее решение! Это означает, что во время выполнения вы будете знать, если что-то пошло не так, вы
+сможете остановить выполнение вашего приложения убивая процесс (в Node) в нужный момент и видеть место ошибки с помощью
+стек трейса в консоли.
 
-### Always use Error for throwing or rejecting
+### Всегда используйте ошибку для отклонения
 
-JavaScript as well as TypeScript allow you to `throw` any object. A Promise can also be rejected with any reason object.  
-It is advisable to use the `throw` syntax with an `Error` type. This is because your error might be caught in higher level code with a `catch` syntax.
-It would be very confusing to catch a string message there and would make
-[debugging more painful](https://basarat.gitbooks.io/typescript/docs/types/exceptions.html#always-use-error).  
-For the same reason you should reject promises with `Error` types.
+JavaScript и TypeScript позволяют вам делать `throw` любым объектом. Промис также может быть отклонен с любым объектом
+причины. Рекомендуется использовать синтаксис `throw` с типом `Error`. Это потому, что ваша ошибка может быть поймана
+в более высоком уровне кода с синтаксисом `catch`.
+Было бы очень странно поймать там строковое сообщение и сделать [отладку более болезненной](https://basarat.gitbooks.io/typescript/docs/types/exceptions.html#always-use-error).  
+По той же причине вы должны отклонять промисы с типами `Error`.
 
 **Плохо:**
 
@@ -2459,10 +2472,11 @@ async function get(): Promise<Item[]> {
 }
 ```
 
-The benefit of using `Error` types is that it is supported by the syntax `try/catch/finally` and implicitly all errors have the `stack` property which
-is very powerful for debugging.  
-There are also another alternatives, not to use the `throw` syntax and instead always return custom error objects. TypeScript makes this even easier.
-Consider following example:
+Преимущество использования типов `Error` заключается в том, что они поддерживается синтаксисом `try/catch/finally`
+и неявно всеми ошибками и имеют свойство `stack`, которое является очень мощным для отладки.
+Есть и другие альтернативы: не использовать синтаксис `throw` и вместо этого всегда возвращать пользовательские объекты
+ошибок. TypeScript делает это еще проще.
+Рассмотрим следующий пример:
 
 ```ts
 type Result<R> = { isError: false, value: R };
@@ -2479,13 +2493,16 @@ function calculateTotal(items: Item[]): Failable<number, 'empty'> {
 }
 ```
 
-For the detailed explanation of this idea refer to the [original post](https://medium.com/@dhruvrajvanshi/making-exceptions-type-safe-in-typescript-c4d200ee78e9).
+Для подробного объяснения этой идеи обратитесь к [оригинальному посту](https://medium.com/@dhruvrajvanshi/making-exceptions-type-safe-in-typescript-c4d200ee78e9).
 
 **[⬆ back to top](#содержание)**
 
 ### Не игнорируйте отловленные ошибки
 
-Doing nothing with a caught error doesn't give you the ability to ever fix or react to said error. Logging the error to the console (`console.log`) isn't much better as often times it can get lost in a sea of things printed to the console. If you wrap any bit of code in a `try/catch` it means you think an error may occur there and therefore you should have a plan, or create a code path, for when it occurs.
+Игнорирование пойманной ошибки не дает вам возможности исправить или каким-либо образом отреагировать на ее появление.
+Логирование ошибок в консоль (`console.log`) не намного лучше, так как зачастую оно может потеряться в море консольных 
+записей. Оборачивание куска кода в `try/catch` означает, что вы предполагаете возможность появления ошибки и имеете на
+этот случай четкий план.
 
 **Плохо:**
 
@@ -2521,7 +2538,7 @@ try {
 
 ### Не игнорируйте ошибки, возникшие в промисах
 
-For the same reason you shouldn't ignore caught errors from `try/catch`.
+Вы не должны игнорировать ошибки в промисах по той же причине, что и в `try/catch`.
 
 **Плохо:**
 
@@ -2562,29 +2579,36 @@ try {
 
 ## Форматирование
 
-Formatting is subjective. Like many rules herein, there is no hard and fast rule that you must follow. The main point is *DO NOT ARGUE* over formatting. There are tons of tools to automate this. Use one! It's a waste of time and money for engineers to argue over formatting. The general rule to follow is *keep consistent formatting rules*.  
+Форматирование носит субъективный характер. Как и во многом собранном здесь, в вопросе форматирования нет жестких правил,
+которым вы обязаны следовать. Главное - *НЕ СПОРИТЬ* по поводу форматирования. Есть множество инструментов для автоматизации
+этого. Используйте один! Это трата времени и денег когда инженеры спорят о форматировании. Общее правило, которому стоит
+следовать *соблюдайте правила форматирования*  
 
-For TypeScript there is a powerful tool called [TSLint](https://palantir.github.io/tslint/). It's a static analysis tool that can help you improve dramatically the readability and maintainability of your code. There are ready to use TSLint configurations that you can reference in your projects:
+Для TypeScript есть мощный инструмент под названием [TSLint](https://palantir.github.io/tslint/). 
+Это статический анализ инструмент, который может помочь вам значительно улучшить читаемость и поддерживаемость вашего кода.
+Но лучще используйте [ESLint](https://github.com/typescript-eslint/typescript-eslint), так как TSLint больше не поддерживается.
+Есть готовые к использованию конфигурации TSLint, на которые вы можете ссылаться в своих проектах:
 
-- [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - standard style rules
+- [TSLint Config Standard](https://www.npmjs.com/package/tslint-config-standard) - стандартный набор правил
 
-- [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - Airbnb style guide
+- [TSLint Config Airbnb](https://www.npmjs.com/package/tslint-config-airbnb) - правила от Airbnb
 
-- [TSLint Clean Code](https://www.npmjs.com/package/tslint-clean-code) - TSLint rules inspired by the [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+- [TSLint Clean Code](https://www.npmjs.com/package/tslint-clean-code) - Правила TSLint которые вдохновлены [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.ca/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 
-- [TSLint react](https://www.npmjs.com/package/tslint-react) - lint rules related to React & JSX
+- [TSLint react](https://www.npmjs.com/package/tslint-react) - правила, связанные с React & JSX
 
-- [TSLint + Prettier](https://www.npmjs.com/package/tslint-config-prettier) - lint rules for [Prettier](https://github.com/prettier/prettier) code formatter
+- [TSLint + Prettier](https://www.npmjs.com/package/tslint-config-prettier) - правила линта для [Prettier](https://github.com/prettier/prettier) средство форматирования кода
 
-- [ESLint rules for TSLint](https://www.npmjs.com/package/tslint-eslint-rules) - ESLint rules for TypeScript
+- [ESLint rules for TSLint](https://www.npmjs.com/package/tslint-eslint-rules) - ESLint правила для TypeScript
 
-- [Immutable](https://www.npmjs.com/package/tslint-immutable) - rules to disable mutation in TypeScript
+- [Immutable](https://www.npmjs.com/package/tslint-immutable) - правила отключения мутации в TypeScript
 
-Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html) source.
+Обратитесь также к этому великому [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html) источнику.
 
 ### Используйте один вариант именования
 
-Capitalization tells you a lot about your variables, functions, etc. These rules are subjective, so your team can choose whatever they want. The point is, no matter what you all choose, just *be consistent*.
+Использование заглавных букв говорит вам о ваших переменных, функциях и др.. Эти правила субъективны, поэтому ваша команда
+может выбрать все, что они хотят. Дело в том, что независимо от того, что вы все выберите, просто *будьте последовательны*.
 
 **Плохо:**
 
@@ -2618,15 +2642,16 @@ type Animal = { /* ... */ }
 type Container = { /* ... */ }
 ```
 
-Prefer using `PascalCase` for class, interface, type and namespace names.  
-Prefer using `camelCase` for variables, functions and class members.
+Предпочитайте использовать `PascalCase` для имен классов, интерфейсов, типов и пространств имен.
+Предпочитаю использовать `camelCase` для переменных, функций и членов класса.
 
 **[⬆ back to top](#содержание)**
 
 ### Связанные функции должны находится рядом
 
-If a function calls another, keep those functions vertically close in the source file. Ideally, keep the caller right above the callee.
-We tend to read code from top-to-bottom, like a newspaper. Because of this, make your code read that way.
+Если функция вызывает другую, сохраните эти функции вертикально близко в исходном файле. В идеале, функция, которая
+использует другую функцию, должна быть прямо над ней. Мы склонны читать код сверху-вниз, как газету. Из-за этого удобно
+размещать код таким образом.
 
 **Плохо:**
 
@@ -2714,20 +2739,21 @@ review.review();
 
 ### Организация импортов
 
-With clean and easy to read import statements you can quickly see the dependencies of current code. Make sure you apply following good practices for `import` statements:
+С помощью простых и понятных операторов импорта вы можете быстро увидеть зависимости текущего кода. 
+Убедитесь, что вы используете следующие хорошие практики для операторов `import`:
 
-- Import statements should be alphabetized and grouped.
-- Unused imports should be removed.
-- Named imports must be alphabetized (i.e. `import {A, B, C} from 'foo';`)
-- Import sources must be alphabetized within groups, i.e.: `import * as foo from 'a'; import * as bar from 'b';`
-- Groups of imports are delineated by blank lines.
-- Groups must respect following order:
-  - Polyfills (i.e. `import 'reflect-metadata';`)
-  - Node builtin modules (i.e. `import fs from 'fs';`)
-  - external modules (i.e. `import { query } from 'itiriri';`)
-  - internal modules (i.e `import { UserService } from 'src/services/userService';`)
-  - modules from a parent directory (i.e. `import foo from '../foo'; import qux from '../../foo/qux';`)
-  - modules from the same or a sibling's directory (i.e. `import bar from './bar'; import baz from './bar/baz';`)
+- Операторы импорта должны быть в алфавитном порядке и сгруппированы.
+- Неиспользованный импорт должен быть удален.
+- Именованные импорты должны быть в алфавитном порядке (т.е. `import {A, B, C} from 'foo';`)
+- Источники импорта должны быть в алфавитном порядке в группах, т.е.: `import * as foo from 'a'; import * as bar from 'b';`
+- Группы импорта обозначены пустыми строками.
+- Группы должны соблюдать следующий порядок:
+  - Полифилы (т.е. `import 'reflect-metadata';`)
+  - Модули сборки Node (т.е. `import fs from 'fs';`)
+  - Внешние модули (т.е. `import { query } from 'itiriri';`)
+  - Внутренние модули (т.е. `import { UserService } from 'src/services/userService';`)
+  - Модули из родительского каталога (т.е. `import foo from '../foo'; import qux from '../../foo/qux';`)
+  - Модули из того же или родственного каталога (т.е. `import bar from './bar'; import baz from './bar/baz';`)
 
 **Плохо:**
 
@@ -2760,9 +2786,9 @@ import { ConfigPlugin } from './plugins/config/configPlugin';
 
 ### Используйте typescript алиасы
 
-Create prettier imports by defining the paths and baseUrl properties in the compilerOptions section in the `tsconfig.json`
+Создайте более симпатичный импорт, определив пути и свойства baseUrl в разделе compilerOptions в `tsconfig.json`
 
-This will avoid long relative paths when doing imports.
+Это позволит избежать длинных относительных путей при импорте.
 
 **Плохо:**
 
@@ -2794,14 +2820,14 @@ import { UserService } from '@services/UserService';
 
 ## Комментарии
 
-The use of a comments is an indication of failure to express without them. Code should be the only source of truth.
+Использование комментариев свидетельствует о невозможности высказаться без них. Код должен быть единственным источником правды.
   
-> Don’t comment bad code—rewrite it.  
+> Не комментируйте плохой код - переписывайте его.
 > — *Brian W. Kernighan and P. J. Plaugher*
 
-### Prefer self explanatory code instead of comments
+### Предпочитаю понятный код вместо комментариев
 
-Comments are an apology, not a requirement. Good code *mostly* documents itself.
+Комментарии - это извинение, а не требование. Хороший код *в основном* сам документирует себя.
 
 **Плохо:**
 
@@ -2819,9 +2845,9 @@ if (isSubscriptionActive) { /* ... */ }
 
 **[⬆ back to top](#содержание)**
 
-### Don't leave commented out code in your codebase
+### Не оставляйте закомментированный код в вашей кодовой базе
 
-Version control exists for a reason. Leave old code in your history.
+Системы контроля версий существуют не зря. Оставьте старый код в истории.
 
 **Плохо:**
 
@@ -2845,9 +2871,10 @@ type User = {
 
 **[⬆ back to top](#содержание)**
 
-### Don't have journal comments
+### Не заводите журнальных комментариев
 
-Remember, use version control! There's no need for dead code, commented code, and especially journal comments. Use `git log` to get history!
+Не забывайте использовать системы контроля версий! Нет необходимости в мертвом коде, закоментированном коде и особенно в
+журнальных комментариях. Используйте `git log`, чтобы получить историю!
 
 **Плохо:**
 
@@ -2873,10 +2900,12 @@ function combine(a: number, b: number): number {
 
 **[⬆ back to top](#содержание)**
 
-### Avoid positional markers
+### Избегайте маркеров позиционирования
 
-They usually just add noise. Let the functions and variable names along with the proper indentation and formatting give the visual structure to your code.  
-Most IDE support code folding feature that allows you to collapse/expand blocks of code (see Visual Studio Code [folding regions](https://code.visualstudio.com/updates/v1_17#_folding-regions)).
+Они, как правило, просто добавляют шум. Пусть функции и имена переменных вместе с правильными отступами и форматированием
+задают визуальную структуру кода.
+Большинство IDE поддерживают функцию свертывания кода, которая позволяет свернуть/развернуть блоки кода (смотрите
+Visual Studio Code [folding regions](https://code.visualstudio.com/updates/v1_17#_folding-regions)).
 
 **Плохо:**
 
@@ -2935,13 +2964,13 @@ class Client {
 
 **[⬆ back to top](#содержание)**
 
-### TODO comments
+### TODO комментарии
 
-When you find yourself that you need to leave notes in the code for some later improvements,
-do that using `// TODO` comments. Most IDE have special support for those kind of comments so that
-you can quickly go over the entire list of todos.  
+Когда вы обнаружите, что вам нужно оставить заметки в коде для некоторых последующих улучшений,
+сделайте это с помощью комментариев `// TODO`. Большинство IDE имеют специальную поддержку для так что вы можете быстро
+просмотреть весь список todo.
 
-Keep in mind however that a *TODO* comment is not an excuse for bad code. 
+Однако имейте в виду, что комментарий *TODO* не является оправданием для плохого кода. 
 
 **Плохо:**
 
@@ -2963,9 +2992,9 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 
 **[⬆ back to top](#содержание)**
 
-## Translations
+## Переводы
 
-This is also available in other languages:
+Это также доступно на других языках:
 - ![br](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Brazilian Portuguese**: [vitorfreitas/clean-code-typescript](https://github.com/vitorfreitas/clean-code-typescript)
 - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese**: 
   - [beginor/clean-code-typescript](https://github.com/beginor/clean-code-typescript)
@@ -2974,10 +3003,10 @@ This is also available in other languages:
 - ![tr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Turkey.png) **Turkish**: [ozanhonamlioglu/clean-code-typescript](https://github.com/ozanhonamlioglu/clean-code-typescript)
 
 
-There is work in progress for translating this to other languages:
+Ведется работа по переводу этого документа на другие языки:
 
 - ![kr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/South-Korea.png) Korean
 
-References will be added once translations are completed.  
-Check this [discussion](https://github.com/labs42io/clean-code-typescript/issues/15) for more details and progress.
-You can make an indispensable contribution to *Clean Code* community by translating this to your language.
+Ссылки будут добавлены после завершения перевода. 
+Проверьте это [обсуждение](https://github.com/labs42io/clean-code-typescript/issues/15) для получения более подробной информации и прогресса.
+Вы можете внести незаменимый вклад в сообщество *Чистый код*, переведя его на свой язык.
