@@ -4,7 +4,7 @@
 
 Оригинал на английском [clean-code-typescript](https://github.com/labs42io/clean-code-typescript)
 
-*У переводчика не идеальные знания английского, указывайте пожалуйста на ошибки!*
+*У переводчика не идеальные знания английского, указывайте пожалуйста на [ошибки](https://github.com/Real001/clean-code-typescript/issues/5)!*
 
 ## Содержание
 
