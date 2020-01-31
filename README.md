@@ -314,9 +314,11 @@ This has a few advantages:
 
 1. When someone looks at the function signature, it's immediately clear what properties are being used.
 
-2. Destructuring also clones the specified primitive values of the argument object passed into the function. This can help prevent side effects. Note: objects and arrays that are destructured from the argument object are NOT cloned.
+2. It can be used to simulate named parameters.
 
-3. TypeScript warns you about unused properties, which would be impossible without destructuring.
+3. Destructuring also clones the specified primitive values of the argument object passed into the function. This can help prevent side effects. Note: objects and arrays that are destructured from the argument object are NOT cloned.
+
+4. TypeScript warns you about unused properties, which would be impossible without destructuring.
 
 **Bad:**
 
@@ -365,7 +367,7 @@ createMenu({
 
 ### Functions should do one thing
 
-This is by far the most important rule in software engineering. When functions do more than one thing, they are harder to compose, test, and reason about. When you can isolate a function to just one action, they can be refactored easily and your code will read much cleaner. If you take nothing else away from this guide other than this, you'll be ahead of many developers.
+This is by far the most important rule in software engineering. When functions do more than one thing, they are harder to compose, test, and reason about. When you can isolate a function to just one action, it can be refactored easily and your code will read much cleaner. If you take nothing else away from this guide other than this, you'll be ahead of many developers.
 
 **Bad:**
 
