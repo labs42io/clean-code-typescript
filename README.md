@@ -309,7 +309,7 @@ In cases where it's not, most of the time a higher-level object will suffice as 
 
 Consider using object literals if you are finding yourself needing a lot of arguments.  
 
-To make it obvious what properties the function expects, you can use the [destructuring](https://basarat.gitbooks.io/typescript/docs/destructuring.html) syntax.
+To make it obvious what properties the function expects, you can use the [destructuring](https://basarat.gitbook.io/typescript/future-javascript/destructuring) syntax.
 This has a few advantages:
 
 1. When someone looks at the function signature, it's immediately clear what properties are being used.
@@ -2350,7 +2350,7 @@ execution on the current stack, killing the process (in Node), and notifying you
 JavaScript as well as TypeScript allow you to `throw` any object. A Promise can also be rejected with any reason object.  
 It is advisable to use the `throw` syntax with an `Error` type. This is because your error might be caught in higher level code with a `catch` syntax.
 It would be very confusing to catch a string message there and would make
-[debugging more painful](https://basarat.gitbooks.io/typescript/docs/types/exceptions.html#always-use-error).  
+[debugging more painful](https://basarat.gitbook.io/typescript/type-system/exceptions#always-use-error).  
 For the same reason you should reject promises with `Error` types.
 
 **Bad:**
@@ -2504,7 +2504,7 @@ For TypeScript there is a powerful tool called [TSLint](https://palantir.github.
 
 - [Immutable](https://www.npmjs.com/package/tslint-immutable) - rules to disable mutation in TypeScript
 
-Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html) source.
+Refer also to this great [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbook.io/typescript/styleguide) source.
 
 ### Use consistent capitalization
 
