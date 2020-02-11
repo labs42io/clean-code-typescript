@@ -263,7 +263,7 @@ Nos casos que não estão, na maior parte do tempo um objeto irá ser o suficien
 Considere usar objetos caso sinta necessidade de enviar muitos argumentos.
 
 Para deixar explicitos quais propriedades suas funções esperam, você pode usar
-[desestruturação](https://basarat.gitbooks.io/typescript/docs/destructuring.html).
+[desestruturação](https://basarat.gitbook.io/future-javascript/destructuring).
 Aqui vão algumas vantagens:
 
 1. Quando alguém olhar a assinatura da função, imediatamente será claro quais propriedades estão sendo usadas.
@@ -279,7 +279,7 @@ function createMenu(
   title: string,
   body: string,
   buttonText: string,
-  cancellable: boolean
+  cancellable: boolean,
 ) {
   // ...
 }
@@ -303,7 +303,7 @@ createMenu({
   title: 'Foo',
   body: 'Bar',
   buttonText: 'Baz',
-  cancellable: true
+  cancellable: true,
 });
 ```
 
@@ -325,7 +325,7 @@ createMenu({
   title: 'Foo',
   body: 'Bar',
   buttonText: 'Baz',
-  cancellable: true
+  cancellable: true,
 });
 ```
 
@@ -488,7 +488,7 @@ function showDeveloperList(developers: Developer[]) {
     const data = {
       expectedSalary,
       experience,
-      githubLink
+      githubLink,
     };
 
     render(data);
@@ -504,7 +504,7 @@ function showManagerList(managers: Manager[]) {
     const data = {
       expectedSalary,
       experience,
-      portfolio
+      portfolio,
     };
 
     render(data);
@@ -519,7 +519,7 @@ class Developer {
   // ...
   getExtraDetails() {
     return {
-      githubLink: this.githubLink
+      githubLink: this.githubLink,
     };
   }
 }
@@ -528,7 +528,7 @@ class Manager {
   // ...
   getExtraDetails() {
     return {
-      portfolio: this.portfolio
+      portfolio: this.portfolio,
     };
   }
 }
@@ -542,7 +542,7 @@ function showEmployeeList(employee: Developer | Manager) {
     const data = {
       expectedSalary,
       experience,
-      extra
+      extra,
     };
 
     render(data);
@@ -578,7 +578,7 @@ const menuConfig = {
   title: null,
   body: 'Bar',
   buttonText: null,
-  cancellable: true
+  cancellable: true,
 };
 
 createMenu(menuConfig);
@@ -600,13 +600,13 @@ function createMenu(config: MenuConfig) {
       title: 'Foo',
       body: 'Bar',
       buttonText: 'Baz',
-      cancellable: true
+      cancellable: true,
     },
-    config
+    config,
   );
 }
 
-createMenu({ body: 'Bar' });
+createMenu({body: 'Bar'});
 ```
 
 Alternativamente, você pode usar desestruturação com valores predefinidos:
@@ -623,12 +623,12 @@ function createMenu({
   title = 'Foo',
   body = 'Bar',
   buttonText = 'Baz',
-  cancellable = true
+  cancellable = true,
 }: MenuConfig) {
   // ...
 }
 
-createMenu({ body: 'Bar' });
+createMenu({body: 'Bar'});
 ```
 
 Para evitar efeitos colaterais e comportamentos indesejados ao passar explicitamente `undefined` ou `null`, você pode dizer ao compilador TypeScript para não permitir isso. Veja mais em [`--strictNullChecks`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#--strictnullchecks).
@@ -729,7 +729,7 @@ Dois avisos ao mencionar essa abordagem:
 
 ```ts
 function addItemToCart(cart: CartItem[], item: Item): void {
-  cart.push({ item, date: Date.now() });
+  cart.push({item, date: Date.now()});
 }
 ```
 
@@ -737,7 +737,7 @@ function addItemToCart(cart: CartItem[], item: Item): void {
 
 ```ts
 function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
-  return [...cart, { item, date: Date.now() }];
+  return [...cart, {item, date: Date.now()}];
 }
 ```
 
@@ -787,20 +787,20 @@ Use esse tipo de paradigma quando puder.
 const contributions = [
   {
     name: 'Uncle Bobby',
-    linesOfCode: 500
+    linesOfCode: 500,
   },
   {
     name: 'Suzie Q',
-    linesOfCode: 1500
+    linesOfCode: 1500,
   },
   {
     name: 'Jimmy Gosling',
-    linesOfCode: 150
+    linesOfCode: 150,
   },
   {
     name: 'Gracie Hopper',
-    linesOfCode: 1000
-  }
+    linesOfCode: 1000,
+  },
 ];
 
 let totalOutput = 0;
@@ -816,25 +816,25 @@ for (let i = 0; i < contributions.length; i++) {
 const contributions = [
   {
     name: 'Uncle Bobby',
-    linesOfCode: 500
+    linesOfCode: 500,
   },
   {
     name: 'Suzie Q',
-    linesOfCode: 1500
+    linesOfCode: 1500,
   },
   {
     name: 'Jimmy Gosling',
-    linesOfCode: 150
+    linesOfCode: 150,
   },
   {
     name: 'Gracie Hopper',
-    linesOfCode: 1000
-  }
+    linesOfCode: 1000,
+  },
 ];
 
 const totalOutput = contributions.reduce(
   (totalLines, output) => totalLines + output.linesOfCode,
-  0
+  0,
 );
 ```
 
@@ -1344,15 +1344,15 @@ class UserManager {
   // I'm still forced to pass and instance of emailSender.
   constructor(
     private readonly db: Database,
-    private readonly emailSender: EmailSender
+    private readonly emailSender: EmailSender,
   ) {}
 
   async getUser(id: number): Promise<User> {
-    return await db.users.findOne({ id });
+    return await db.users.findOne({id});
   }
 
   async getTransactions(userId: number): Promise<Transaction[]> {
-    return await db.transactions.find({ userId });
+    return await db.transactions.find({userId});
   }
 
   async sendGreeting(): Promise<void> {
@@ -1376,11 +1376,11 @@ class UserService {
   constructor(private readonly db: Database) {}
 
   async getUser(id: number): Promise<User> {
-    return await db.users.findOne({ id });
+    return await db.users.findOne({id});
   }
 
   async getTransactions(userId: number): Promise<Transaction[]> {
-    return await db.transactions.find({ userId });
+    return await db.transactions.find({userId});
   }
 }
 
@@ -1430,7 +1430,7 @@ class EmployeeTaxData extends Employee {
     name: string,
     email: string,
     private readonly ssn: string,
-    private readonly salary: number
+    private readonly salary: number,
   ) {
     super(name, email);
   }
@@ -2014,7 +2014,7 @@ Testes devem seguir também o principio da única responsabilidade. Faça apenas
 **Ruim:**
 
 ```ts
-import { assert } from 'chai';
+import {assert} from 'chai';
 
 describe('AwesomeDate', () => {
   it('handles date boundaries', () => {
@@ -2038,7 +2038,7 @@ describe('AwesomeDate', () => {
 **Bom:**
 
 ```ts
-import { assert } from 'chai';
+import {assert} from 'chai';
 
 describe('AwesomeDate', () => {
   it('handles 30-day months', () => {
@@ -2108,13 +2108,13 @@ Há utilitários que transformam funções existentes que usam callbacks para um
 **Ruim:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
+import {get} from 'request';
+import {writeFile} from 'fs';
 
 function downloadPage(
   url: string,
   saveTo: string,
-  callback: (error: Error, content?: string) => void
+  callback: (error: Error, content?: string) => void,
 ) {
   get(url, (error, response) => {
     if (error) {
@@ -2140,16 +2140,16 @@ downloadPage(
     } else {
       console.log(content);
     }
-  }
+  },
 );
 ```
 
 **Bom:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
-import { promisify } from 'util';
+import {get} from 'request';
+import {writeFile} from 'fs';
+import {promisify} from 'util';
 
 const write = promisify(writeFile);
 
@@ -2159,7 +2159,7 @@ function downloadPage(url: string, saveTo: string): Promise<string> {
 
 downloadPage(
   'https://en.wikipedia.org/wiki/Robert_Cecil_Martin',
-  'article.html'
+  'article.html',
 )
   .then(content => console.log(content))
   .catch(error => console.error(error));
@@ -2185,9 +2185,9 @@ Com a sintaxe Async/Await você pode escrever um código muito mais claro e comp
 **Ruim:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
-import { promisify } from 'util';
+import {get} from 'request';
+import {writeFile} from 'fs';
+import {promisify} from 'util';
 
 const write = util.promisify(writeFile);
 
@@ -2197,7 +2197,7 @@ function downloadPage(url: string, saveTo: string): Promise<string> {
 
 downloadPage(
   'https://en.wikipedia.org/wiki/Robert_Cecil_Martin',
-  'article.html'
+  'article.html',
 )
   .then(content => console.log(content))
   .catch(error => console.error(error));
@@ -2206,9 +2206,9 @@ downloadPage(
 **Bom:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
-import { promisify } from 'util';
+import {get} from 'request';
+import {writeFile} from 'fs';
+import {promisify} from 'util';
 
 const write = promisify(writeFile);
 
@@ -2222,7 +2222,7 @@ async function downloadPage(url: string, saveTo: string): Promise<string> {
 try {
   const content = await downloadPage(
     'https://en.wikipedia.org/wiki/Robert_Cecil_Martin',
-    'article.html'
+    'article.html',
   );
   console.log(content);
 } catch (error) {
@@ -2241,7 +2241,7 @@ Erros lançados são uma coisa boa! Eles significam que o tempo de execução id
 JavaScript assim como o TypeScript te permite jogar (`throw`) qualquer objeto. Um promise também ser rejeitado com qualquer objeto de razão.
 É aconselhavel usar a sintaxe jogar(`throw`) com um tipo Erro (`Error`). Isto é porque seu erro pode ser pego em um código de alto nível com uma sintaxe pegar (`catch`).
 Seria muito confuso pegar uma mensagem string la e faria
-[debugar mais doloroso](https://basarat.gitbooks.io/typescript/docs/types/exceptions.html#always-use-error).
+[debugar mais doloroso](https://basarat.gitbook.io/typescript/type-system/exceptions#always-use-error).
 Pela mesma razão você deveria rejeitar promises com tipo de erro (`Error`).
 
 **Ruim:**
@@ -2279,17 +2279,17 @@ Há também outras alternativas, não usar `throw` e, ao invés disso, sempre re
 TypeScript deixa isso ainda mais fácil. Considere o exemplo abaixo:
 
 ```ts
-type Result<R> = { isError: false; value: R };
-type Failure<E> = { isError: true; error: E };
+type Result<R> = {isError: false; value: R};
+type Failure<E> = {isError: true; error: E};
 type Failable<R, E> = Result<R> | Failure<E>;
 
 function calculateTotal(items: Item[]): Failable<number, 'empty'> {
   if (items.length === 0) {
-    return { isError: true, error: 'empty' };
+    return {isError: true, error: 'empty'};
   }
 
   // ...
-  return { isError: false, value: 42 };
+  return {isError: false, value: 42};
 }
 ```
 
@@ -2322,7 +2322,7 @@ try {
 **Bom:**
 
 ```ts
-import { logger } from './logging';
+import {logger} from './logging';
 
 try {
   functionThatMightThrow();
@@ -2352,7 +2352,7 @@ getUser()
 **Bom:**
 
 ```ts
-import { logger } from './logging';
+import {logger} from './logging';
 
 getUser()
   .then((user: User) => {
@@ -2394,7 +2394,7 @@ Em TypeScript, tem uma ótima ferramenta chamada [TSLint](https://palantir.githu
 
 - [Immutable](https://www.npmjs.com/package/tslint-immutable) - Regras para desabilitar mutações no TypeScript
 
-Vale mencionar também este ótimo artigo [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html).
+Vale mencionar também este ótimo artigo [TypeScript StyleGuide and Coding Conventions](https://basarat.gitbook.io/typescript/styleguide).
 
 ### Capitalize de forma consistente
 
@@ -2606,12 +2606,12 @@ Com declarações de import fáceis e limpas de ler, você consegue rapidamente 
 **Ruim:**
 
 ```ts
-import { TypeDefinition } from '../types/typeDefinition';
-import { AttributeTypes } from '../model/attribute';
-import { ApiCredentials, Adapters } from './common/api/authorization';
+import {TypeDefinition} from '../types/typeDefinition';
+import {AttributeTypes} from '../model/attribute';
+import {ApiCredentials, Adapters} from './common/api/authorization';
 import fs from 'fs';
-import { ConfigPlugin } from './plugins/config/configPlugin';
-import { BindingScopeEnum, Container } from 'inversify';
+import {ConfigPlugin} from './plugins/config/configPlugin';
+import {BindingScopeEnum, Container} from 'inversify';
 import 'reflect-metadata';
 ```
 
@@ -2621,13 +2621,13 @@ import 'reflect-metadata';
 import 'reflect-metadata';
 
 import fs from 'fs';
-import { BindingScopeEnum, Container } from 'inversify';
+import {BindingScopeEnum, Container} from 'inversify';
 
-import { AttributeTypes } from '../model/attribute';
-import { TypeDefinition } from '../types/typeDefinition';
+import {AttributeTypes} from '../model/attribute';
+import {TypeDefinition} from '../types/typeDefinition';
 
-import { ApiCredentials, Adapters } from './common/api/authorization';
-import { ConfigPlugin } from './plugins/config/configPlugin';
+import {ApiCredentials, Adapters} from './common/api/authorization';
+import {ConfigPlugin} from './plugins/config/configPlugin';
 ```
 
 **[⬆ ir para o topo](#table-of-contents)**
@@ -2641,13 +2641,13 @@ Isso irá evitar caminhos relativos longos quando fizer imports.
 **Ruim:**
 
 ```ts
-import { UserService } from '../../../services/UserService';
+import {UserService} from '../../../services/UserService';
 ```
 
 **Bom:**
 
 ```ts
-import { UserService } from '@services/UserService';
+import {UserService} from '@services/UserService';
 ```
 
 ```js
@@ -2823,7 +2823,7 @@ Tenha em mente que *TODO*s não são uma desculpa para código ruim.
 ```ts
 function getActiveSubscriptions(): Promise<Subscription[]> {
   // garantir que `dueDate` está indexado
-  return db.subscriptions.find({ dueDate: { $lte: new Date() } });
+  return db.subscriptions.find({dueDate: {$lte: new Date()}});
 }
 ```
 
@@ -2832,7 +2832,7 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 ```ts
 function getActiveSubscriptions(): Promise<Subscription[]> {
   // TODO: garantir que `dueDate` está indexado.
-  return db.subscriptions.find({ dueDate: { $lte: new Date() } });
+  return db.subscriptions.find({dueDate: {$lte: new Date()}});
 }
 ```
 
