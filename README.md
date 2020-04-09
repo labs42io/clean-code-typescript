@@ -847,7 +847,7 @@ if (subscription.isTrial || account.balance > 0) {
 
 ```ts
 function canActivateService(subscription: Subscription, account: Account) {
-  return subscription.isTrial || account.balance > 0
+  return subscription.isTrial || account.balance > 0;
 }
 
 if (canActivateService(subscription, account)) {
