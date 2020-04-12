@@ -261,7 +261,7 @@ const GENRE = {
 projector.configureFilm(GENRE.COMEDY);
 
 class Projector {
-  // delactation of Projector
+  // declaration of Projector
   configureFilm(genre) {
     switch (genre) {
       case GENRE.ROMANTIC:
@@ -284,7 +284,7 @@ enum GENRE {
 projector.configureFilm(GENRE.COMEDY);
 
 class Projector {
-  // delactation of Projector
+  // declaration of Projector
   configureFilm(genre) {
     switch (genre) {
       case GENRE.ROMANTIC:
