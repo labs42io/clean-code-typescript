@@ -874,7 +874,7 @@ if (isEmailNotUsed(email)) {
 **Good:**
 
 ```ts
-function isEmailUsed(email): boolean {
+function isEmailUsed(email: string): boolean {
   // ...
 }
 
