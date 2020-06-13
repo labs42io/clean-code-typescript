@@ -971,7 +971,17 @@ function travelToTexas(vehicle: Bicycle | Car) {
 **Good:**
 
 ```ts
-type Vehicle = Bicycle | Car;
+interface Vehicle {
+  move(current: Location, destination: Location): void
+}
+
+class Bicycle implements Vehicle {
+  // ...
+}
+
+class Car implements Vehicle {
+  // ...
+}
 
 function travelToTexas(vehicle: Vehicle) {
   vehicle.move(currentLocation, new Location('texas'));
