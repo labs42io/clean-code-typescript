@@ -119,7 +119,7 @@ function getUser(): User;
 
 ### Use searchable names
 
-We will read more code than we will ever write. It's important that the code we do write is readable and searchable. By *not* naming variables that end up being meaningful for understanding our program, we hurt our readers. Make your names searchable. Tools like [TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) can help identify unnamed constants.
+We will read more code than we will ever write. It's important that the code we do write must be readable and searchable. By *not* naming variables that end up being meaningful for understanding our program, we hurt our readers. Make your names searchable. Tools like [TSLint](https://palantir.github.io/tslint/rules/no-magic-numbers/) can help identify unnamed constants.
 
 **Bad:**
 
@@ -300,7 +300,7 @@ class Projector {
 
 ### Function arguments (2 or fewer ideally)
 
-Limiting the amount of function parameters is incredibly important because it makes testing your function easier.
+Limiting the number of function parameters is incredibly important because it makes testing your function easier.
 Having more than three leads to a combinatorial explosion where you have to test tons of different cases with each separate argument.  
 
 One or two arguments is the ideal case, and three should be avoided if possible. Anything more than that should be consolidated.
@@ -504,7 +504,7 @@ If you only have one list, there's only one place to update!
 
 Oftentimes you have duplicate code because you have two or more slightly different things, that share a lot in common, but their differences force you to have two or more separate functions that do much of the same things. Removing duplicate code means creating an abstraction that can handle this set of different things with just one function/module/class.  
 
-Getting the abstraction right is critical, that's why you should follow the [SOLID](#solid) principles. Bad abstractions can be worse than duplicate code, so be careful! Having said this, if you can make a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself updating multiple places anytime you want to change one thing.
+Getting the abstraction right is critical, that's why you should follow the [SOLID](#solid) principles. Bad abstractions can be worse than duplicate code, so be careful! Having said this, if you can make a good abstraction, do it! Don't repeat yourself, otherwise, you'll find yourself updating multiple places anytime you want to change one thing.
 
 **Bad:**
 
@@ -580,7 +580,7 @@ function showEmployeeList(employee: Developer | Manager) {
 }
 ```
 
-You should be critical about code duplication. Sometimes there is a tradeoff between duplicated code and increased complexity by introducing unnecessary abstraction. When two implementations from two different modules look similar but live in different domains, duplication might be acceptable and preferred over extracting the common code. The extracted common code in this case introduces an indirect dependency between the two modules.
+You should be critical about code duplication. Sometimes there is a tradeoff between duplicated code and increased complexity by introducing unnecessary abstraction. When two implementations from two different modules look similar but live in different domains, duplication might be acceptable and preferred over extracting the common code. The extracted common code, in this case, introduces an indirect dependency between the two modules.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -714,11 +714,11 @@ console.log(name);
 
 ### Avoid Side Effects (part 2)
 
-In JavaScript, primitives are passed by value and objects/arrays are passed by reference. In the case of objects and arrays, if your function makes a change in a shopping cart array, for example, by adding an item to purchase, then any other function that uses that `cart` array will be affected by this addition. That may be great, however it can be bad too. Let's imagine a bad situation:  
+In JavaScript, primitives are passed by value and objects/arrays are passed by reference. In the case of objects and arrays, if your function makes a change in a shopping cart array, for example, by adding an item to purchase, then any other function that uses that `cart` array will be affected by this addition. That may be great, however, it can be bad too. Let's imagine a bad situation:  
 
-The user clicks the "Purchase", button which calls a `purchase` function that spawns a network request and sends the `cart` array to the server. Because of a bad network connection, the purchase function has to keep retrying the request. Now, what if in the meantime the user accidentally clicks "Add to Cart" button on an item they don't actually want before the network request begins? If that happens and the network request begins, then that purchase function will send the accidentally added item because it has a reference to a shopping cart array that the `addItemToCart` function modified by adding an unwanted item.  
+The user clicks the "Purchase", a button which calls a `purchase` function that spawns a network request and sends the `cart` array to the server. Because of a bad network connection, the purchase function has to keep retrying the request. Now, what if in the meantime the user accidentally clicks "Add to Cart" button on an item they don't actually want before the network request begins? If that happens and the network request begins, then that purchase function will send the accidentally added item because it has a reference to a shopping cart array that the `addItemToCart` function modified by adding an unwanted item.  
 
-A great solution would be for the `addItemToCart` to always clone the `cart`, edit it, and return the clone. This ensures that no other functions that are holding onto a reference of the shopping cart will be affected by any changes.  
+A great solution would be for the `addItemToCart` to always clone the `cart`, edit it, and return the clone. This ensures that no other functions that are holding onto a reference to the shopping cart will be affected by any changes.  
 
 Two caveats to mention to this approach:
 
@@ -1044,9 +1044,9 @@ There are some good reasons:
 
 - decouples the callee from the generator implementation in a sense that callee decides how many
 items to access
-- lazy execution, items are streamed on demand
+- lazy execution, items are streamed on-demand
 - built-in support for iterating items using the `for-of` syntax
-- iterables allow to implement optimized iterator patterns
+- iterables allow implementing optimized iterator patterns
 
 **Bad:**
 
@@ -1231,7 +1231,7 @@ class Circle {
 
 ### Prefer immutability
 
-TypeScript's type system allows you to mark individual properties on an interface / class as *readonly*. This allows you to work in a functional way (unexpected mutation is bad).  
+TypeScript's type system allows you to mark individual properties on an interface/class as *readonly*. This allows you to work in a functional way (an unexpected mutation is bad).  
 For more advanced scenarios there is a built-in type `Readonly` that takes a type `T` and marks all of its properties as readonly using mapped types (see [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types)).
 
 **Bad:**
@@ -1329,7 +1329,7 @@ result.value = 200; // error
 
 ### type vs. interface
 
-Use type when you might need a union or intersection. Use interface when you want `extends` or `implements`. There is no strict rule however, use the one that works for you.  
+Use type when you might need a union or intersection. Use an interface when you want `extends` or `implements`. There is no strict rule, however, use the one that works for you.  
 For a more detailed explanation refer to this [answer](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types/54101543#54101543) about the differences between `type` and `interface` in TypeScript.
 
 **Bad:**
@@ -1432,9 +1432,9 @@ class Dashboard {
 ### High cohesion and low coupling
 
 Cohesion defines the degree to which class members are related to each other. Ideally, all fields within a class should be used by each method.
-We then say that the class is *maximally cohesive*. In practice, this however is not always possible, nor even advisable. You should however prefer cohesion to be high.  
+We then say that the class is *maximally cohesive*. In practice, this, however, is not always possible, nor even advisable. You should however prefer cohesion to be high.  
 
-Coupling refers to how related or dependent are two classes toward each other. Classes are said to be low coupled if changes in one of them doesn't affect the other one.  
+Coupling refers to how related or dependent are two classes toward each other. Classes are said to be low coupled if changes in one of them don't affect the other one.  
   
 Good software design has **high cohesion** and **low coupling**.
 
@@ -1664,7 +1664,7 @@ const query = new QueryBuilder()
 
 ### Single Responsibility Principle (SRP)
 
-As stated in Clean Code, "There should never be more than one reason for a class to change". It's tempting to jam-pack a class with a lot of functionality, like when you can only take one suitcase on your flight. The issue with this is that your class won't be conceptually cohesive and it will give it many reasons to change. Minimizing the amount of times you need to change a class is important. It's important because if too much functionality is in one class and you modify a piece of it, it can be difficult to understand how that will affect other dependent modules in your codebase.
+As stated in Clean Code, "There should never be more than one reason for a class to change". It's tempting to jam-pack a class with a lot of functionality, like when you can only take one suitcase on your flight. The issue with this is that your class won't be conceptually cohesive and it will give it many reasons to change. Minimizing the amount of time you need to change a class is important. It's important because if too much functionality is in one class and you modify a piece of it, it can be difficult to understand how that will affect other dependent modules in your codebase.
 
 **Bad:**
 
@@ -2115,7 +2115,7 @@ There's no excuse to not write tests. There are [plenty of good JS test framewor
 
 1. You are not allowed to write any production code unless it is to make a failing unit test pass.
 
-2. You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.
+2. You are not allowed to write any more of a unit test than is sufficient to fail, and; compilation failures are failures.
 
 3. You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
 
@@ -2189,7 +2189,7 @@ describe('AwesomeDate', () => {
 
 ### The name of the test should reveal its intention
 
-When a test fail, its name is the first indication of what may have gone wrong.
+When a test fails, its name is the first indication of what may have gone wrong.
 
 **Bad:**
 
@@ -2294,7 +2294,7 @@ Promises supports a few helper methods that help make code more concise:
 
 ### Async/Await are even cleaner than Promises
 
-With `async`/`await` syntax you can write code that is far cleaner and more understandable than chained promises. Within a function prefixed with `async` keyword you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
+With `async`/`await` syntax you can write code that is far cleaner and more understandable than chained promises. Within a function prefixed with `async` keyword, you have a way to tell the JavaScript runtime to pause the execution of code on the `await` keyword (when used on a promise).
 
 **Bad:**
 
@@ -2385,8 +2385,8 @@ async function get(): Promise<Item[]> {
 
 The benefit of using `Error` types is that it is supported by the syntax `try/catch/finally` and implicitly all errors have the `stack` property which
 is very powerful for debugging.  
-There are also another alternatives, not to use the `throw` syntax and instead always return custom error objects. TypeScript makes this even easier.
-Consider following example:
+There are also other alternatives, not to use the `throw` syntax and instead always return custom error objects. TypeScript makes this even easier.
+Consider the following example:
 
 ```ts
 type Result<R> = { isError: false, value: R };
@@ -2409,7 +2409,7 @@ For the detailed explanation of this idea refer to the [original post](https://m
 
 ### Don't ignore caught errors
 
-Doing nothing with a caught error doesn't give you the ability to ever fix or react to said error. Logging the error to the console (`console.log`) isn't much better as often times it can get lost in a sea of things printed to the console. If you wrap any bit of code in a `try/catch` it means you think an error may occur there and therefore you should have a plan, or create a code path, for when it occurs.
+Doing nothing with a caught error doesn't give you the ability to ever fix or react to said error. Logging the error to the console (`console.log`) isn't much better as often it can get lost in a sea of things printed to the console. If you wrap any bit of code in a `try/catch` it means you think an error may occur there and therefore you should have a plan, or create a code path, for when it occurs.
 
 **Bad:**
 
@@ -2862,7 +2862,7 @@ class Client {
 ### TODO comments
 
 When you find yourself that you need to leave notes in the code for some later improvements,
-do that using `// TODO` comments. Most IDE have special support for those kind of comments so that
+do that using `// TODO` comments. Most IDE have special support for those kinds of comments so that
 you can quickly go over the entire list of todos.  
 
 Keep in mind however that a *TODO* comment is not an excuse for bad code. 
