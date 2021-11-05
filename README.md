@@ -878,7 +878,7 @@ function isEmailUsed(email: string): boolean {
   // ...
 }
 
-if (!isEmailUsed(node)) {
+if (!isEmailUsed(email)) {
   // ...
 }
 ```
