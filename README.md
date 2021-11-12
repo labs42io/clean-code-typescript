@@ -2050,7 +2050,7 @@ class ReportReader {
 
 // ...
 const reader = new ReportReader();
-await report = await reader.read('report.xml');
+const report = await reader.read('report.xml');
 ```
 
 **Good:**
@@ -2094,11 +2094,11 @@ class ReportReader {
 
 // ...
 const reader = new ReportReader(new XmlFormatter());
-await report = await reader.read('report.xml');
+const report = await reader.read('report.xml');
 
 // or if we had to read a json report
 const reader = new ReportReader(new JsonFormatter());
-await report = await reader.read('report.json');
+const report = await reader.read('report.json');
 ```
 
 **[⬆ back to top](#table-of-contents)**
