@@ -372,7 +372,7 @@ This is by far the most important rule in software engineering. When functions d
 **Bad:**
 
 ```ts
-function emailClients(clients: Client[]) {
+function emailActiveClients(clients: Client[]) {
   clients.forEach((client) => {
     const clientRecord = database.lookup(client);
     if (clientRecord.isActive()) {
@@ -385,7 +385,7 @@ function emailClients(clients: Client[]) {
 **Good:**
 
 ```ts
-function emailClients(clients: Client[]) {
+function emailActiveClients(clients: Client[]) {
   clients.filter(isActiveClient).forEach(email);
 }
 
