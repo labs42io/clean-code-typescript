@@ -622,6 +622,24 @@ function createMenu(config: MenuConfig) {
 createMenu({ body: 'Bar' });
 ```
 
+Or, you could use the spread operator:
+
+```ts
+function createMenu(config: MenuConfig) {
+  const menuConfig = {
+    title: 'Foo',
+    body: 'Bar',
+    buttonText: 'Baz',
+    cancellable: true,
+    ...config,
+  };
+
+  // ...
+}
+```
+The spread operator and `Object.assign()` are very similar.
+The main difference is that spreading defines new properties, while `Object.assign()` sets them. More detailed, the difference is explained in [this](https://stackoverflow.com/questions/32925460/object-spread-vs-object-assign) thread.
+
 Alternatively, you can use destructuring with default values:
 
 ```ts
