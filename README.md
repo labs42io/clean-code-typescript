@@ -2362,15 +2362,15 @@ import { promisify } from 'util';
 
 const write = promisify(writeFile);
 
-async function downloadPage(url: string, saveTo: string): Promise<string> {
+async function downloadPage(url: string): Promise<string> {
   const response = await get(url);
-  await write(saveTo, response);
   return response;
 }
 
 // somewhere in an async function
 try {
-  const content = await downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html');
+  const content = await downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin');
+  await write('article.html', content);
   console.log(content);
 } catch (error) {
   console.error(error);
