@@ -2570,6 +2570,9 @@ const DAYS_IN_MONTH = 30;
 const SONGS = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
 const ARTISTS = ['ACDC', 'Led Zeppelin', 'The Beatles'];
 
+const discography = getArtistDiscography('ACDC');
+const beatlesSongs = SONGS.filter((song) => isBeatlesSong(song));
+
 function eraseDatabase() {}
 function restoreDatabase() {}
 
@@ -2579,6 +2582,7 @@ type Container = { /* ... */ }
 
 Prefer using `PascalCase` for class, interface, type and namespace names.  
 Prefer using `camelCase` for variables, functions and class members.
+Prefer using capitalized `SNAKE_CASE` for constants.
 
 **[⬆ back to top](#table-of-contents)**
 
