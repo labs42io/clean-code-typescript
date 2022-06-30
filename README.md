@@ -1293,15 +1293,15 @@ interface Config {
 }
 ```
 
-Case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
-do not allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the value.
+For arrays, you can create a read-only array by using `ReadonlyArray<T>`.
+It doesn't allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the array's value.
 
 **Bad:**
 
 ```ts
 const array: number[] = [ 1, 3, 5 ];
 array = []; // error
-array.push(100); // array will updated
+array.push(100); // array will be updated
 ```
 
 **Good:**
