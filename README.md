@@ -563,7 +563,7 @@ class Manager {
   }
 }
 
-function showEmployeeList(employee: Developer | Manager) {
+function showEmployeeList(employee: (Developer | Manager)[]) {
   employee.forEach((employee) => {
     const expectedSalary = employee.calculateExpectedSalary();
     const experience = employee.getExperience();
@@ -578,6 +578,25 @@ function showEmployeeList(employee: Developer | Manager) {
     render(data);
   });
 }
+```
+
+You may also consider adding a union type, or common parent class if it suits your abstraction.
+```ts
+class Developer {
+  // ...
+}
+
+class Manager {
+  // ...
+}
+
+type Employee = Developer | Manager
+
+function showEmployeeList(employee: Employee[]) {
+  // ...
+  });
+}
+
 ```
 
 You should be critical about code duplication. Sometimes there is a tradeoff between duplicated code and increased complexity by introducing unnecessary abstraction. When two implementations from two different modules look similar but live in different domains, duplication might be acceptable and preferred over extracting the common code. The extracted common code, in this case, introduces an indirect dependency between the two modules.
