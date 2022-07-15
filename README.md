@@ -563,7 +563,7 @@ class Manager {
   }
 }
 
-function showEmployeeList(employee: Developer | Manager) {
+function showEmployeeList(employee: (Developer | Manager)[]) {
   employee.forEach((employee) => {
     const expectedSalary = employee.calculateExpectedSalary();
     const experience = employee.getExperience();
@@ -578,6 +578,25 @@ function showEmployeeList(employee: Developer | Manager) {
     render(data);
   });
 }
+```
+
+You may also consider adding a union type, or common parent class if it suits your abstraction.
+```ts
+class Developer {
+  // ...
+}
+
+class Manager {
+  // ...
+}
+
+type Employee = Developer | Manager
+
+function showEmployeeList(employee: Employee[]) {
+  // ...
+  });
+}
+
 ```
 
 You should be critical about code duplication. Sometimes there is a tradeoff between duplicated code and increased complexity by introducing unnecessary abstraction. When two implementations from two different modules look similar but live in different domains, duplication might be acceptable and preferred over extracting the common code. The extracted common code, in this case, introduces an indirect dependency between the two modules.
@@ -1274,15 +1293,15 @@ interface Config {
 }
 ```
 
-Case of Array, you can create a read-only array by using `ReadonlyArray<T>`.
-do not allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the value.
+For arrays, you can create a read-only array by using `ReadonlyArray<T>`.
+It doesn't allow changes such as `push()` and `fill()`, but can use features such as `concat()` and `slice()` that do not change the array's value.
 
 **Bad:**
 
 ```ts
 const array: number[] = [ 1, 3, 5 ];
 array = []; // error
-array.push(100); // array will updated
+array.push(100); // array will be updated
 ```
 
 **Good:**
@@ -2343,15 +2362,15 @@ import { promisify } from 'util';
 
 const write = promisify(writeFile);
 
-async function downloadPage(url: string, saveTo: string): Promise<string> {
+async function downloadPage(url: string): Promise<string> {
   const response = await get(url);
-  await write(saveTo, response);
   return response;
 }
 
 // somewhere in an async function
 try {
-  const content = await downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html');
+  const content = await downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin');
+  await write('article.html', content);
   console.log(content);
 } catch (error) {
   console.error(error);
@@ -2551,6 +2570,9 @@ const DAYS_IN_MONTH = 30;
 const SONGS = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
 const ARTISTS = ['ACDC', 'Led Zeppelin', 'The Beatles'];
 
+const discography = getArtistDiscography('ACDC');
+const beatlesSongs = SONGS.filter((song) => isBeatlesSong(song));
+
 function eraseDatabase() {}
 function restoreDatabase() {}
 
@@ -2560,6 +2582,7 @@ type Container = { /* ... */ }
 
 Prefer using `PascalCase` for class, interface, type and namespace names.  
 Prefer using `camelCase` for variables, functions and class members.
+Prefer using capitalized `SNAKE_CASE` for constants.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -2660,6 +2683,7 @@ With clean and easy to read import statements you can quickly see the dependenci
 - Unused imports should be removed.
 - Named imports must be alphabetized (i.e. `import {A, B, C} from 'foo';`)
 - Import sources must be alphabetized within groups, i.e.: `import * as foo from 'a'; import * as bar from 'b';`
+- Prefer using `import type` instead of `import` when importing only types from a file to avoid dependency cycles, as these imports are erased at runtime
 - Groups of imports are delineated by blank lines.
 - Groups must respect following order:
   - Polyfills (i.e. `import 'reflect-metadata';`)
@@ -2674,6 +2698,7 @@ With clean and easy to read import statements you can quickly see the dependenci
 ```ts
 import { TypeDefinition } from '../types/typeDefinition';
 import { AttributeTypes } from '../model/attribute';
+import { Customer, Credentials } from '../model/types';
 import { ApiCredentials, Adapters } from './common/api/authorization';
 import fs from 'fs';
 import { ConfigPlugin } from './plugins/config/configPlugin';
@@ -2691,6 +2716,7 @@ import { BindingScopeEnum, Container } from 'inversify';
 
 import { AttributeTypes } from '../model/attribute';
 import { TypeDefinition } from '../types/typeDefinition';
+import type { Customer, Credentials } from '../model/types';
 
 import { ApiCredentials, Adapters } from './common/api/authorization';
 import { ConfigPlugin } from './plugins/config/configPlugin';
