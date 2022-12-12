@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "diagnostics": true,
+    "skipLibCheck": true,
+    "module": "commonjs",
+    "target": "es2017",
+    "sourceMap": true,
+    "declaration": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/test/**/*"
+  ]
+}
