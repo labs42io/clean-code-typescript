@@ -1468,6 +1468,14 @@ class Dashboard {
 
 **[⬆ back to top](#table-of-contents)**
 
+### Class constructor arguments (4 or fewer)
+
+Having constructors with a vast amount of parameters can lead to chaotic dependencies or result to very complex client code that would be required in order to build all of these parameters. The recommendation is to have constructors with 4 or fewer arguments, as humans tend to be able to hold 4 things in their head at once *(Susan Weinschenk, 100 Things Every Designer Needs to Know about People, 48)*.
+
+If the use case is such that your object is complex enough to possibly require more than 4 constructor parameters, evaluate using the *[Builder](https://refactoring.guru/design-patterns/builder)* Creational Design Pattern instead.  
+
+**[⬆ back to top](#table-of-contents)**
+
 ### High cohesion and low coupling
 
 Cohesion defines the degree to which class members are related to each other. Ideally, all fields within a class should be used by each method.
