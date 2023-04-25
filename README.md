@@ -5,18 +5,18 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
 
 ## Table of Contents
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-  3. [Functions](#functions)
-  4. [Objects and Data Structures](#objects-and-data-structures)
-  5. [Classes](#classes)
+  1. [Кириш](#introduction)
+  2. [өзгөрмөлөр](#variables)
+  3. [Функциялар](#functions)
+  4. [Объекттер жана маалымат структуралары](#objects-and-data-structures)
+  5. [Класстар](#classes)
   6. [SOLID](#solid)
-  7. [Testing](#testing)
-  8. [Concurrency](#concurrency)
-  9. [Error Handling](#error-handling)
-  10. [Formatting](#formatting)
-  11. [Comments](#comments)
-  12. [Translations](#translations)
+  7. [Тест жүргүзүү](#testing)
+  8. [параллелизм](#concurrency)
+  9. [Ката менен иштөө](#error-handling)
+  10. [Форматтоо](#formatting)
+  11. [Комментарийлер](#comments)
+  12. [Котормолор](#translations)
 
 ## Introduction
 
