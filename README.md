@@ -17,6 +17,7 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
   10. [Formatting](#formatting)
   11. [Comments](#comments)
   12. [Translations](#translations)
+  13. [Exports](#exports)
 
 ## Introduction
 
@@ -2903,3 +2904,55 @@ There is work in progress for translating this to other languages:
 References will be added once translations are completed.  
 Check this [discussion](https://github.com/labs42io/clean-code-typescript/issues/15) for more details and progress.
 You can make an indispensable contribution to *Clean Code* community by translating this to your language.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Exports
+
+### Avoid using default export
+
+Using default exports leads to misleading naming in re-exports.
+
+**Bad:**
+
+```ts
+// SomeComponent.tsx
+
+export interface ISomeComponentProps {
+  firstProp: string
+}
+
+const SomeComponent = ({ firstProp }: ISomeComponentProps) => {
+  //...
+}
+
+export default SomeComponent
+
+```
+
+```ts
+// index.ts
+export type { ISomeComponentProps } from './SomeComponent.tsx'
+export { default as SomeComponent } from './SomeComponent.tsx'
+```
+
+**Good:**
+
+```ts
+// SomeComponent.tsx
+
+export interface ISomeComponentProps {
+  firstProp: string
+}
+
+export const SomeComponent = ({ firstProp }: ISomeComponentProps) => {
+  //...
+}
+```
+
+```ts
+// index.ts
+export * from './SomeComponent.tsx'
+```
+
+**[⬆ back to top](#table-of-contents)**
