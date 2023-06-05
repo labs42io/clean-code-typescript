@@ -3027,7 +3027,7 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 
 ## Logging
 
-
+Helpful guidelines: https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Logging_Cheat_Sheet.md
 
 **[⬆ back to top](#table-of-contents)**
 
