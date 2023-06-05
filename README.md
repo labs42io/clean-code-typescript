@@ -17,6 +17,7 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
 - [Error Handling](#error-handling)
 - [Formatting](#formatting)
 - [Comments](#comments)
+- [Logging](#logging)
 - [Translations](#translations)
 
 ## Introduction
@@ -3021,6 +3022,12 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
   return db.subscriptions.find({ dueDate: { $lte: new Date() } });
 }
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Logging
+
+
 
 **[⬆ back to top](#table-of-contents)**
 
