@@ -302,10 +302,10 @@ different rather than the exact value of those.
 
 ```ts
 const GENRE = {
-  ROMANTIC: 'romantic',
-  DRAMA: 'drama',
-  COMEDY: 'comedy',
-  DOCUMENTARY: 'documentary',
+  ROMANTIC: "romantic",
+  DRAMA: "drama",
+  COMEDY: "comedy",
+  DOCUMENTARY: "documentary",
 };
 
 projector.configureFilm(GENRE.COMEDY);
@@ -373,24 +373,34 @@ This has a few advantages:
 **Bad:**
 
 ```ts
-function createMenu(title: string, body: string, buttonText: string, cancellable: boolean) {
+function createMenu(
+  title: string,
+  body: string,
+  buttonText: string,
+  cancellable: boolean
+) {
   // ...
 }
 
-createMenu('Foo', 'Bar', 'Baz', true);
+createMenu("Foo", "Bar", "Baz", true);
 ```
 
 **Good:**
 
 ```ts
-function createMenu(options: { title: string; body: string; buttonText: string; cancellable: boolean }) {
+function createMenu(options: {
+  title: string;
+  body: string;
+  buttonText: string;
+  cancellable: boolean;
+}) {
   // ...
 }
 
 createMenu({
-  title: 'Foo',
-  body: 'Bar',
-  buttonText: 'Baz',
+  title: "Foo",
+  body: "Bar",
+  buttonText: "Baz",
   cancellable: true,
 });
 ```
@@ -398,16 +408,21 @@ createMenu({
 You can further improve readability by using [type aliases](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-aliases):
 
 ```ts
-type MenuOptions = { title: string; body: string; buttonText: string; cancellable: boolean };
+type MenuOptions = {
+  title: string;
+  body: string;
+  buttonText: string;
+  cancellable: boolean;
+};
 
 function createMenu(options: MenuOptions) {
   // ...
 }
 
 createMenu({
-  title: 'Foo',
-  body: 'Bar',
-  buttonText: 'Baz',
+  title: "Foo",
+  body: "Bar",
+  buttonText: "Baz",
   cancellable: true,
 });
 ```
@@ -485,7 +500,7 @@ function parseCode(code: string) {
   const REGEXES = [
     /* ... */
   ];
-  const statements = code.split(' ');
+  const statements = code.split(" ");
   const tokens = [];
 
   REGEXES.forEach((regex) => {
@@ -522,7 +537,7 @@ function parseCode(code: string) {
 }
 
 function tokenize(code: string): Token[] {
-  const statements = code.split(' ');
+  const statements = code.split(" ");
   const tokens: Token[] = [];
 
   REGEXES.forEach((regex) => {
@@ -662,40 +677,51 @@ You should be critical about code duplication. Sometimes there is a tradeoff bet
 **Bad:**
 
 ```ts
-type MenuConfig = { title?: string; body?: string; buttonText?: string; cancellable?: boolean };
+type MenuConfig = {
+  title?: string;
+  body?: string;
+  buttonText?: string;
+  cancellable?: boolean;
+};
 
 function createMenu(config: MenuConfig) {
-  config.title = config.title || 'Foo';
-  config.body = config.body || 'Bar';
-  config.buttonText = config.buttonText || 'Baz';
-  config.cancellable = config.cancellable !== undefined ? config.cancellable : true;
+  config.title = config.title || "Foo";
+  config.body = config.body || "Bar";
+  config.buttonText = config.buttonText || "Baz";
+  config.cancellable =
+    config.cancellable !== undefined ? config.cancellable : true;
 
   // ...
 }
 
-createMenu({ body: 'Bar' });
+createMenu({ body: "Bar" });
 ```
 
 **Good:**
 
 ```ts
-type MenuConfig = { title?: string; body?: string; buttonText?: string; cancellable?: boolean };
+type MenuConfig = {
+  title?: string;
+  body?: string;
+  buttonText?: string;
+  cancellable?: boolean;
+};
 
 function createMenu(config: MenuConfig) {
   const menuConfig = Object.assign(
     {
-      title: 'Foo',
-      body: 'Bar',
-      buttonText: 'Baz',
+      title: "Foo",
+      body: "Bar",
+      buttonText: "Baz",
       cancellable: true,
     },
-    config,
+    config
   );
 
   // ...
 }
 
-createMenu({ body: 'Bar' });
+createMenu({ body: "Bar" });
 ```
 
 Or, you could use the spread operator:
@@ -703,9 +729,9 @@ Or, you could use the spread operator:
 ```ts
 function createMenu(config: MenuConfig) {
   const menuConfig = {
-    title: 'Foo',
-    body: 'Bar',
-    buttonText: 'Baz',
+    title: "Foo",
+    body: "Bar",
+    buttonText: "Baz",
     cancellable: true,
     ...config,
   };
@@ -720,13 +746,23 @@ The main difference is that spreading defines new properties, while `Object.assi
 Alternatively, you can use destructuring with default values:
 
 ```ts
-type MenuConfig = { title?: string; body?: string; buttonText?: string; cancellable?: boolean };
+type MenuConfig = {
+  title?: string;
+  body?: string;
+  buttonText?: string;
+  cancellable?: boolean;
+};
 
-function createMenu({ title = 'Foo', body = 'Bar', buttonText = 'Baz', cancellable = true }: MenuConfig) {
+function createMenu({
+  title = "Foo",
+  body = "Bar",
+  buttonText = "Baz",
+  cancellable = true,
+}: MenuConfig) {
   // ...
 }
 
-createMenu({ body: 'Bar' });
+createMenu({ body: "Bar" });
 ```
 
 To avoid any side effects and unexpected behavior by passing in explicitly the `undefined` or `null` value, you can tell the TypeScript compiler to not allow it.
@@ -780,7 +816,7 @@ The main point is to avoid common pitfalls like sharing state between objects wi
 
 ```ts
 // Global variable referenced by following function.
-let name = 'Robert C. Martin';
+let name = "Robert C. Martin";
 
 function toBase64() {
   name = btoa(name);
@@ -795,7 +831,7 @@ console.log(name); // expected to print 'Robert C. Martin' but instead 'Um9iZXJ0
 **Good:**
 
 ```ts
-const name = 'Robert C. Martin';
+const name = "Robert C. Martin";
 
 function toBase64(text: string): string {
   return btoa(text);
@@ -884,19 +920,19 @@ Favor this style of programming when you can.
 ```ts
 const contributions = [
   {
-    name: 'Uncle Bobby',
+    name: "Uncle Bobby",
     linesOfCode: 500,
   },
   {
-    name: 'Suzie Q',
+    name: "Suzie Q",
     linesOfCode: 1500,
   },
   {
-    name: 'Jimmy Gosling',
+    name: "Jimmy Gosling",
     linesOfCode: 150,
   },
   {
-    name: 'Gracie Hopper',
+    name: "Gracie Hopper",
     linesOfCode: 1000,
   },
 ];
@@ -913,24 +949,27 @@ for (let i = 0; i < contributions.length; i++) {
 ```ts
 const contributions = [
   {
-    name: 'Uncle Bobby',
+    name: "Uncle Bobby",
     linesOfCode: 500,
   },
   {
-    name: 'Suzie Q',
+    name: "Suzie Q",
     linesOfCode: 1500,
   },
   {
-    name: 'Jimmy Gosling',
+    name: "Jimmy Gosling",
     linesOfCode: 150,
   },
   {
-    name: 'Gracie Hopper',
+    name: "Gracie Hopper",
     linesOfCode: 1000,
   },
 ];
 
-const totalOutput = contributions.reduce((totalLines, output) => totalLines + output.linesOfCode, 0);
+const totalOutput = contributions.reduce(
+  (totalLines, output) => totalLines + output.linesOfCode,
+  0
+);
 ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -1000,14 +1039,14 @@ class Airplane {
 
   getCruisingAltitude() {
     switch (this.type) {
-      case '777':
+      case "777":
         return this.getMaxAltitude() - this.getPassengerCount();
-      case 'Air Force One':
+      case "Air Force One":
         return this.getMaxAltitude();
-      case 'Cessna':
+      case "Cessna":
         return this.getMaxAltitude() - this.getFuelExpenditure();
       default:
-        throw new Error('Unknown airplane type.');
+        throw new Error("Unknown airplane type.");
     }
   }
 
@@ -1063,9 +1102,9 @@ It makes refactoring more easier.
 ```ts
 function travelToTexas(vehicle: Bicycle | Car) {
   if (vehicle instanceof Bicycle) {
-    vehicle.pedal(currentLocation, new Location('texas'));
+    vehicle.pedal(currentLocation, new Location("texas"));
   } else if (vehicle instanceof Car) {
-    vehicle.drive(currentLocation, new Location('texas'));
+    vehicle.drive(currentLocation, new Location("texas"));
   }
 }
 ```
@@ -1076,7 +1115,7 @@ function travelToTexas(vehicle: Bicycle | Car) {
 type Vehicle = Bicycle | Car;
 
 function travelToTexas(vehicle: Vehicle) {
-  vehicle.move(currentLocation, new Location('texas'));
+  vehicle.move(currentLocation, new Location("texas"));
 }
 ```
 
@@ -1123,7 +1162,7 @@ function requestModule(url: string) {
 }
 
 const req = requestModule;
-inventoryTracker('apples', req, 'www.inventory-awesome.io');
+inventoryTracker("apples", req, "www.inventory-awesome.io");
 ```
 
 **Good:**
@@ -1134,7 +1173,7 @@ function requestModule(url: string) {
 }
 
 const req = requestModule;
-inventoryTracker('apples', req, 'www.inventory-awesome.io');
+inventoryTracker("apples", req, "www.inventory-awesome.io");
 ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -1204,7 +1243,7 @@ chaining methods like `map`, `slice`, `forEach` etc. See [itiriri](https://www.n
 an example of advanced manipulation with iterables (or [itiriri-async](https://www.npmjs.com/package/itiriri-async) for manipulation of async iterables).
 
 ```ts
-import itiriri from 'itiriri';
+import itiriri from "itiriri";
 
 function* fibonacci(): IterableIterator<number> {
   let [a, b] = [0, 1];
@@ -1251,7 +1290,7 @@ const account: BankAccount = {
 };
 
 if (value < 0) {
-  throw new Error('Cannot set negative balance.');
+  throw new Error("Cannot set negative balance.");
 }
 
 account.balance = value;
@@ -1269,7 +1308,7 @@ class BankAccount {
 
   set balance(value: number) {
     if (value < 0) {
-      throw new Error('Cannot set negative balance.');
+      throw new Error("Cannot set negative balance.");
     }
 
     this.accountBalance = value;
@@ -1388,9 +1427,9 @@ Prefer [const assertions](https://github.com/microsoft/TypeScript/wiki/What's-ne
 
 ```ts
 const config = {
-  hello: 'world',
+  hello: "world",
 };
-config.hello = 'world'; // value is changed
+config.hello = "world"; // value is changed
 
 const array = [1, 3, 5];
 array[0] = 10; // value is changed
@@ -1409,9 +1448,9 @@ result.value = 200; // value is changed
 ```ts
 // read-only object
 const config = {
-  hello: 'world',
+  hello: "world",
 } as const;
-config.hello = 'world'; // error
+config.hello = "world"; // error
 
 // read-only array
 const array = [1, 3, 5] as const;
@@ -1579,7 +1618,10 @@ class UserManager {
   // It makes clear evidence that the class is holding more than a single responsibility.
   // If I need only to create the service to get the transactions for a user,
   // I'm still forced to pass and instance of `emailSender`.
-  constructor(private readonly db: Database, private readonly emailSender: EmailSender) {}
+  constructor(
+    private readonly db: Database,
+    private readonly emailSender: EmailSender
+  ) {}
 
   async getUser(id: number): Promise<User> {
     return await db.users.findOne({ id });
@@ -1590,7 +1632,7 @@ class UserManager {
   }
 
   async sendGreeting(): Promise<void> {
-    await emailSender.send('Welcome!');
+    await emailSender.send("Welcome!");
   }
 
   async sendNotification(text: string): Promise<void> {
@@ -1622,7 +1664,7 @@ class UserNotifier {
   constructor(private readonly emailSender: EmailSender) {}
 
   async sendGreeting(): Promise<void> {
-    await this.emailSender.send('Welcome!');
+    await this.emailSender.send("Welcome!");
   }
 
   async sendNotification(text: string): Promise<void> {
@@ -1660,7 +1702,12 @@ class Employee {
 
 // Bad because Employees "have" tax data. EmployeeTaxData is not a type of Employee
 class EmployeeTaxData extends Employee {
-  constructor(name: string, email: string, private readonly ssn: string, private readonly salary: number) {
+  constructor(
+    name: string,
+    email: string,
+    private readonly ssn: string,
+    private readonly salary: number
+  ) {
     super(name, email);
   }
 
@@ -1727,9 +1774,9 @@ class QueryBuilder {
 // ...
 
 const queryBuilder = new QueryBuilder();
-queryBuilder.from('users');
+queryBuilder.from("users");
 queryBuilder.page(1, 100);
-queryBuilder.orderBy('firstName', 'lastName');
+queryBuilder.orderBy("firstName", "lastName");
 
 const query = queryBuilder.build();
 ```
@@ -1766,7 +1813,11 @@ class QueryBuilder {
 
 // ...
 
-const query = new QueryBuilder().from('users').page(1, 100).orderBy('firstName', 'lastName').build();
+const query = new QueryBuilder()
+  .from("users")
+  .page(1, 100)
+  .orderBy("firstName", "lastName")
+  .build();
 ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -2056,11 +2107,11 @@ class EconomicPrinter implements SmartPrinter {
   }
 
   fax() {
-    throw new Error('Fax not supported.');
+    throw new Error("Fax not supported.");
   }
 
   scan() {
-    throw new Error('Scan not supported.');
+    throw new Error("Scan not supported.");
   }
 }
 ```
@@ -2118,8 +2169,8 @@ DIP is usually achieved by a using an inversion of control (IoC) container. An e
 **Bad:**
 
 ```ts
-import { readFile as readFileCb } from 'fs';
-import { promisify } from 'util';
+import { readFile as readFileCb } from "fs";
+import { promisify } from "util";
 
 const readFile = promisify(readFileCb);
 
@@ -2139,21 +2190,21 @@ class ReportReader {
   private readonly formatter = new XmlFormatter();
 
   async read(path: string): Promise<ReportData> {
-    const text = await readFile(path, 'UTF8');
+    const text = await readFile(path, "UTF8");
     return this.formatter.parse<ReportData>(text);
   }
 }
 
 // ...
 const reader = new ReportReader();
-const report = await reader.read('report.xml');
+const report = await reader.read("report.xml");
 ```
 
 **Good:**
 
 ```ts
-import { readFile as readFileCb } from 'fs';
-import { promisify } from 'util';
+import { readFile as readFileCb } from "fs";
+import { promisify } from "util";
 
 const readFile = promisify(readFileCb);
 
@@ -2181,18 +2232,18 @@ class ReportReader {
   constructor(private readonly formatter: Formatter) {}
 
   async read(path: string): Promise<ReportData> {
-    const text = await readFile(path, 'UTF8');
+    const text = await readFile(path, "UTF8");
     return this.formatter.parse<ReportData>(text);
   }
 }
 
 // ...
 const reader = new ReportReader(new XmlFormatter());
-const report = await reader.read('report.xml');
+const report = await reader.read("report.xml");
 
 // or if we had to read a json report
 const reader = new ReportReader(new JsonFormatter());
-const report = await reader.read('report.json');
+const report = await reader.read("report.json");
 ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -2248,20 +2299,20 @@ Tests should also follow the _Single Responsibility Principle_. Make only one as
 **Bad:**
 
 ```ts
-import { assert } from 'chai';
+import { assert } from "chai";
 
-describe('AwesomeDate', () => {
-  it('handles date boundaries', () => {
+describe("AwesomeDate", () => {
+  it("handles date boundaries", () => {
     let date: AwesomeDate;
 
-    date = new AwesomeDate('1/1/2015');
-    assert.equal('1/31/2015', date.addDays(30));
+    date = new AwesomeDate("1/1/2015");
+    assert.equal("1/31/2015", date.addDays(30));
 
-    date = new AwesomeDate('2/1/2016');
-    assert.equal('2/29/2016', date.addDays(28));
+    date = new AwesomeDate("2/1/2016");
+    assert.equal("2/29/2016", date.addDays(28));
 
-    date = new AwesomeDate('2/1/2015');
-    assert.equal('3/1/2015', date.addDays(28));
+    date = new AwesomeDate("2/1/2015");
+    assert.equal("3/1/2015", date.addDays(28));
   });
 });
 ```
@@ -2269,22 +2320,22 @@ describe('AwesomeDate', () => {
 **Good:**
 
 ```ts
-import { assert } from 'chai';
+import { assert } from "chai";
 
-describe('AwesomeDate', () => {
-  it('handles 30-day months', () => {
-    const date = new AwesomeDate('1/1/2015');
-    assert.equal('1/31/2015', date.addDays(30));
+describe("AwesomeDate", () => {
+  it("handles 30-day months", () => {
+    const date = new AwesomeDate("1/1/2015");
+    assert.equal("1/31/2015", date.addDays(30));
   });
 
-  it('handles leap year', () => {
-    const date = new AwesomeDate('2/1/2016');
-    assert.equal('2/29/2016', date.addDays(28));
+  it("handles leap year", () => {
+    const date = new AwesomeDate("2/1/2016");
+    assert.equal("2/29/2016", date.addDays(28));
   });
 
-  it('handles non-leap year', () => {
-    const date = new AwesomeDate('2/1/2015');
-    assert.equal('3/1/2015', date.addDays(28));
+  it("handles non-leap year", () => {
+    const date = new AwesomeDate("2/1/2015");
+    assert.equal("3/1/2015", date.addDays(28));
   });
 });
 ```
@@ -2298,12 +2349,12 @@ When a test fails, its name is the first indication of what may have gone wrong.
 **Bad:**
 
 ```ts
-describe('Calendar', () => {
-  it('2/29/2020', () => {
+describe("Calendar", () => {
+  it("2/29/2020", () => {
     // ...
   });
 
-  it('throws', () => {
+  it("throws", () => {
     // ...
   });
 });
@@ -2312,12 +2363,12 @@ describe('Calendar', () => {
 **Good:**
 
 ```ts
-describe('Calendar', () => {
-  it('should handle leap year', () => {
+describe("Calendar", () => {
+  it("should handle leap year", () => {
     // ...
   });
 
-  it('should throw when format is invalid', () => {
+  it("should throw when format is invalid", () => {
     // ...
   });
 });
@@ -2336,10 +2387,14 @@ There are utilities that transform existing functions using the callback style t
 **Bad:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
+import { get } from "request";
+import { writeFile } from "fs";
 
-function downloadPage(url: string, saveTo: string, callback: (error: Error, content?: string) => void) {
+function downloadPage(
+  url: string,
+  saveTo: string,
+  callback: (error: Error, content?: string) => void
+) {
   get(url, (error, response) => {
     if (error) {
       callback(error);
@@ -2355,21 +2410,25 @@ function downloadPage(url: string, saveTo: string, callback: (error: Error, cont
   });
 }
 
-downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html', (error, content) => {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log(content);
+downloadPage(
+  "https://en.wikipedia.org/wiki/Robert_Cecil_Martin",
+  "article.html",
+  (error, content) => {
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(content);
+    }
   }
-});
+);
 ```
 
 **Good:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
-import { promisify } from 'util';
+import { get } from "request";
+import { writeFile } from "fs";
+import { promisify } from "util";
 
 const write = promisify(writeFile);
 
@@ -2377,7 +2436,10 @@ function downloadPage(url: string, saveTo: string): Promise<string> {
   return get(url).then((response) => write(saveTo, response));
 }
 
-downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html')
+downloadPage(
+  "https://en.wikipedia.org/wiki/Robert_Cecil_Martin",
+  "article.html"
+)
   .then((content) => console.log(content))
   .catch((error) => console.error(error));
 ```
@@ -2402,9 +2464,9 @@ With `async`/`await` syntax you can write code that is far cleaner and more unde
 **Bad:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
-import { promisify } from 'util';
+import { get } from "request";
+import { writeFile } from "fs";
+import { promisify } from "util";
 
 const write = util.promisify(writeFile);
 
@@ -2412,7 +2474,10 @@ function downloadPage(url: string, saveTo: string): Promise<string> {
   return get(url).then((response) => write(saveTo, response));
 }
 
-downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html')
+downloadPage(
+  "https://en.wikipedia.org/wiki/Robert_Cecil_Martin",
+  "article.html"
+)
   .then((content) => console.log(content))
   .catch((error) => console.error(error));
 ```
@@ -2420,9 +2485,9 @@ downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html'
 **Good:**
 
 ```ts
-import { get } from 'request';
-import { writeFile } from 'fs';
-import { promisify } from 'util';
+import { get } from "request";
+import { writeFile } from "fs";
+import { promisify } from "util";
 
 const write = promisify(writeFile);
 
@@ -2433,8 +2498,10 @@ async function downloadPage(url: string): Promise<string> {
 
 // somewhere in an async function
 try {
-  const content = await downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin');
-  await write('article.html', content);
+  const content = await downloadPage(
+    "https://en.wikipedia.org/wiki/Robert_Cecil_Martin"
+  );
+  await write("article.html", content);
   console.log(content);
 } catch (error) {
   console.error(error);
@@ -2460,11 +2527,11 @@ For the same reason you should reject promises with `Error` types.
 
 ```ts
 function calculateTotal(items: Item[]): number {
-  throw 'Not implemented.';
+  throw "Not implemented.";
 }
 
 function get(): Promise<Item[]> {
-  return Promise.reject('Not implemented.');
+  return Promise.reject("Not implemented.");
 }
 ```
 
@@ -2472,17 +2539,17 @@ function get(): Promise<Item[]> {
 
 ```ts
 function calculateTotal(items: Item[]): number {
-  throw new Error('Not implemented.');
+  throw new Error("Not implemented.");
 }
 
 function get(): Promise<Item[]> {
-  return Promise.reject(new Error('Not implemented.'));
+  return Promise.reject(new Error("Not implemented."));
 }
 
 // or equivalent to:
 
 async function get(): Promise<Item[]> {
-  throw new Error('Not implemented.');
+  throw new Error("Not implemented.");
 }
 ```
 
@@ -2496,9 +2563,9 @@ type Result<R> = { isError: false; value: R };
 type Failure<E> = { isError: true; error: E };
 type Failable<R, E> = Result<R> | Failure<E>;
 
-function calculateTotal(items: Item[]): Failable<number, 'empty'> {
+function calculateTotal(items: Item[]): Failable<number, "empty"> {
   if (items.length === 0) {
-    return { isError: true, error: 'empty' };
+    return { isError: true, error: "empty" };
   }
 
   // ...
@@ -2535,7 +2602,7 @@ try {
 **Good:**
 
 ```ts
-import { logger } from './logging';
+import { logger } from "./logging";
 
 try {
   functionThatMightThrow();
@@ -2555,7 +2622,7 @@ For the same reason you shouldn't ignore caught errors from `try/catch`.
 ```ts
 getUser()
   .then((user: User) => {
-    return sendEmail(user.email, 'Welcome!');
+    return sendEmail(user.email, "Welcome!");
   })
   .catch((error) => {
     console.log(error);
@@ -2565,11 +2632,11 @@ getUser()
 **Good:**
 
 ```ts
-import { logger } from './logging';
+import { logger } from "./logging";
 
 getUser()
   .then((user: User) => {
-    return sendEmail(user.email, 'Welcome!');
+    return sendEmail(user.email, "Welcome!");
   })
   .catch((error) => {
     logger.log(error);
@@ -2579,7 +2646,7 @@ getUser()
 
 try {
   const user = await getUser();
-  await sendEmail(user.email, 'Welcome!');
+  await sendEmail(user.email, "Welcome!");
 } catch (error) {
   logger.log(error);
 }
@@ -2615,8 +2682,8 @@ Capitalization tells you a lot about your variables, functions, etc. These rules
 const DAYS_IN_WEEK = 7;
 const daysInMonth = 30;
 
-const songs = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
-const Artists = ['ACDC', 'Led Zeppelin', 'The Beatles'];
+const songs = ["Back In Black", "Stairway to Heaven", "Hey Jude"];
+const Artists = ["ACDC", "Led Zeppelin", "The Beatles"];
 
 function eraseDatabase() {}
 function restore_database() {}
@@ -2635,10 +2702,10 @@ type Container = {
 const DAYS_IN_WEEK = 7;
 const DAYS_IN_MONTH = 30;
 
-const SONGS = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
-const ARTISTS = ['ACDC', 'Led Zeppelin', 'The Beatles'];
+const SONGS = ["Back In Black", "Stairway to Heaven", "Hey Jude"];
+const ARTISTS = ["ACDC", "Led Zeppelin", "The Beatles"];
 
-const discography = getArtistDiscography('ACDC');
+const discography = getArtistDiscography("ACDC");
 const beatlesSongs = SONGS.filter((song) => isBeatlesSong(song));
 
 function eraseDatabase() {}
@@ -2670,11 +2737,11 @@ class PerformanceReview {
   constructor(private readonly employee: Employee) {}
 
   private lookupPeers() {
-    return db.lookup(this.employee.id, 'peers');
+    return db.lookup(this.employee.id, "peers");
   }
 
   private lookupManager() {
-    return db.lookup(this.employee, 'manager');
+    return db.lookup(this.employee, "manager");
   }
 
   private getPeerReviews() {
@@ -2723,7 +2790,7 @@ class PerformanceReview {
   }
 
   private lookupPeers() {
-    return db.lookup(this.employee.id, 'peers');
+    return db.lookup(this.employee.id, "peers");
   }
 
   private getManagerReview() {
@@ -2731,7 +2798,7 @@ class PerformanceReview {
   }
 
   private lookupManager() {
-    return db.lookup(this.employee, 'manager');
+    return db.lookup(this.employee, "manager");
   }
 
   private getSelfReview() {
@@ -2767,9 +2834,9 @@ With clean and easy to read import statements you can quickly see the dependenci
 **Bad:**
 
 ```ts
-import { services } from '../services';
-import { errors } from '../errors';
-import { types } from '../types';
+import { services } from "../services";
+import { errors } from "../errors";
+import { types } from "../types";
 
 const apiService = services.api;
 const badError = errors.bad;
@@ -2779,9 +2846,9 @@ const interfaceType = types.interface;
 **Good:**
 
 ```ts
-import { api } from '../services/api';
-import { bad } from '../errors/bad';
-import { interface } from '../types/interface';
+import { api } from "../services/api";
+import { bad } from "../errors/bad";
+import { interface } from "../types/interface";
 
 // normal usage
 ```
@@ -2789,30 +2856,30 @@ import { interface } from '../types/interface';
 **Bad:**
 
 ```ts
-import { TypeDefinition } from '../types/typeDefinition';
-import { AttributeTypes } from '../model/attribute';
-import { Customer, Credentials } from '../model/types';
-import { ApiCredentials, Adapters } from './common/api/authorization';
-import fs from 'fs';
-import { ConfigPlugin } from './plugins/config/configPlugin';
-import { BindingScopeEnum, Container } from 'inversify';
-import 'reflect-metadata';
+import { TypeDefinition } from "../types/typeDefinition";
+import { AttributeTypes } from "../model/attribute";
+import { Customer, Credentials } from "../model/types";
+import { ApiCredentials, Adapters } from "./common/api/authorization";
+import fs from "fs";
+import { ConfigPlugin } from "./plugins/config/configPlugin";
+import { BindingScopeEnum, Container } from "inversify";
+import "reflect-metadata";
 ```
 
 **Good:**
 
 ```ts
-import 'reflect-metadata';
+import "reflect-metadata";
 
-import fs from 'fs';
-import { BindingScopeEnum, Container } from 'inversify';
+import fs from "fs";
+import { BindingScopeEnum, Container } from "inversify";
 
-import { AttributeTypes } from '../model/attribute';
-import { TypeDefinition } from '../types/typeDefinition';
-import type { Customer, Credentials } from '../model/types';
+import { AttributeTypes } from "../model/attribute";
+import { TypeDefinition } from "../types/typeDefinition";
+import type { Customer, Credentials } from "../model/types";
 
-import { ApiCredentials, Adapters } from './common/api/authorization';
-import { ConfigPlugin } from './plugins/config/configPlugin';
+import { ApiCredentials, Adapters } from "./common/api/authorization";
+import { ConfigPlugin } from "./plugins/config/configPlugin";
 ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -2826,13 +2893,13 @@ This will avoid long relative paths when doing imports.
 **Bad:**
 
 ```ts
-import { UserService } from '../../../services/UserService';
+import { UserService } from "../../../services/UserService";
 ```
 
 **Good:**
 
 ```ts
-import { UserService } from '@services/UserService';
+import { UserService } from "@services/UserService";
 ```
 
 ```js
@@ -3028,6 +3095,14 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 ## Logging
 
 Helpful guidelines: https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Logging_Cheat_Sheet.md
+
+It is preferrable to include any identifiers in the log message, like so:
+
+```ts
+log.info(`Add Suborders To Batch ${batchId}`, { subordersMap });
+```
+
+This benefits the searchability of any logging service like DataDog, as developers can simply search the ID they are curious about when researching an issue.
 
 **[⬆ back to top](#table-of-contents)**
 
