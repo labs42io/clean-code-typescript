@@ -1046,7 +1046,7 @@ for (let i = 0; i < list.length; i++) {
 ### Remove dead code
 
 Dead code is just as bad as duplicate code. There's no reason to keep it in your codebase.
-If it's not being called, get rid of it! It will still be safe in your version history if you still need it.
+If it's not being called, get rid of it! It will still be saved in your version history if you still need it.
 
 **Bad:**
 
