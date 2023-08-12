@@ -35,9 +35,9 @@ you shout when reading code](https://www.osnews.com/images/comics/wtfm.jpg)
 
 ## Variables
 
-### Use meaningful variable names
+### Маанилүү өзгөрмө аттарын колдонуңуз
 
-Distinguish names in such a way that the reader knows what the differences offer.
+Окуучу айырмачылыктар эмнени сунуштай турганын билгидей кылып аттарды айырмалаңыз..
 
 **Жаман:**
 
@@ -58,11 +58,11 @@ function between<T>(value: T, left: T, right: T): boolean {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Use pronounceable variable names
+### Жөнөкөй өзгөрмө аттарын колдонуңуз
 
-If you can’t pronounce it, you can’t discuss it without sounding like an idiot.
+Эгер аны айта албасаң, талкуулай албайсың.
 
-**Bad:**
+**Жаман:**
 
 ```ts
 type DtaRcrd102 = {
@@ -72,7 +72,7 @@ type DtaRcrd102 = {
 }
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 type Customer = {
@@ -84,9 +84,9 @@ type Customer = {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Use the same vocabulary for the same type of variable
+### Ошол эле категориядагы лексиканы бир эле түрдөгү өзгөрмөлөр үчүн колдонуңуз
 
-**Bad:**
+**Жаман:**
 
 ```ts
 function getUserInfo(): User;
@@ -94,7 +94,7 @@ function getUserDetails(): User;
 function getUserData(): User;
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 function getUser(): User;
@@ -104,16 +104,16 @@ function getUser(): User;
 
 ### Use searchable names
 
-We will read more code than we will ever write. It's important that the code we do write must be readable and searchable. By *not* naming variables that end up being meaningful for understanding our program, we hurt our readers. Make your names searchable. Tools like [ESLint](https://typescript-eslint.io/) can help identify unnamed constants (also known as magic strings and magic numbers).
+Биз жазганга караганда көбүрөөк кодду окуйбуз. Биз жазган код окула турган жана изделе турган болушу маанилүү. Биздин программаны түшүнүү үчүн мааниге ээ болгон өзгөрмөлөрдү колдонуу керек, биздин кодду окуган адам оной тушуноо билуусу керек. [ESLint](https://typescript-eslint.io/).
 
-**Bad:**
+**Жаман:**
 
 ```ts
 // What the heck is 86400000 for?
 setTimeout(restart, 86400000);
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 // Declare them as capitalized named constants.
@@ -122,11 +122,11 @@ const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000; // 86400000
 setTimeout(restart, MILLISECONDS_PER_DAY);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ Башка баруу](#table-of-contents)**
 
-### Use explanatory variables
+### Тушунуктуу озгормо аттарын колдонунуз
 
-**Bad:**
+**Жаман:**
 
 ```ts
 declare const users: Map<string, User>;
@@ -136,7 +136,7 @@ for (const keyValue of users) {
 }
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 declare const users: Map<string, User>;
@@ -146,14 +146,13 @@ for (const [id, user] of users) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ Башка баруу](#table-of-contents)**
 
 ### Avoid Mental Mapping
 
-Explicit is better than implicit.  
-*Clarity is king.*
+Функциянын аты анын аткарган кызматына байланыштуу кылып коюнуз
 
-**Bad:**
+**Жаман:**
 
 ```ts
 const u = getUser();
@@ -161,7 +160,7 @@ const s = getSubscription();
 const t = charge(u, s);
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 const user = getUser();
@@ -169,13 +168,13 @@ const subscription = getSubscription();
 const transaction = charge(user, subscription);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ Башка баруу](#table-of-contents)**
 
 ### Don't add unneeded context
 
-If your class/type/object name tells you something, don't repeat that in your variable name.
+Класстын атын анын ичиндеги озгормолордун атын коюуда колдонбонуз, анын аткарган кызматын гана белгилоо жетиштуу
 
-**Bad:**
+**Жаман:**
 
 ```ts
 type Car = {
@@ -189,7 +188,7 @@ function print(car: Car): void {
 }
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 type Car = {
@@ -203,13 +202,13 @@ function print(car: Car): void {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ Башка баруу](#table-of-contents)**
 
 ### Use default arguments instead of short circuiting or conditionals
 
 Default arguments are often cleaner than short circuiting.
 
-**Bad:**
+**Жаман:**
 
 ```ts
 function loadPages(count?: number) {
@@ -218,7 +217,7 @@ function loadPages(count?: number) {
 }
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 function loadPages(count: number = 10) {
@@ -233,7 +232,7 @@ function loadPages(count: number = 10) {
 Enums can help you document the intent of the code. For example when we are concerned about values being
 different rather than the exact value of those.
 
-**Bad:**
+**Жаман:**
 
 ```ts
 const GENRE = {
