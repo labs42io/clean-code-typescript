@@ -5,48 +5,33 @@ Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-cod
 
 ## Table of Contents
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-  3. [Functions](#functions)
-  4. [Objects and Data Structures](#objects-and-data-structures)
-  5. [Classes](#classes)
+  1. [Кириш](#introduction)
+  2. [өзгөрмөлөр](#variables)
+  3. [Функциялар](#functions)
+  4. [Объекттер жана маалымат структуралары](#objects-and-data-structures)
+  5. [Класстар](#classes)
   6. [SOLID](#solid)
-  7. [Testing](#testing)
-  8. [Concurrency](#concurrency)
-  9. [Error Handling](#error-handling)
-  10. [Formatting](#formatting)
-  11. [Comments](#comments)
-  12. [Translations](#translations)
+  7. [Тест жүргүзүү](#testing)
+  8. [параллелизм](#concurrency)
+  9. [Ката менен иштөө](#error-handling)
+  10. [Форматтоо](#formatting)
+  11. [Комментарийлер](#comments)
+  12. [Котормолор](#translations)
 
 ## Introduction
 
 ![Humorous image of software quality estimation as a count of how many expletives
 you shout when reading code](https://www.osnews.com/images/comics/wtfm.jpg)
 
-Software engineering principles, from Robert C. Martin's book
-[*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for TypeScript. This is not a style guide. It's a guide to producing
-[readable, reusable, and refactorable](https://github.com/ryanmcdermott/3rs-of-software-architecture) software in TypeScript.
+Программалык камсыздоо инженериясынын принциптери, Роберт С. Мартиндин TypeScript үчүн ылайыкташтырылган Таза код китебинен. Бул стилдик колдонмо эмес. Бул TypeScript'те окула турган, кайра колдонууга жана кайра иштетүүгө боло турган программалык камсыздоону чыгаруу боюнча колдонмо.
 
-Not every principle herein has to be strictly followed, and even fewer will be
-universally agreed upon. These are guidelines and nothing more, but they are
-ones codified over many years of collective experience by the authors of
-*Clean Code*.
+Бул жердеги ар бир принцип так сакталышы керек эмес, андан да азы жалпыга бирдей макулдашылган. Бул көрсөтмөлөр жана башка эч нерсе эмес, бирок алар Таза Кодекстин авторлору тарабынан көп жылдык жамааттык тажрыйбанын негизинде кодификацияланган көрсөтмөлөр.
 
-Our craft of software engineering is just a bit over 50 years old, and we are
-still learning a lot. When software architecture is as old as architecture
-itself, maybe then we will have harder rules to follow. For now, let these
-guidelines serve as a touchstone by which to assess the quality of the
-TypeScript code that you and your team produce.
+Биздин программалык камсыздоо боюнча өнөрүбүз 50 жылдан бир аз ашты жана биз дагы деле көп нерсени үйрөнүп жатабыз. Программалык камсыздоонун архитектурасы архитектуранын өзү сыяктуу эски болгондо, бизде кыйыныраак эрежелерди кармануу керек болот. Азырынча бул көрсөтмөлөр сиз жана сиздин командаңыз чыгарган TypeScript кодунун сапатын баалоо үчүн таяныч катары кызмат кылсын.
 
-One more thing: knowing these won't immediately make you a better software
-developer, and working with them for many years doesn't mean you won't make
-mistakes. Every piece of code starts as a first draft, like wet clay getting
-shaped into its final form. Finally, we chisel away the imperfections when
-we review it with our peers. Don't beat yourself up for first drafts that need
-improvement. Beat up the code instead!
+Дагы бир нерсе: буларды билүү сизди дароо мыкты программалык камсыздоону иштеп чыгуучуга айлантпайт жана алар менен көп жылдар бою иштөө ката кетирбейсиз дегенди билдирбейт. Коддун ар бир бөлүгү нымдуу чопо сыяктуу биринчи долбоор катары башталат. Акыр-аягы, биз аны теңтуштарыбыз менен карап чыкканда, кемчиликтерди жок кылабыз. Жакшыртууга муктаж болгон биринчи долбоорлор үчүн өзүңүздү капа кылбаңыз. Анын ордуна кодду куруңуз!
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ башына кайтуу](#table-of-contents)**
 
 ## Variables
 
@@ -54,7 +39,7 @@ improvement. Beat up the code instead!
 
 Distinguish names in such a way that the reader knows what the differences offer.
 
-**Bad:**
+**Жаман:**
 
 ```ts
 function between<T>(a1: T, a2: T, a3: T): boolean {
@@ -63,7 +48,7 @@ function between<T>(a1: T, a2: T, a3: T): boolean {
 
 ```
 
-**Good:**
+**жакшы:**
 
 ```ts
 function between<T>(value: T, left: T, right: T): boolean {
